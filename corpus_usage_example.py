@@ -5,8 +5,7 @@ import librosa
 if __name__ == "__main__":
 
     games_corpus = SpanishGamesCorpusDialogues()
-    games_corpus.load(load_audio=True, local_path="./uba_games_corpus/")
-
+    games_corpus.load(load_audio=False, local_path="./uba_games_corpus/")
     # Example to access a specific session and task
     example_session_id = 1
     if example_session_id in games_corpus.sessions:
@@ -33,6 +32,7 @@ if __name__ == "__main__":
         )
 
     # Read the wav corresponding to the first task and compute it's duration:
+    # Will only work if the audio files are loaded
     if example_task.wavs:
         wavs_speaker_A = example_task.wavs["A"]
         print(f"Wav file for Task {example_task.task_id}: {wavs_speaker_A}")
