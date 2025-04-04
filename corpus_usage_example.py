@@ -277,12 +277,12 @@ class Task:
         self.score = score
         self.time_used = time_used
         self.turn_transitions = turn_transitions
-        self.ipus = ipus
+        self.ipus = sorted(ipus, key=lambda x: x.start)
         self.wavs = wavs
-        self.text = " ".join([ipu.text for ipu in ipus])
+        self.text = "\n\t" + "\n\t".join([str(ipu) for ipu in self.ipus])
 
     def __repr__(self):
-        return f"Task({self.task_id}, {self.session_id}, {self.describer}, {self.target}, {self.score}, {self.time_used}) (text: {elipsis(self.text)})"
+        return f"Task({self.task_id}, {self.session_id}, {self.describer}, {self.target}, {self.score}, {self.time_used}, {len(self.ipus)} IPUs, {len(self.wavs)} wavs)"
 
     def __getitem__(self, key):
         return getattr(self, key)
@@ -329,7 +329,7 @@ class IPU:
         self.num_words = len(words)
 
     def __repr__(self):
-        return f"IPU({self.start}, {self.end}, {self.speaker}): {elipsis(self.text)}"
+        return f"[{self.start}:{self.end}] {self.speaker}: {self.text}"
     
     def __getitem__(self, key):
         return getattr(self, key)
@@ -708,6 +708,22 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
     games_corpus = SpanishGamesCorpusDialogues()
-    games_corpus.load(load_audio=False, local_path="./uba_games_corpus/")
+    games_corpus.load(load_audio=True, local_path="./uba_games_corpus/")
 
-    import ipdb; ipdb.set_trace()
+    print( "Loaded UBA Games Corpus with the following sessions:")
+    for session_id, session in games_corpus.sessions.items():
+        print(session)
+        for task in session.tasks:
+            print(f"  {task}")
+    # Example to access a specific session and task
+    example_session_id = 1
+    if example_session_id in games_corpus.sessions:
+        example_session = games_corpus.sessions[example_session_id]
+        print(f"\nExample Task in example Session {example_session_id}: {example_session}")
+        task = example_session.tasks[0]
+        print(f"  Task {task.task_id}: {task.text} (Score: {task.score})")
+
+
+    # Note: The above code will load the corpus and print the sessions and tasks.
+    # This is a simple demonstration of how to load and access the UBA Games Corpus.
+    # Make sure to handle exceptions and errors in a production environment.
