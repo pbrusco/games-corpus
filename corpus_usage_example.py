@@ -268,7 +268,7 @@ import logging
 
 
 class Task:
-    def __init__(self, task_id, session_id, images, describer, target, score, time_used, turns, ipus, turn_transitions, wavs):
+    def __init__(self, task_id, session_id, images, describer, target, score, time_used, turn_transitions, ipus, wavs):
         self.task_id = task_id
         self.session_id = session_id
         self.images = images
@@ -276,9 +276,8 @@ class Task:
         self.target = target
         self.score = score
         self.time_used = time_used
-        self.turns = turns
-        self.ipus = ipus
         self.turn_transitions = turn_transitions
+        self.ipus = ipus
         self.wavs = wavs
         self.text = " ".join([ipu.text for ipu in ipus])
 
@@ -334,16 +333,6 @@ class IPU:
     
     def __getitem__(self, key):
         return getattr(self, key)
-
-
-class Turn:
-    def __init__(self, start, end, ipus):
-        self.start = start
-        self.end = end
-        self.ipus = ipus
-
-    def __repr__(self):
-        return f"Turn({self.start}, {self.end}, {len(self.ipus)} IPUs)"
 
 
 class TurnTransitionType:
@@ -404,6 +393,8 @@ class SpanishGamesCorpusDialogues:
             "participants": "Native speakers of Argentine Spanish",
             "age_range": "19-59 years",
         }
+
+        self.banned_sessions = set([28])
 
     def load(self, url=None, load_audio=False, local_path=None):
         # Load the corpus from the specified URL and parse it into a dictionary
@@ -483,6 +474,9 @@ class SpanishGamesCorpusDialogues:
         self.sessions = {}
         for session in self.corpus_raw["sessions-info"].itertuples():
             session_id = session.session_id
+            if session_id in self.banned_sessions:
+                logging.warning(f"Skipping banned session: {session_id}")
+                continue
             batch = session.batch
             subject_a = session.subject_id_A
             subject_b = session.subject_id_B
@@ -517,22 +511,18 @@ class SpanishGamesCorpusDialogues:
 
         if not tasks_file:
             raise ValueError(f"Tasks file {task_file_id} not found in {tasks_folder}.")
-        
         tasks_info = load_tasks_info(tasks_file, batch)
 
         for info in tasks_info:
             task_id = info["Task ID"]
             task_boundaries = (info["Start"], info["End"], task_id, session_id)
-            turns = load_turns_for_task(
-                session_id, task_id, turns_folder, phrases_folder
+            turn_transitions = load_turn_transitions_for_task(
+                session_id, task_id, turns_folder, phrases_folder, batch
             )
             wavs = load_wavs_for_task(session_id, task_id, wav_folder)
             ipus = load_ipus_for_task(
                 session_id, task_id, task_boundaries, phrases_folder, words_folder, batch
-            ) if words_folder else []
-            turn_transitions = load_turn_transitions_for_task(
-                session_id, task_id, turns_folder
-            )
+            ) 
             task_obj = Task(
                 task_id=task_id,
                 session_id=session_id,
@@ -541,9 +531,8 @@ class SpanishGamesCorpusDialogues:
                 target=info["Target"],
                 score=info["Score"],
                 time_used=info["Time-used"],
-                turns=turns,
-                ipus=ipus,
                 turn_transitions=turn_transitions,
+                ipus=ipus,
                 wavs=wavs,
             )
             tasks.append(task_obj)
@@ -595,9 +584,18 @@ def load_tasks_info(tasks_file, batch):
     return tasks_info
 
 
-def load_turns_for_task(session_id, task_id, turns_folder, phrases_folder):
-    return []
+def load_turn_transitions_for_task(session_id, task_id, turns_folder, phrases_folder, batch):
 
+    for speaker, speaker_suffix in get_speaker_and_suffixes(batch):
+        turns_file_id = f"s{session_id:02d}.objects.1.{speaker_suffix}.turns" if batch == 1 else f"s{session_id:02d}.objects.{task_id}.turns.{speaker_suffix}.turns"
+        turns_file = turns_folder.get(turns_file_id)
+        if not turns_file:
+            logging.warning(f"Turn transitions file {turns_file_id} not found.")
+
+    # with open(turns_file, "r", encoding="utf-8") as f:
+    # TODO (Make sure turns link to existing IPUs)
+    return []
+     
 
 def load_wavs_for_task(session_id, task_id, wav_folder):
     return []
@@ -606,12 +604,9 @@ def load_wavs_for_task(session_id, task_id, wav_folder):
 def load_ipus_for_task(session_id, task_id, task_boundaries, phrases_folder, words_folder, batch):
     if batch == 2:
         ipus = load_ipus_from_phrases(session_id, task_id, phrases_folder, batch)
-    elif batch == 1 and words_folder:  # Only try to load from words if words_folder exists
+    elif batch == 1:
         ipus = load_ipus_from_words(session_id, task_boundaries, words_folder)
-    else:
-        ipus = load_ipus_from_phrases(session_id, task_id, phrases_folder, batch)  # Fallback to phrases
 
-    assert len(ipus) > 0, f"No IPUs found for session {session_id}, task {task_id}."
     return ipus
 
 
@@ -671,23 +666,28 @@ def elipsis(text, max_length=10):
     return text
 
 
+def get_speaker_and_suffixes(batch):
+    if batch == 1:
+        return [("A", "A"), ("B", "B")]
+    elif batch == 2:
+        return [("A", "channel1"), ("B", "channel2")]
+    else:
+        raise ValueError("Unknown batch number: {}".format(batch))
+    
+
 def load_ipus_from_phrases(session_id, task_id, phrases_folder, batch):
     all_ipus = []
-    
-    for speaker in ["A", "B"]:
-        ipus_file_id = f"s{session_id:02d}.objects.1.{speaker}.phrases" if batch == 1 else f"s{session_id:02d}.objects.{task_id}.{speaker}.phrases"
-        ipus_file = phrases_folder[ipus_file_id]
-        logging.debug(f"Loading phrases from {ipus_file}")
-        
+    for speaker, speaker_suffix in get_speaker_and_suffixes(batch):
+        ipus_file_id = f"s{session_id:02d}.objects.1.{speaker_suffix}.phrases" if batch == 1 else f"s{session_id:02d}.objects.{task_id}.{speaker_suffix}.phrases"
+        ipus_file = phrases_folder.get(ipus_file_id)
+        if not ipus_file:
+            logging.warning(f"IPUs file {ipus_file_id} not found.")
+            continue
+
         with open(ipus_file, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
-                # Try both tab and space separation
-                parts = line.split('\t') if '\t' in line else line.split(' ', 2)
-                if len(parts) < 3:
-                    continue
-                    
-                t0, tf, text = parts
+                t0, tf, text = line.split("\t")
                 if text.strip() == "#":
                     continue
                 else:
@@ -697,14 +697,10 @@ def load_ipus_from_phrases(session_id, task_id, phrases_folder, batch):
                         text=word.strip(),
                         speaker=speaker
                     ) for word in text.split() if word.strip()]
-                    if words:  # Only add if we have words
-                        all_ipus.append(IPU(words=words))
-    
+                    all_ipus.append(IPU(words=words))
+
     return all_ipus
-
-
-def load_turn_transitions_for_task(session_id, task_id, turns_folder):
-    return []
+        
 
 
 # Example usage
