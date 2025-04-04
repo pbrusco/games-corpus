@@ -1,5 +1,5 @@
 """
-Games corpus library. See https://ri.conicet.gov.ar/handle/11336/191235 or https://www.utdt.edu/ia/integrantes/agravano/UBA-Games-Corpus/ 
+Games corpus library. See https://www.utdt.edu/ia/integrantes/agravano/UBA-Games-Corpus/ 
 """
 
 import logging
@@ -22,8 +22,10 @@ class SpanishGamesCorpusDialogues:
         self.corpus_raw = None
         self.sessions = None
         self.corpus_url = (
-            "https://www.utdt.edu/ia/integrantes/agravano/UBA-Games-Corpus/"
-        )
+            "https://ri.conicet.gov.ar/bitstream/handle/11336/191235/{filename}?sequence=29&isAllowed=y"
+        ) 
+        # "https://www.utdt.edu/ia/integrantes/agravano/UBA-Games-Corpus/{filename}"
+
         self.corpus_local_path = None
 
         # Corpus files:
@@ -118,7 +120,7 @@ class SpanishGamesCorpusDialogues:
         for attempt in range(self.max_retries):
             try:
                 logging.info(f"Downloading {file_name} (attempt {attempt + 1})...")
-                response = requests.get(self.corpus_url + file_name, timeout=30)
+                response = requests.get(self.corpus_url.format(filename=file_name), timeout=30)
                 response.raise_for_status()
                 with open(save_path, "wb") as f:
                     f.write(response.content)
@@ -340,8 +342,6 @@ class TurnTransitionType(Enum):
     SIMULTANEOUS_START = "X3"
 
     AMBIGUOUS = "A"
-    L = "L"
-    N = "N"
 
     @classmethod
     def from_string(cls, label: str) -> "TurnTransitionType":
@@ -510,11 +510,12 @@ def load_wavs_for_task(session_id, task_id, wav_folder, batch):
         elif batch == 2:
             wav_file_id = f"s{session_id:02d}.objects.{task_id}.{speaker_suffix}.wav"
 
-        wav_file = wav_folder.get(wav_file_id)
-        if not wav_file:
-            logging.warning(f"WAV file {wav_file_id} not found.")
-            continue
-        wavs[speaker] = wav_file
+        if wav_folder:
+            wav_file = wav_folder.get(wav_file_id)
+            if not wav_file:
+                logging.warning(f"WAV file {wav_file_id} not found.")
+                continue
+            wavs[speaker] = wav_file
 
     return wavs
 
