@@ -1,270 +1,15 @@
 """
-Objects Games dialogues
-    The dialogues part of this corpus was inspired by the Columbia Games Corpus [3, 4, 5].
-    In this part, pairs of subjects were asked to play a series of Objects Games. Each
-    subject used a separate laptop computer and could not see the screen of the other
-    subject. Subjects sat facing each other in a booth, with an opaque curtain hanging
-    between them, so that all communication was verbal.
-
-    In an Objects Game, each subject’s laptop displayed a game board with 5–7 objects,
-    as shown in Figure 1. Both subjects saw the same set of objects at the same position on
-    the screen, except for one (the target). One subject (the describer) was instructed to
-    describe the position of a target object on her screen to the other (the follower), whose
-    task was to position the same object on her own screen. Subjects could discuss freely
-    about the location of the target object, and were later awarded 1–100 points based
-    on how well the follower’s target location matched the Describer’s. Subjects were told
-    that their goal was to accumulate as many points as possible over the entire session,
-    since they would be paid additional money for each point they earned. Appendix A.1
-    includes snapshots of the instructions and sample screens of the Objects Games.
-
-Direction-giving monologues:
-    The monologues part of this corpus was inspired by the Boston Directions Corpus [7, 6].
-    Subjects were first asked to perform a series of five increasingly complex direction-giving
-    tasks, ranging from explaining simple routes such as getting from one station to another
-    on the subway, to planning a round trip journey from the University to two Buenos
-    Aires tourist sights.
-    Subjects were provided with written instructions (Appendix B.1), as well as three
-    city maps (snapshots of Google Maps) and a subway map (Appendix B.2). They were
-    asked to address the directions to a friend of theirs, as if they were leaving a message
-    in their friend’s answering machine. Additionally, subjects were told to assume that
-    their addressee was unaware of the descriptions given in the preceding tasks. With this
-    procedure, we collected five spontaneous monologues from each subject.
-    The elicited speech was orthographically transcribed, with false starts, filled pauses
-    and other speech errors repaired or omitted, and punctuation marks and capitalization
-    added. All subjects returned a few days after their first session, and were asked to read
-    their transcriptions aloud. In this way, we collected read versions of all monologues.
-
-Sessions and subjects:
-    The recordings were conducted in two batches, as summarized in Table 1. The first
-    batch was collected in November-December, 2012, in a soundproof booth at the Laboratorio de Investigaciones Sensoriales2
-    (Hospital de Cl´ınicas, UBA), by Agust´ın Gravano.
-
-    In this batch, a total of 14 subjects participated in exactly two sessions, each of which
-    lasted approximately one hour. In their first session, each subject completed the five
-    direction-giving tasks described above (spontaneous monologues), followed by 14 instances of the Objects Games (spontaneous dialogues), with subjects alternating in the
-    describer and follower roles. In their second session, each subject read the transcriptions of their direction-giving tasks (read monologues), and played 14 new instances
-    of the Objects Games (spontaneous dialogues), with a different partner. Only speech
-    recordings were collected in this first batch.
-
-    The second batch was recorded in April, 2014, in a booth at the Laboratorio de
-    Neurociencia Integrativa (Departamento de F´ısica, FCEyN, UBA), by Juan E. Kamienkowski and Agust´ın Gravano. In this case, 20 subjects participated in just one session
-    consisting of a series of 17-30 instances of the Objects Game (spontaneous dialogues).
-    In this batch, simultaneous recordings of speech and electroencephalography (EEG)
-    activity were collected from each participant. EEG recordings are not included in the
-    present release, but may be shared upon request to the authors. The setup of the EEG equipment demanded 30 minutes. We asked subjects to complete a minimum 15
-instances of the Objects Game, which typically took 15-30 minutes. After that, given
-the discomfort caused by the EEG equipment, we gave subjects the option to stop or
-continue, up to a maximum of 30 instances.
-In all cases, the subjects’ speech was not restricted in any way, and it was emphasized at the session beginning that the game was not timed. At the end of the session,
-subjects were paid a fixed amount of money for their participation, plus a bonus based
-on the number of points awarded in the Objects Games.
-All subjects were native speakers of Argentine Spanish, lived in the Buenos Aires
-area at the time of the study. In the first batch of sessions (monologues and dialogues;
-audio only recordings), 14 subjects participated in the study (7 female, 7 male), with
-ages ranging from 19 to 59 years (M = 28.6, SD = 12.7); all but one subjects were
-right handed. In the second batch of sessions (dialogues only; audio+EEG recordings),
-20 subjects took part (10 female, 10 male), age ranging between 19 and 43 years
-(M = 26.4, SD = 6.3), and 18 were right-handed. Detailed information about subjects
-may be found in the subjects-info.csv and sessions-info.csv files.
-Batch 1 contains 71 minutes of spontaneous direction-giving monologue, 48 minutes
-of read monologue, and 386 minutes (6.4 hours) of task-oriented dialogue. Batch 2
-contains 320 minutes (5.3 hours) of dialogue.
-
-Corpus files
-The UBA Games Corpus includes the files listed in Table 2. There is an important difference in the organization of files in batches 1 and 2. For the dialogues
-in batch 1, there is one file per session (and speaker). In this way, the file
-sNN.objects.1.{A,B}.wav (with NN=01..14) corresponds to the audio for the entire
-session NN (and speaker A/B); this file includes all 14 game tasks in that session. The
-file sNN.objects.1.{A,B}.tasks specifies the start and end times of each game task,
-as explained below.
-The dialogues in batch 2 are organized differently. In this case, there is one file
-per game task (and speaker). The file sNN.objects.TT.{channel1,channel2}.wav
-(with NN=21..30) corresponds to the audio for task number TT (with TT=01..30), speaker
-A (channel1) or B (channel2). That is, the sessions are split into separate files for each
-game task
-
-Batch 1, dialogue:
-b1-dialogue-wavs/ Audio files.
-b1-dialogue-tasks/ Information about the game tasks.
-b1-dialogue-words/ Orthographic transcriptions, with temporal alignment
-at the word level.
-b1-dialogue-phrases/ Orthographic transcriptions, with temporal alignment
-at the IPU level.
-b1-dialogue-turns/ Turn-taking annotations.
-Batch 1, monologue Batch 1, monologue:
-b1-monologue-wavs/ Audio files.
-b1-monologue-texts/ Orthographic transcriptions, with no temporal alignment.
-Batch 2, dialogue Batch 2, dialogue:
-b2-dialogue-wavs/ Audio files.
-b2-dialogue-phrases/ Orthographic transcriptions, with temporal alignment
-at the IPU level.
-b2-dialogue-turns/ Turn-taking annotations.
-Table 2: Files included in this release of the corpus.
-
-Audio files
-The audio for each subject was recorded on a separate channel of a TASCAM DR-100
-digital recorder, at a sampling rate of 44.1 kHz with 16-bit precision, using a Rode
-HS-1 head-mounted close-talking microphone. Each channel was later downsampled to
-16 kHz and saved as a separate mono wav file.
-
-Orthographic transcriptions
-All speech recordings were orthographically transcribed by trained annotators. All
-dialogues were manually time-aligned to the audio files at the IPU level (batches 1 and
-2), and at the word level (only batch 1). An inter-pausal unit (IPU) is defined as
-a maximal speech segment from a single speaker that is surrounded by pauses longer
-than 100 ms.
-For the monologues in batch 1, the transcriptions were made from the spontaneous
-direction-giving tasks. False starts, filled pauses and other speech errors were repaired
-or omitted, and punctuation marks were added. These transcriptions were later used
-for the read tasks, and have not been time-aligned to the audio files.
-The time-aligned transcriptions are plain text files with one interval per line. Each
-interval has following format: <start> <end> <text>, where <start> and <end> are
-the time boundaries of the interval, expressed in seconds, and <text> is the transcription of the interval. The special symbol # is used for indicating a silent interval.
-
-Example of a transcription with time-alignment at the word level Example of a transcription with time-alignment at the word level:
-b1-dialogue-words/s01.objects.1.A.words
-0.000000 0.410000 #
-0.410000 0.680000 bueno
-0.680000 1.223913 est´a
-1.223913 1.540000 #
-1.540000 1.712226 el
-1.712226 2.181653 mimo
-2.181653 3.330000 #
-3.330000 3.629761 est´a
-3.629761 4.340000 titilando
-4.340000 4.694193 #
-4.694193 5.083623 arriba
-5.083623 5.219060 de
-5.219060 5.310000 la
-5.310000 6.012202 lechuza
-6.012202 6.330000 #
-...
-
-Example of a transcription with time-alignment at the IPU level:
-b1-dialogue-phrases/s01.objects.1.A.phrases
-0.0 0.41 #
-0.41 1.223913 bueno est´a
-1.223913 1.54 #
-1.54 2.181653 el mimo
-2.181653 3.33 #
-3.33 4.34 est´a titilando
-4.34 4.694193 #
-4.694193 6.012202 arriba de la lechuza
-6.012202 6.33 #
-
-Tasks files
-The files in b1-dialogue-tasks/ (batch 1) contain the task structure for the corresponding audio file. These are plain text files with one interval per line. Each interval
-corresponds to a game task and has the following format: <start> <end> <info>,
-where <start> and <end> are the time boundaries of the task, expressed in seconds,
-and <info> has a sequence of one or more of the following commands, separated by
-semicolons:
-
-Images:image1,image2,image3,... - Image set used in this game task. There
-are three possible image sets:
-◦ eye, mirror, bluemoon, nun, ruler, lemon, yellowmoon;
-◦ yellowlion, ear, mime, nail, bluelion, owl, lawnmower;
-◦ yellowmermaid, mm, iron, onion, whale, bluemermaid, lime.
-• Describer:A/B - Which player describes the location of the target image. The
-other one listens to the description, and tries to place the target image in its
-correct location.
-
-Target:image - Specifies the target image for the current turn.
-• Score:points - Number of points earned in this task (from 0 to 100).
-• Time-used:NUMBER - Time used to complete this task, computed from the moment the players clicked ‘CONTINUE’ to begin the task, until when they clicked
-‘DONE’ to confirm the location of the object. Note that this may differ from the
-length of the task interval, computed as <end> − <start>.
-
-In this case, the special symbol # is used for indicating an interval with silence and/or
-comments made by the speakers in between tasks.
-
-Example: b1-dialogue-tasks/s01.objects.1.tasks
-0.000000 0.046000 #
-0.046000 42.061000 Images:yellowlion,ear,mime,nail,bluelion,owl,
-lawnmower;Describer:A;Target:mime;Score:99;Time-used:47.107
-42.061000 45.468000 #
-...
-251.996490 296.680000 Images:eye,mirror,bluemoon,nun,ruler,lemon,
-yellowmoon;Describer:B;Target:yellowmoon;Score:97;Time-used:45.669
-296.680000 299.711000 #
-...
-
-The files in b2-dialogue-tasks/ (batch 2) are somewhat different. They also
-contain one game task per line, but with this format: <task number> <info>. In this
-case, <task number> refers to the task number in this session, from 01 to 30, and
-<info> has the same information as described above.
-Example Example: b2-dialogue-tasks/s21.objects.tasks
-01 Images:yellowlion,ear,mime,nail,bluelion,owl,lawnmower;Describer:A;
-Target:mime;Score:88;Time-used:73.109
-...
-06 Images:eye,mirror,bluemoon,nun,ruler,lemon,yellowmoon;Describer:B;
-Target:yellowmoon;Score:94;Time-used:307.991
-
-Turn-taking annotations
-The files in b1-dialogue-turns/ and b2-dialogue-turns/ contain the annotations of
-turn-taking transition types. These are plain text files with one interval per line. Each
-interval corresponds to a conversational turn and has the following format: <start>
-<end> <label>, where <start> and <end> are the time boundaries of the turn, expressed in seconds, and <label> is a turn-taking label.
-A turn is defined as a maximal sequence of IPUs from one speaker, such that between any two adjacent IPUs there is no speech from the interlocutor. Turns were automatically delimited on the time-aligned orthographic annotations, and subsequently
-all transitions from one turn to the next were labeled by trained annotators following
-the guidelines shown in Figure 2. A more detailed description of the annotation procedure may be found in [1] and [2]. It is important to note that the Hold transitions
-mentioned in these papers (i.e. when the current speaker continues talking after a short pause) are not included in these manual annotations, given that they can be trivially
-identified from the time-aligned transcriptions.
-Example Example: s01.objects.1.B.turns
-2.432062 2.847086 BC
-2.847086 10.555597 #
-10.555597 11.840000 S
-11.840000 13.398680 #
-13.398680 18.850000 S
-18.850000 20.210000 #
-20.210000 22.850361 X3
-22.850361 25.036480 #
-25.036480 25.744563 S
-25.744563 27.264241 #
-27.264241 32.590516 S
-32.590516 33.474562 #
-33.474562 41.652187 X3
-48.226493 50.196367 X1
-50.196367 51.647250 #
-51.647250 52.737983 X2
-52.737983 53.057480 #
-
-In this file, each label indicates the transition type from the previous turn (by the other
-speaker) to the current turn. For example, the turn that starts roughly at 2.43 seconds
-is a backchannel, and the turn that starts at 10.56 seconds is a smooth switch.
-
-The subjects_info.csv file looks like:
-subject_id,gender,age,writing_hand
-101,female,22,left
-102,female,20,right
-103,male,21,right
-104,female,54,right
-105,female,32,right
-106,female,21,right
-...
-
-
-The sessions_info.csv file looks like:
-session_id,batch,subject_id_A,subject_id_B
-1,1,101,102
-2,1,103,104
-3,1,105,106
-4,1,107,108
-5,1,109,110
-6,1,104,102
-7,1,111,112
-8,1,110,113
-9,1,106,101
-10,1,108,105
-...
+Games corpus library. See https://ri.conicet.gov.ar/handle/11336/191235 or https://www.utdt.edu/ia/integrantes/agravano/UBA-Games-Corpus/ 
 """
 
-## Let's create a library to parse the corpus and load it into a dictionary.
 from pathlib import Path
 import os
 import zipfile
 import requests
 import pandas as pd
 import logging
+import time
+import librosa
 
 
 class Task:
@@ -286,12 +31,19 @@ class Task:
         self.images = images
         self.describer = describer
         self.target = target
-        self.score = score
-        self.time_used = time_used
+        self.score = float(score)
+        self.start = ipus[0].start
+        self.duration = float(time_used)
         self.turn_transitions = turn_transitions
-        self.ipus = sorted(ipus, key=lambda x: x.start)
+        self.ipus = sorted(ipus, key=lambda x: x.start) if ipus else []
         self.wavs = wavs
-        self.text = "\n\t" + "\n\t".join([str(ipu) for ipu in self.ipus])
+        self.text = self._build_text()
+
+    def _build_text(self):
+        """Build readable text from IPUs"""
+        if not self.ipus:
+            return ""
+        return "\n\t" + "\n\t".join([str(ipu) for ipu in self.ipus])
 
     def __repr__(self):
         return f"Task({self.task_id}, {self.session_id}, {self.describer}, {self.target}, {self.score}, {self.time_used}, {len(self.ipus)} IPUs, {len(self.wavs)} wavs)"
@@ -411,6 +163,8 @@ class SpanishGamesCorpusDialogues:
         }
 
         self.banned_sessions = set([28])
+        self.max_retries = 3
+        self.retry_delay = 5  # seconds
 
     def load(self, url=None, load_audio=False, local_path=None):
         # Load the corpus from the specified URL and parse it into a dictionary
@@ -438,38 +192,51 @@ class SpanishGamesCorpusDialogues:
         self._load_raw_corpus()
         self._parse_corpus()
 
+    def get_sessions_by_batch(self, batch):
+        """Get all sessions for a specific batch"""
+        return {sid: session for sid, session in self.sessions.items() 
+                if session.batch == batch}
+
     def _download(self):
-        # Download the files from the provided url and unzip them:
         for file_id, file_name in self.corpus_files.items():
             if ".zip" in file_name:
-                zip_file_path = self.corpus_local_path / file_name
-                extracted_folder_path = self.corpus_local_path / file_id
-
-                if extracted_folder_path.exists():
-                    print(f"{file_name} already downloaded. Loading it.")
-                    continue
-
-                if not zip_file_path.exists():
-                    print(f"Downloading {file_name}...")
-                    response = requests.get(self.corpus_url + file_name)
-                    with open(zip_file_path, "wb") as f:
-                        f.write(response.content)
-
-                if not extracted_folder_path.exists():
-                    print(f"Unzipping {file_name}...")
-                    with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
-                        zip_ref.extractall(self.corpus_local_path)
-
+                self._download_and_extract_zip(file_id, file_name)
             else:
-                # For non-zip files, just download them directly
-                file_path = self.corpus_local_path / file_name
-                if not file_path.exists():
-                    print(f"Downloading {file_name}...")
-                    response = requests.get(self.corpus_url + file_name)
-                    with open(file_path, "wb") as f:
-                        f.write(response.content)
-                else:
-                    print(f"{file_name} already downloaded. Loading it.")
+                self._download_file(file_name)
+
+    def _download_and_extract_zip(self, file_id, file_name):
+        zip_file_path = self.corpus_local_path / file_name
+        extracted_folder_path = self.corpus_local_path / file_id
+
+        if extracted_folder_path.exists():
+            logging.info(f"{file_name} already downloaded.")
+            return
+
+        if not zip_file_path.exists():
+            self._download_file(file_name, zip_file_path)
+
+        logging.info(f"Extracting {file_name}...")
+        with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
+            zip_ref.extractall(self.corpus_local_path)
+
+    def _download_file(self, file_name, save_path=None):
+        save_path = save_path or self.corpus_local_path / file_name
+        if save_path.exists():
+            logging.info(f"{file_name} already exists.")
+            return
+
+        for attempt in range(self.max_retries):
+            try:
+                logging.info(f"Downloading {file_name} (attempt {attempt + 1})...")
+                response = requests.get(self.corpus_url + file_name, timeout=30)
+                response.raise_for_status()
+                with open(save_path, "wb") as f:
+                    f.write(response.content)
+                return
+            except (requests.RequestException, IOError) as e:
+                if attempt == self.max_retries - 1:
+                    raise RuntimeError(f"Failed to download {file_name}: {e}")
+                time.sleep(self.retry_delay)
 
     def _load_raw_corpus(self):
         # Loads the raw corpus data from the downloaded files into a structured format
@@ -537,10 +304,8 @@ class SpanishGamesCorpusDialogues:
         for info in tasks_info:
             task_id = info["Task ID"]
             task_boundaries = (info["Start"], info["End"], task_id, session_id)
-            turn_transitions = load_turn_transitions_for_task(
-                session_id, task_id, turns_folder, phrases_folder, batch
-            )
-            wavs = load_wavs_for_task(session_id, task_id, wav_folder)
+            
+            wavs = load_wavs_for_task(session_id, task_id, wav_folder, batch)
             ipus = load_ipus_for_task(
                 session_id,
                 task_id,
@@ -549,6 +314,11 @@ class SpanishGamesCorpusDialogues:
                 words_folder,
                 batch,
             )
+            
+            turn_transitions = load_turn_transitions_for_task(
+                session_id, task_id, turns_folder, phrases_folder, batch, ipus
+            )
+
             task_obj = Task(
                 task_id=task_id,
                 session_id=session_id,
@@ -612,9 +382,41 @@ def load_tasks_info(tasks_file, batch):
     return tasks_info
 
 
+def find_nearest_ipu(ipus, start_time, end_time, max_diff=0.1):
+    """Find IPU that best matches the given timestamps"""
+    best_ipu = None
+    min_diff = float('inf')
+    
+    for ipu in ipus:
+        start_diff = abs(ipu.start - start_time)
+        end_diff = abs(ipu.end - end_time)
+        total_diff = start_diff + end_diff
+        
+        if total_diff < min_diff and total_diff < max_diff:
+            min_diff = total_diff
+            best_ipu = ipu
+            
+    return best_ipu
+
+
 def load_turn_transitions_for_task(
-    session_id, task_id, turns_folder, phrases_folder, batch
+    session_id, task_id, turns_folder, phrases_folder, batch, ipus
 ):
+    """Load turn transitions for the given task and match them to IPUs"""
+    transitions = []
+    # Sort IPUs by start time for efficient lookup
+    ipus = sorted(ipus, key=lambda x: x.start) if ipus else []
+    if not ipus:
+        return transitions
+
+    # Create lookup dictionary for IPUs by speaker
+    ipus_by_speaker = {}
+    for ipu in ipus:
+        if ipu.speaker not in ipus_by_speaker:
+            ipus_by_speaker[ipu.speaker] = []
+        ipus_by_speaker[ipu.speaker].append(ipu)
+
+    # Process each speaker's turns file
     for speaker, speaker_suffix in get_speaker_and_suffixes(batch):
         turns_file_id = (
             f"s{session_id:02d}.objects.1.{speaker_suffix}.turns"
@@ -624,14 +426,61 @@ def load_turn_transitions_for_task(
         turns_file = turns_folder.get(turns_file_id)
         if not turns_file:
             logging.warning(f"Turn transitions file {turns_file_id} not found.")
+            continue
 
-    # with open(turns_file, "r", encoding="utf-8") as f:
-    # TODO (Make sure turns link to existing IPUs)
-    return []
+        try:
+            with open(turns_file, "r", encoding="utf-8") as f:
+                prev_turn_ipu = None
+                for line in f:
+                    parts = line.strip().split()
+                    if len(parts) != 3:
+                        continue
+
+                    start, end, label = parts
+                    start, end = float(start), float(end)
+
+                    # Skip silence markers
+                    if label == "#":
+                        continue
+
+                    # Find matching IPU for this turn
+                    current_turn_ipu = find_nearest_ipu(
+                        ipus_by_speaker.get(speaker, []), start, end
+                    )
+
+                    if current_turn_ipu:
+                        if prev_turn_ipu:
+                            # Create turn transition
+                            transition = TurnTransition(
+                                label=label,
+                                ipu_from=prev_turn_ipu,
+                                ipu_to=current_turn_ipu
+                            )
+                            transitions.append(transition)
+                        prev_turn_ipu = current_turn_ipu
+
+        except Exception as e:
+            logging.error(f"Error processing turns file {turns_file_id}: {e}")
+            continue
+
+    return sorted(transitions, key=lambda x: x.ipu_to.start)
 
 
-def load_wavs_for_task(session_id, task_id, wav_folder):
-    return []
+def load_wavs_for_task(session_id, task_id, wav_folder, batch):
+    wavs = {}
+    for speaker, speaker_suffix in get_speaker_and_suffixes(batch):
+        if batch == 1:
+            wav_file_id = f"s{session_id:02d}.objects.1.{speaker_suffix}.wav"
+        elif batch == 2:
+            wav_file_id = f"s{session_id:02d}.objects.{task_id}.{speaker_suffix}.wav"
+
+        wav_file = wav_folder.get(wav_file_id)
+        if not wav_file:
+            logging.warning(f"WAV file {wav_file_id} not found.")
+            continue
+        wavs[speaker] = wav_file
+
+    return wavs    
 
 
 def load_ipus_for_task(
@@ -723,26 +572,56 @@ def load_ipus_from_phrases(session_id, task_id, phrases_folder, batch):
             logging.warning(f"IPUs file {ipus_file_id} not found.")
             continue
 
-        with open(ipus_file, "r", encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                t0, tf, text = line.split("\t")
-                if text.strip() == "#":
-                    continue
-                else:
-                    words = [
-                        Word(
-                            start=float(t0),
-                            end=float(tf),
-                            text=word.strip(),
-                            speaker=speaker,
-                        )
-                        for word in text.split()
-                        if word.strip()
-                    ]
-                    all_ipus.append(IPU(words=words))
+        try:
+            words_by_ipu = []
+            current_words = []
+            
+            with open(ipus_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    try:
+                        t0, tf, text = line.split("\t")
+                        if text.strip() == "#":
+                            if current_words:
+                                words_by_ipu.append(current_words)
+                                current_words = []
+                            continue
+                        
+                        # Create all words for this IPU at once
+                        t0, tf = float(t0), float(tf)
+                        words = text.split()
+                        if not words:
+                            continue
+                            
+                        # Distribute time evenly among words
+                        word_duration = (tf - t0) / len(words)
+                        current_words.extend([
+                            Word(
+                                start=t0 + i * word_duration,
+                                end=t0 + (i + 1) * word_duration,
+                                text=word.strip(),
+                                speaker=speaker
+                            )
+                            for i, word in enumerate(words)
+                        ])
+                        
+                    except ValueError as e:
+                        logging.error(f"Error parsing line in {ipus_file_id}: {line}")
+                        logging.error(str(e))
+                        continue
 
-    return all_ipus
+            # Add any remaining words
+            if current_words:
+                words_by_ipu.append(current_words)
+
+            # Create IPUs from word groups
+            all_ipus.extend([IPU(words=words) for words in words_by_ipu])
+                
+        except Exception as e:
+            logging.error(f"Error processing file {ipus_file_id}: {e}")
+            continue
+
+    return sorted(all_ipus, key=lambda x: x.start)
 
 
 # Example usage
@@ -754,11 +633,6 @@ if __name__ == "__main__":
     games_corpus = SpanishGamesCorpusDialogues()
     games_corpus.load(load_audio=True, local_path="./uba_games_corpus/")
 
-    print("Loaded UBA Games Corpus with the following sessions:")
-    for session_id, session in games_corpus.sessions.items():
-        print(session)
-        for task in session.tasks:
-            print(f"  {task}")
     # Example to access a specific session and task
     example_session_id = 1
     if example_session_id in games_corpus.sessions:
@@ -769,5 +643,23 @@ if __name__ == "__main__":
         task = example_session.tasks[0]
         print(f"  Task {task.task_id}: {task.text} (Score: {task.score})")
 
+    # Example to get sessions by batch
+    batch_1_sessions = games_corpus.get_sessions_by_batch(1)
+    print(f"\nBatch 1 Sessions: {batch_1_sessions}")
+
     # Note: The above code will load the corpus and print the sessions and tasks.
     # This is a simple demonstration of how to load and access the UBA Games Corpus.
+
+    # Example turn transitions:
+    example_task = example_session.tasks[0]
+    print(f"\nTurn transitions for Task {example_task.task_id}:")
+    for transition in example_task.turn_transitions:
+        print(f"  {transition.label}: {transition.ipu_from.text} -> {transition.ipu_to.text}")
+
+    # Read the wav corresponding to the first task and compute it's duration:
+    if example_task.wavs:
+        wavs_speaker_A = example_task.wavs["A"]
+        print(f"\nFirst wav file for Task {example_task.task_id}: {wavs_speaker_A}")
+        y, sr = librosa.load(wavs_speaker_A, sr=None, offset=example_task.start, duration=example_task.duration)
+        duration = librosa.get_duration(y=y, sr=sr)
+        print(f"Duration of the task wav file: {duration:.2f} seconds")
