@@ -23,24 +23,26 @@ if __name__ == "__main__":
     # Note: The above code will load the corpus and print the sessions and tasks.
     # This is a simple demonstration of how to load and access the UBA Games Corpus.
 
-    # Example turn transitions:
-    example_task = example_session.tasks[0]
-    print(f"\nTurn transitions for Task {example_task.task_id}:")
-    for transition in example_task.turn_transitions:
-        print(
-            f"  {transition.label}: {transition.ipu_from.text} -> {transition.ipu_to.text}"
-        )
+    for task in games_corpus.dev_tasks(batch=1):
+        print("FIRST TASK IN DEV SET", task)
+        for transition in task.turn_transitions:
+            print(
+                f"  {transition.label}: {transition.ipu_from.text} -> {transition.ipu_to.text}"
+            )
+        break
 
-    # Read the wav corresponding to the first task and compute it's duration:
+
+
+    # Read the wav corresponding to the first task in the dev set and compute it's duration:
     # Will only work if the audio files are loaded
-    if example_task.wavs:
-        wavs_speaker_A = example_task.wavs["A"]
-        print(f"Wav file for Task {example_task.task_id}: {wavs_speaker_A}")
+    if task.wavs:
+        wavs_speaker_A = task.wavs["A"]
+        print(f"Wav file for Task {task.task_id}: {wavs_speaker_A}")
         y, sr = librosa.load(
             wavs_speaker_A,
             sr=None,
-            offset=example_task.start,
-            duration=example_task.duration,
+            offset=task.start,
+            duration=task.duration,
         )
         duration = librosa.get_duration(y=y, sr=sr)
         print(f"Duration of the task wav file: {duration:.2f} seconds")

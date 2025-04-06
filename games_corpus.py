@@ -51,6 +51,15 @@ class SpanishGamesCorpusDialogues:
             "age_range": "19-59 years",
         }
 
+
+        self.batch_1_suggested_heldout_tasks = set([(1, 13), (1, 14), (2, 13), (2, 14), (3, 13), (3, 14), (4, 13), (4, 14), 
+                                        (5, 13), (5, 14), (6, 13), (6, 14), (7, 13), (7, 14), (8, 13), (8, 14), 
+                                        (9, 13), (9, 14), (10, 13), (10, 14), (11, 13), (11, 14), 
+                                        (12, 13), (12, 14), (13, 13), (13, 14), (14, 13), (14, 14)])
+        
+        self.batch_1_suggested_heldout_sessions = set([7, 12, 13])
+        
+
         self.banned_sessions = set([28])
         self.max_retries = 3
         self.retry_delay = 5  # seconds
@@ -88,6 +97,33 @@ class SpanishGamesCorpusDialogues:
             for sid, session in self.sessions.items()
             if session.batch == batch
         }
+    
+
+    def dev_tasks(self, batch):
+        if batch == 1:
+            for sess_id, sess in self.sessions.items():
+                if sess_id in self.batch_1_suggested_heldout_sessions:
+                    continue
+                else:
+                    for task in sess.tasks:
+                        if task.task_id in self.batch_1_suggested_heldout_tasks:
+                            continue
+                        else:
+                            yield task
+        else:
+            raise NotImplemented("no held out sets defined for batch 2")
+
+
+    def held_out_tasks(self, batch):
+        if batch == 1:
+            for sess_id, sess in self.sessions.items():
+                for task in sess.tasks:
+                    if task.task_id not in self.batch_1_suggested_heldout_tasks and task.sess_id not in self.batch_1_suggested_heldout_sessions:
+                        continue
+                    else:
+                        yield task
+        else:
+            raise NotImplemented("no held out sets defined for batch 2")
 
     def _download(self):
         for file_id, file_name in self.corpus_files.items():
@@ -208,7 +244,7 @@ class SpanishGamesCorpusDialogues:
             )
 
             turn_transitions = load_turn_transitions_for_task(
-                session_id, task_id, turns_folder, phrases_folder, batch, ipus
+                session_id, task_id, turns_folder, batch, ipus
             )
 
             task_obj = Task(
@@ -435,7 +471,6 @@ def load_turn_transitions_for_task(
     session_id: int,
     task_id: str,
     turns_folder: Dict[str, Path],
-    phrases_folder: Dict[str, Path],
     batch: int,
     ipus: List[IPU],
 ) -> List[TurnTransition]:
