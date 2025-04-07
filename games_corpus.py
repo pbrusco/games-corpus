@@ -106,7 +106,7 @@ class SpanishGamesCorpusDialogues:
                     continue
                 else:
                     for task in sess.tasks:
-                        if task.task_id in self.batch_1_suggested_heldout_tasks:
+                        if (sess_id, task.task_id) in self.batch_1_suggested_heldout_tasks:
                             continue
                         else:
                             yield task
@@ -118,7 +118,7 @@ class SpanishGamesCorpusDialogues:
         if batch == 1:
             for sess_id, sess in self.sessions.items():
                 for task in sess.tasks:
-                    if task.task_id not in self.batch_1_suggested_heldout_tasks and task.sess_id not in self.batch_1_suggested_heldout_sessions:
+                    if (sess_id, task.task_id) not in self.batch_1_suggested_heldout_tasks and task.sess_id not in self.batch_1_suggested_heldout_sessions:
                         continue
                     else:
                         yield task
