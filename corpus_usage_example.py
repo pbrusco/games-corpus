@@ -51,4 +51,8 @@ if __name__ == "__main__":
 
     print(len(list(games_corpus.dev_tasks(batch=1))))
     print(len(list(games_corpus.held_out_tasks(batch=1))))
+
+    for task in games_corpus.held_out_tasks(batch=1):
+        print(task.session_id, task.task_id)
+
     print(len(list(games_corpus.held_out_tasks(batch=2))))

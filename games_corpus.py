@@ -267,7 +267,7 @@ class SpanishGamesCorpusDialogues:
 class Task:
     def __init__(
         self,
-        task_id: str,
+        task_id: int,
         session_id: int,
         images: List[str],
         describer: str,
@@ -420,11 +420,12 @@ def load_tasks_info(tasks_file, batch):
                 start = float(start)
                 end = float(end)
                 images = images.split("Images:")[-1]
-                task_id = f"{len(tasks_info) + 1:02d}"
+                task_id = len(tasks_info) + 1
                 time_used = float(time_used.split(":")[-1].strip())
 
             elif batch == 2:
                 task_id, task_info = line.split(" ", 1)
+                task_id = int(task_id)
                 images, describer, target, score, time_used = task_info.split(";")
                 start = 0
                 time_used = float(time_used.split(":")[-1].strip())
@@ -469,7 +470,7 @@ def find_nearest_ipu(ipus, start_time, end_time, max_diff=0.1):
 
 def load_turn_transitions_for_task(
     session_id: int,
-    task_id: str,
+    task_id: int,
     turns_folder: Dict[str, Path],
     batch: int,
     ipus: List[IPU],
@@ -493,7 +494,7 @@ def load_turn_transitions_for_task(
         turns_file_id = (
             f"s{session_id:02d}.objects.1.{speaker_suffix}.turns"
             if batch == 1
-            else f"s{session_id:02d}.objects.{task_id}.turns.{speaker_suffix}.turns"
+            else f"s{session_id:02d}.objects.{task_id:02d}.turns.{speaker_suffix}.turns"
         )
         turns_file = turns_folder.get(turns_file_id)
         if not turns_file:
@@ -543,7 +544,7 @@ def load_wavs_for_task(session_id, task_id, wav_folder, batch):
         if batch == 1:
             wav_file_id = f"s{session_id:02d}.objects.1.{speaker_suffix}.wav"
         elif batch == 2:
-            wav_file_id = f"s{session_id:02d}.objects.{task_id}.{speaker_suffix}.wav"
+            wav_file_id = f"s{session_id:02d}.objects.{task_id:02d}.{speaker_suffix}.wav"
 
         if wav_folder:
             wav_file = wav_folder.get(wav_file_id)
@@ -637,7 +638,7 @@ def load_ipus_from_phrases(session_id, task_id, phrases_folder, batch):
         ipus_file_id = (
             f"s{session_id:02d}.objects.1.{speaker_suffix}.phrases"
             if batch == 1
-            else f"s{session_id:02d}.objects.{task_id}.{speaker_suffix}.phrases"
+            else f"s{session_id:02d}.objects.{task_id:02d}.{speaker_suffix}.phrases"
         )
         ipus_file = phrases_folder.get(ipus_file_id)
         if not ipus_file:
