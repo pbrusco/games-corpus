@@ -106,24 +106,24 @@ class SpanishGamesCorpusDialogues:
                     continue
                 else:
                     for task in sess.tasks:
-                        if (sess_id, task.task_id) in self.batch_1_suggested_heldout_tasks:
+                        if (task.session_id, task.task_id) in self.batch_1_suggested_heldout_tasks:
                             continue
                         else:
                             yield task
         else:
-            raise NotImplemented("no held out sets defined for batch 2")
+            raise NotImplementedError("no held out sets defined for batch 2")
 
 
     def held_out_tasks(self, batch):
         if batch == 1:
             for sess_id, sess in self.sessions.items():
                 for task in sess.tasks:
-                    if (sess_id, task.task_id) not in self.batch_1_suggested_heldout_tasks and task.sess_id not in self.batch_1_suggested_heldout_sessions:
+                    if (sess_id, task.task_id) not in self.batch_1_suggested_heldout_tasks and task.session_id not in self.batch_1_suggested_heldout_sessions:
                         continue
                     else:
                         yield task
         else:
-            raise NotImplemented("no held out sets defined for batch 2")
+            raise NotImplementedError("no held out sets defined for batch 2")
 
     def _download(self):
         for file_id, file_name in self.corpus_files.items():

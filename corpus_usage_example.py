@@ -46,3 +46,9 @@ if __name__ == "__main__":
         )
         duration = librosa.get_duration(y=y, sr=sr)
         print(f"Duration of the task wav file: {duration:.2f} seconds")
+
+
+
+    print(len(list(games_corpus.dev_tasks(batch=1))))
+    print(len(list(games_corpus.held_out_tasks(batch=1))))
+    print(len(list(games_corpus.held_out_tasks(batch=2))))
