@@ -100,8 +100,9 @@ class SpanishGamesCorpusDialogues:
     
 
     def dev_tasks(self, batch):
+        batch_sessions = self.get_sessions_by_batch(batch)
         if batch == 1:
-            for sess_id, sess in self.sessions.items():
+            for sess_id, sess in batch_sessions.items():
                 if sess_id in self.batch_1_suggested_heldout_sessions:
                     continue
                 else:
@@ -115,8 +116,10 @@ class SpanishGamesCorpusDialogues:
 
 
     def held_out_tasks(self, batch):
+        batch_sessions = self.get_sessions_by_batch(batch)
+
         if batch == 1:
-            for sess_id, sess in self.sessions.items():
+            for sess_id, sess in batch_sessions.items():
                 for task in sess.tasks:
                     if (sess_id, task.task_id) not in self.batch_1_suggested_heldout_tasks and task.session_id not in self.batch_1_suggested_heldout_sessions:
                         continue
