@@ -247,7 +247,7 @@ class SpanishGamesCorpusDialogues:
             )
 
             turn_transitions = load_turn_transitions_for_task(
-                session_id, task_id, turns_folder, batch, ipus
+                session_id, task_id, turns_folder, batch, ipus, task_boundaries
             )
 
             task_obj = Task(
@@ -386,9 +386,12 @@ class TurnTransitionType(Enum):
     def from_string(cls, label: str) -> "TurnTransitionType":
         """Convert string label to TurnTransitionType enum member"""
         label = label.upper()
+        if label in ["L", "L-SIM", "N", "N-SIM"]:
+            label = "A"
         for member in cls:
             if member.value == label:
                 return member
+        
         raise ValueError(f"Unknown transition label: {label}")
 
     def __str__(self) -> str:
@@ -396,11 +399,13 @@ class TurnTransitionType(Enum):
 
 
 class TurnTransition:
-    def __init__(self, label: str, ipu_from: IPU, ipu_to: IPU):
+    def __init__(self, label: str, ipu_from: IPU, ipu_to: IPU, turn_from: str, turn_to: str) -> None:
         self.label = TurnTransitionType.from_string(label)
         self.ipu_from = ipu_from
         self.ipu_to = ipu_to
-        self.duration = ipu_to.start - ipu_from.end
+        self.turn_from = turn_from
+        self.turn_to = turn_to
+        self.duration = ipu_to.start - ipu_from.end if ipu_from else 0
         self.overlapped_transition = self.duration < 0
 
     def __repr__(self):
@@ -454,18 +459,35 @@ def load_tasks_info(tasks_file, batch):
     return tasks_info
 
 
-def find_nearest_ipu(ipus, start_time, end_time, max_diff=0.1):
+def find_interlocutor_previous_ipu(ipus, starting_before=None):
+    """Find the most recent IPU before the given timestamp"""
+    if not ipus:
+        return None
+
+    for ipu in reversed(ipus):
+        if ipu.start <= starting_before:
+            return ipu
+
+    return None
+
+
+def find_nearest_ipu(ipus, starting_at=None, ending_at=None, max_diff=0.1):
     """Find IPU that best matches the given timestamps"""
     best_ipu = None
     min_diff = float("inf")
 
     for ipu in ipus:
-        start_diff = abs(ipu.start - start_time)
-        end_diff = abs(ipu.end - end_time)
-        total_diff = start_diff + end_diff
-
-        if total_diff < min_diff and total_diff < max_diff:
-            min_diff = total_diff
+        if starting_at and ending_at:
+            diff = abs(ipu.start - starting_at) + abs(ipu.end - ending_at)
+        elif starting_at:
+            diff = abs(ipu.start - starting_at)
+        elif ending_at:
+            diff = abs(ipu.end - ending_at)
+        else:
+            raise ValueError("Either starting_at or ending_at must be provided.")
+        
+        if diff < min_diff and diff < max_diff:
+            min_diff = diff
             best_ipu = ipu
 
     return best_ipu
@@ -477,6 +499,7 @@ def load_turn_transitions_for_task(
     turns_folder: Dict[str, Path],
     batch: int,
     ipus: List[IPU],
+    task_boundaries: tuple[int, int, int, int],
 ) -> List[TurnTransition]:
     """Load turn transitions for the given task and match them to IPUs"""
     transitions = []
@@ -485,12 +508,16 @@ def load_turn_transitions_for_task(
     if not ipus:
         return transitions
 
+    task_start = task_boundaries[0]
+    task_end = task_boundaries[1]
+
     # Create lookup dictionary for IPUs by speaker
     ipus_by_speaker = {}
     for ipu in ipus:
         if ipu.speaker not in ipus_by_speaker:
             ipus_by_speaker[ipu.speaker] = []
         ipus_by_speaker[ipu.speaker].append(ipu)
+
 
     # Process each speaker's turns file
     for speaker, speaker_suffix in get_speaker_and_suffixes(batch):
@@ -506,33 +533,59 @@ def load_turn_transitions_for_task(
 
         try:
             with open(turns_file, "r", encoding="utf-8") as f:
-                prev_turn_ipu = None
                 for line in f:
                     parts = line.strip().split()
                     if len(parts) != 3:
                         continue
 
-                    start, end, label = parts
-                    start, end = float(start), float(end)
+                    turn_start, turn_end, label = parts
+                    turn_start, turn_end = float(turn_start), float(turn_end)
+
+                    if turn_start > task_end:
+                        break
+                    if turn_end < task_start:
+                        continue
+
+                    assert speaker in ["A", "B"]
+                    interlocutor = "B" if speaker == "A" else "A"
 
                     # Skip silence markers
                     if label == "#":
                         continue
 
-                    current_turn_ipu = find_nearest_ipu(
-                        ipus_by_speaker.get(speaker, []), start, end
+                    starting_turn_ipu = find_nearest_ipu(
+                        ipus_by_speaker[speaker], starting_at=turn_start, max_diff=0.2
                     )
 
-                    if current_turn_ipu:
-                        if prev_turn_ipu:
+                    if label in ["L", "L-SIM", "N", "N-SIM", "A"]:
+                        logging.debug("Skipping undefined turn transitions")
+                        continue
 
-                            transition = TurnTransition(
-                                label=label,
-                                ipu_from=prev_turn_ipu,
-                                ipu_to=current_turn_ipu,
+                    if label == TurnTransitionType.SIMULTANEOUS_START.value or label == TurnTransitionType.FIRST_TURN.value:
+                        prev_turn_ipu = None
+                    else:
+                        prev_turn_ipu = find_interlocutor_previous_ipu(
+                            ipus_by_speaker[interlocutor],
+                            starting_before=turn_start,
+                        )
+                        if not prev_turn_ipu:
+                            raise ValueError(
+                                f"Could not find matching previous IPUs for turn: {line.strip()}"
                             )
-                            transitions.append(transition)
-                        prev_turn_ipu = current_turn_ipu
+
+                    if starting_turn_ipu:
+                        transition = TurnTransition(
+                            label=label,
+                            ipu_from=prev_turn_ipu,
+                            ipu_to=starting_turn_ipu,
+                            turn_from="<TODO>",
+                            turn_to="<TODO>"
+                        )
+                        transitions.append(transition)
+                    else:
+                        raise ValueError(
+                            f"Could not find matching starting IPUs for turn: {line.strip()}"
+                        )
 
         except Exception as e:
             logging.error(f"Error processing turns file {turns_file_id}: {e}")
@@ -665,7 +718,7 @@ def load_ipus_from_phrases(session_id, task_id, phrases_folder, batch):
 
                         # Create all words for this IPU at once
                         t0, tf = float(t0), float(tf)
-                        words = text.split()
+                        words = text.replace("#", "").split()
                         if not words:
                             continue
 
