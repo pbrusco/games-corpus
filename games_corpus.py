@@ -21,9 +21,7 @@ class SpanishGamesCorpusDialogues:
     def __init__(self):
         self.corpus_raw = None
         self.sessions = None
-        self.corpus_url = (
-            "https://ri.conicet.gov.ar/bitstream/handle/11336/191235/{filename}?sequence=29&isAllowed=y"
-        ) 
+        self.corpus_url = "https://ri.conicet.gov.ar/bitstream/handle/11336/191235/{filename}?sequence=29&isAllowed=y"
         # "https://www.utdt.edu/ia/integrantes/agravano/UBA-Games-Corpus/{filename}"
 
         self.corpus_local_path = None
@@ -51,14 +49,40 @@ class SpanishGamesCorpusDialogues:
             "age_range": "19-59 years",
         }
 
+        self.batch_1_suggested_heldout_tasks = set(
+            [
+                (1, 13),
+                (1, 14),
+                (2, 13),
+                (2, 14),
+                (3, 13),
+                (3, 14),
+                (4, 13),
+                (4, 14),
+                (5, 13),
+                (5, 14),
+                (6, 13),
+                (6, 14),
+                (7, 13),
+                (7, 14),
+                (8, 13),
+                (8, 14),
+                (9, 13),
+                (9, 14),
+                (10, 13),
+                (10, 14),
+                (11, 13),
+                (11, 14),
+                (12, 13),
+                (12, 14),
+                (13, 13),
+                (13, 14),
+                (14, 13),
+                (14, 14),
+            ]
+        )
 
-        self.batch_1_suggested_heldout_tasks = set([(1, 13), (1, 14), (2, 13), (2, 14), (3, 13), (3, 14), (4, 13), (4, 14), 
-                                        (5, 13), (5, 14), (6, 13), (6, 14), (7, 13), (7, 14), (8, 13), (8, 14), 
-                                        (9, 13), (9, 14), (10, 13), (10, 14), (11, 13), (11, 14), 
-                                        (12, 13), (12, 14), (13, 13), (13, 14), (14, 13), (14, 14)])
-        
         self.batch_1_suggested_heldout_sessions = set([7, 12, 13])
-        
 
         self.banned_sessions = set([28])
         self.max_retries = 3
@@ -97,7 +121,6 @@ class SpanishGamesCorpusDialogues:
             for sid, session in self.sessions.items()
             if session.batch == batch
         }
-    
 
     def dev_tasks(self, batch):
         batch_sessions = self.get_sessions_by_batch(batch)
@@ -107,13 +130,15 @@ class SpanishGamesCorpusDialogues:
                     continue
                 else:
                     for task in sess.tasks:
-                        if (task.session_id, task.task_id) in self.batch_1_suggested_heldout_tasks:
+                        if (
+                            task.session_id,
+                            task.task_id,
+                        ) in self.batch_1_suggested_heldout_tasks:
                             continue
                         else:
                             yield task
         else:
             raise NotImplementedError("no held out sets defined for batch 2")
-
 
     def held_out_tasks(self, batch):
         batch_sessions = self.get_sessions_by_batch(batch)
@@ -121,7 +146,12 @@ class SpanishGamesCorpusDialogues:
         if batch == 1:
             for sess_id, sess in batch_sessions.items():
                 for task in sess.tasks:
-                    if (sess_id, task.task_id) not in self.batch_1_suggested_heldout_tasks and task.session_id not in self.batch_1_suggested_heldout_sessions:
+                    if (
+                        (sess_id, task.task_id)
+                        not in self.batch_1_suggested_heldout_tasks
+                        and task.session_id
+                        not in self.batch_1_suggested_heldout_sessions
+                    ):
                         continue
                     else:
                         yield task
@@ -159,7 +189,9 @@ class SpanishGamesCorpusDialogues:
         for attempt in range(self.max_retries):
             try:
                 logging.info(f"Downloading {file_name} (attempt {attempt + 1})...")
-                response = requests.get(self.corpus_url.format(filename=file_name), timeout=30)
+                response = requests.get(
+                    self.corpus_url.format(filename=file_name), timeout=30
+                )
                 response.raise_for_status()
                 with open(save_path, "wb") as f:
                     f.write(response.content)
@@ -246,8 +278,10 @@ class SpanishGamesCorpusDialogues:
                 batch,
             )
 
+            turns = load_turns_from_ipus(ipus)
+
             turn_transitions = load_turn_transitions_for_task(
-                session_id, task_id, turns_folder, batch, ipus, task_boundaries
+                session_id, task_id, turns_folder, turns, batch, ipus, task_boundaries, 
             )
 
             task_obj = Task(
@@ -261,6 +295,7 @@ class SpanishGamesCorpusDialogues:
                 turn_transitions=turn_transitions,
                 ipus=ipus,
                 wavs=wavs,
+                turns=turns,
             )
             tasks.append(task_obj)
 
@@ -278,6 +313,7 @@ class Task:
         score: Union[float, str],
         time_used: float,
         turn_transitions: List["TurnTransition"],
+        turns: List["Turn"],
         ipus: List["IPU"],
         wavs: Dict[str, str],
     ) -> None:
@@ -290,6 +326,7 @@ class Task:
         self.start = ipus[0].start
         self.duration = float(time_used)
         self.turn_transitions = turn_transitions
+        self.turns = turns
         self.ipus = sorted(ipus, key=lambda x: x.start) if ipus else []
         self.wavs = wavs
         self.text = self._build_text()
@@ -391,7 +428,7 @@ class TurnTransitionType(Enum):
         for member in cls:
             if member.value == label:
                 return member
-        
+
         raise ValueError(f"Unknown transition label: {label}")
 
     def __str__(self) -> str:
@@ -399,7 +436,9 @@ class TurnTransitionType(Enum):
 
 
 class TurnTransition:
-    def __init__(self, label: str, ipu_from: IPU, ipu_to: IPU, turn_from: str, turn_to: str) -> None:
+    def __init__(
+        self, label: str, ipu_from: IPU, ipu_to: IPU, turn_from: str, turn_to: str
+    ) -> None:
         self.label = TurnTransitionType.from_string(label)
         self.ipu_from = ipu_from
         self.ipu_to = ipu_to
@@ -410,6 +449,21 @@ class TurnTransition:
 
     def __repr__(self):
         return f"TurnTransition({self.label}, {self.ipu_from}, {self.ipu_to})"
+
+
+class Turn:
+    # A turn is defined as a sequence of consecutive IPUs from one speaker without the activity from the interlocutor in between silences.
+    def __init__(self, ipus: List[IPU], speaker: str) -> None:
+        self.ipus = ipus
+        self.start = ipus[0].start
+        self.end = ipus[-1].end
+        self.speaker = speaker
+        self.duration = self.end - self.start
+        self.text = " ".join([ipu.text for ipu in ipus])
+        self.num_words = sum([ipu.num_words for ipu in ipus])
+
+    def __repr__(self):
+        return f"Turn({self.start}, {self.end}, {self.speaker}, {self.text})"
 
 
 def load_tasks_info(tasks_file, batch):
@@ -485,7 +539,7 @@ def find_nearest_ipu(ipus, starting_at=None, ending_at=None, max_diff=0.1):
             diff = abs(ipu.end - ending_at)
         else:
             raise ValueError("Either starting_at or ending_at must be provided.")
-        
+
         if diff < min_diff and diff < max_diff:
             min_diff = diff
             best_ipu = ipu
@@ -497,6 +551,7 @@ def load_turn_transitions_for_task(
     session_id: int,
     task_id: int,
     turns_folder: Dict[str, Path],
+    turns: List[Turn],
     batch: int,
     ipus: List[IPU],
     task_boundaries: tuple[int, int, int, int],
@@ -517,7 +572,6 @@ def load_turn_transitions_for_task(
         if ipu.speaker not in ipus_by_speaker:
             ipus_by_speaker[ipu.speaker] = []
         ipus_by_speaker[ipu.speaker].append(ipu)
-
 
     # Process each speaker's turns file
     for speaker, speaker_suffix in get_speaker_and_suffixes(batch):
@@ -561,7 +615,10 @@ def load_turn_transitions_for_task(
                         logging.debug("Skipping undefined turn transitions")
                         continue
 
-                    if label == TurnTransitionType.SIMULTANEOUS_START.value or label == TurnTransitionType.FIRST_TURN.value:
+                    if (
+                        label == TurnTransitionType.SIMULTANEOUS_START.value
+                        or label == TurnTransitionType.FIRST_TURN.value
+                    ):
                         prev_turn_ipu = None
                     else:
                         prev_turn_ipu = find_interlocutor_previous_ipu(
@@ -579,7 +636,7 @@ def load_turn_transitions_for_task(
                             ipu_from=prev_turn_ipu,
                             ipu_to=starting_turn_ipu,
                             turn_from="<TODO>",
-                            turn_to="<TODO>"
+                            turn_to="<TODO>",
                         )
                         transitions.append(transition)
                     else:
@@ -600,7 +657,9 @@ def load_wavs_for_task(session_id, task_id, wav_folder, batch):
         if batch == 1:
             wav_file_id = f"s{session_id:02d}.objects.1.{speaker_suffix}.wav"
         elif batch == 2:
-            wav_file_id = f"s{session_id:02d}.objects.{task_id:02d}.{speaker_suffix}.wav"
+            wav_file_id = (
+                f"s{session_id:02d}.objects.{task_id:02d}.{speaker_suffix}.wav"
+            )
 
         if wav_folder:
             wav_file = wav_folder.get(wav_file_id)
@@ -621,6 +680,15 @@ def load_ipus_for_task(
         ipus = load_ipus_from_words(session_id, task_boundaries, words_folder)
 
     return ipus
+
+
+def load_turns_from_ipus(ipus):
+    """Load turns from IPUs"""
+    turns_speaker_A = []
+    turns_speaker_B = []
+    # TODO
+    pass
+
 
 
 def load_ipus_from_words(session_id, task_boundaries, words_folder):
