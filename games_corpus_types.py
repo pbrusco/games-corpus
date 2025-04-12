@@ -37,7 +37,7 @@ class TurnTransitionType(Enum):
         raise ValueError(f"Unknown transition label: {label}")
 
     def __str__(self) -> str:
-        return self.value
+        return "Transition " + self.value
 
 
 @dataclass(frozen=True)
@@ -74,7 +74,7 @@ class IPU:
         self.num_words = len(self.words)
 
     def __str__(self) -> str:
-        return self.text
+        return f"[IPU ({self.speaker}) {self.start:.02f}:{self.end:.02f} ] {self.text}"
 
 
 @dataclass
@@ -93,7 +93,10 @@ class Turn:
         self.start = self.ipus[0].start
         self.end = self.ipus[-1].end
         self.duration = self.end - self.start
-        self.text = f"({self.speaker}) " + " ".join(ipu.text for ipu in self.ipus)
+        self.text = (
+            f"[Turn ({self.speaker}) {self.start:.02f}:{self.end:.02f} ] \t "
+            + " ".join(ipu.text for ipu in self.ipus)
+        )
         self.num_words = sum(ipu.num_words for ipu in self.ipus)
 
     def __str__(self) -> str:
@@ -159,6 +162,7 @@ class Session:
 @dataclass
 class BatchConfig:
     """Configuration for a specific batch of the corpus"""
+
     batch_num: int
     heldout_tasks: Set[Tuple[int, int]]
     heldout_sessions: Set[int]
