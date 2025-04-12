@@ -94,7 +94,7 @@ class Turn:
 
     @classmethod
     def get_turn_by_id(cls, turn_id: str) -> Optional["Turn"]:
-        return cls._all_turns.get(turn_id)
+        return cls._all_turns[turn_id]
 
     @classmethod
     def clear_registry(cls):
@@ -151,9 +151,6 @@ class TurnTransition:
 
         self.turn_from = Turn.get_turn_by_id(self.turn_id_from) if self.turn_id_from else None
         self.turn_to = Turn.get_turn_by_id(self.turn_id_to)
-
-        if self.turn_to is None:
-            import ipdb; ipdb.set_trace()
         
         self.speaker_from = self.turn_from.speaker if self.turn_from else None
         self.speaker_to = self.turn_to.speaker
