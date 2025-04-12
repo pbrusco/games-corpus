@@ -53,14 +53,14 @@ def load_tasks_info(tasks_file, batch):
     return tasks_info
 
 
-def find_interlocutor_previous_turn(turns, starting_before=None):
+def find_interlocutor_previous_turn_id(turns, speaker, starting_before=None):
     """Find the most recent turn before the given timestamp"""
     if not turns:
         return None
 
     for turn in reversed(turns):
-        if turn.start <= starting_before:
-            return turn
+        if turn.start <= starting_before and turn.speaker == speaker:
+            return turn.turn_id
 
     return None
 
@@ -154,6 +154,8 @@ def load_turns_for_task(
                     turn = Turn(
                         ipus=turn_ipus,
                         speaker=speaker,
+                        session_id=session_id,
+                        task_id=task_id
                     )
                     turns.append(turn)
 
@@ -161,9 +163,9 @@ def load_turns_for_task(
             logging.error(f"Error processing turns file {turns_file_id}: {e}")
             continue
 
-    return sorted(turns, key=lambda x: x.ipus[0].start)
+    return sorted(turns, key=lambda x: x.start)
 
-
+1
 def load_turn_transitions_for_task(
     session_id: int,
     task_id: int,
@@ -177,16 +179,9 @@ def load_turn_transitions_for_task(
     # Sort IPUs by start time for efficient lookup
     if not turns:
         return transitions
-
+    
     task_start = task_boundaries[0]
     task_end = task_boundaries[1]
-
-    # Create lookup dictionary for IPUs by speaker
-    turns_by_speaker = {}
-    for turn in turns:
-        if turn.speaker not in turns_by_speaker:
-            turns_by_speaker[turn.speaker] = []
-        turns_by_speaker[turn.speaker].append(turn)
 
     # Process each speaker's turns file
     for speaker, speaker_suffix in get_speaker_and_suffixes(batch):
@@ -222,14 +217,6 @@ def load_turn_transitions_for_task(
                     if label == "#":
                         continue
 
-                    turn = [
-                        t
-                        for t in turns_by_speaker[speaker]
-                        if t.start == turn_start and t.end == turn_end
-                    ][0]
-
-                    starting_turn_ipu = turn.ipus[0]
-
                     if label in ["L", "L-SIM", "N", "N-SIM", "A"]:
                         logging.debug("Skipping undefined turn transitions")
                         continue
@@ -238,32 +225,25 @@ def load_turn_transitions_for_task(
                         label == TurnTransitionType.SIMULTANEOUS_START.value
                         or label == TurnTransitionType.FIRST_TURN.value
                     ):
-                        prev_turn_ipu = None
-                        prev_turn = None
+                        prev_turn_id = None
                     else:
-                        prev_turn = find_interlocutor_previous_turn(
-                            turns_by_speaker[interlocutor],
+                        prev_turn_id = find_interlocutor_previous_turn_id(
+                            turns,
+                            speaker=interlocutor,
                             starting_before=turn_start,
                         )
-                        prev_turn_ipu = prev_turn.ipus[-1]
-                        if not prev_turn_ipu:
+                        if not prev_turn_id:
                             raise ValueError(
                                 f"Could not find matching previous turn for: {line.strip()}"
                             )
-
-                    if starting_turn_ipu:
-                        transition = TurnTransition(
-                            label=label,
-                            ipu_from=prev_turn_ipu,
-                            ipu_to=starting_turn_ipu,
-                            turn_from=prev_turn,
-                            turn_to=turn,
-                        )
-                        transitions.append(transition)
-                    else:
-                        raise ValueError(
-                            f"Could not find matching starting IPUs for turn: {line.strip()}"
-                        )
+                    turn_id = Turn.id_builder(session_id, task_id, speaker, turn_start, turn_end)
+                    
+                    transition = TurnTransition(
+                        label=label,
+                        turn_id_from=prev_turn_id,
+                        turn_id_to=turn_id,
+                    )
+                    transitions.append(transition)
 
         except Exception as e:
             logging.error(f"Error processing turns file {turns_file_id}: {e}")

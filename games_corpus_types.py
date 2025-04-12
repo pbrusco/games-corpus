@@ -79,6 +79,8 @@ class IPU:
 
 @dataclass
 class Turn:
+    session_id: int
+    task_id: int
     ipus: List[IPU]
     speaker: str
     start: float = field(init=False)
@@ -86,12 +88,35 @@ class Turn:
     duration: float = field(init=False)
     text: str = field(init=False)
     num_words: int = field(init=False)
+    
+    # Class-level storage (outside the dataclass fields)
+    _all_turns = {}
 
+    @classmethod
+    def get_turn_by_id(cls, turn_id: str) -> Optional["Turn"]:
+        return cls._all_turns.get(turn_id)
+
+    @classmethod
+    def clear_registry(cls):
+        """Clear the turns registry"""
+        cls._all_turns.clear()
+
+    @classmethod
+    def id_builder(cls, session_id, task_id, speaker, turn_start, turn_end):
+        return f"turn_{session_id:02d}_{task_id:02d}_{speaker}_{turn_start:.2f}_{turn_end:.2f}"
+    
+ 
     def __post_init__(self):
         if not self.ipus:
             raise ValueError("IPUs list cannot be empty")
+        
         self.start = self.ipus[0].start
         self.end = self.ipus[-1].end
+        self.turn_id = Turn.id_builder(self.session_id, self.task_id, self.speaker, self.start, self.end)
+        
+        # Register this turn
+        Turn._all_turns[self.turn_id] = self
+        
         self.duration = self.end - self.start
         self.text = (
             f"[Turn ({self.speaker}) {self.start:.02f}:{self.end:.02f} ] \t "
@@ -106,19 +131,39 @@ class Turn:
 @dataclass
 class TurnTransition:
     label: str
-    ipu_from: Optional[IPU]
-    ipu_to: IPU
-    turn_from: str
-    turn_to: str
-    label_type: TurnTransitionType = field(init=False)
-    duration: float = field(init=False)
-    overlapped_transition: bool = field(init=False)
+    turn_id_from: Optional[str] = field()
+    turn_id_to: str = field()
 
+    turn_from: Optional[Turn] = field(init=False)
+    turn_to: Turn = field(init=False)
+    ipu_from: Optional[IPU] = field(init=False)
+    ipu_to: IPU = field(init=False)
+    speaker_from: Optional[str] = field(init=False)
+    speaker_to: str = field(init=False)
+    session_id: int = field(init=False)
+    task_id: int = field(init=False)
+    label_type: TurnTransitionType = field(init=False)
+    transition_duration: float = field(init=False)
+    overlapped_transition: bool = field(init=False)
+    
     def __post_init__(self):
         self.label_type = TurnTransitionType.from_string(self.label)
-        self.duration = self.ipu_to.start - self.ipu_from.end if self.ipu_from else 0
-        self.overlapped_transition = self.duration < 0
 
+        self.turn_from = Turn.get_turn_by_id(self.turn_id_from) if self.turn_id_from else None
+        self.turn_to = Turn.get_turn_by_id(self.turn_id_to)
+
+        if self.turn_to is None:
+            import ipdb; ipdb.set_trace()
+        
+        self.speaker_from = self.turn_from.speaker if self.turn_from else None
+        self.speaker_to = self.turn_to.speaker
+        self.session_id = self.turn_to.session_id
+        self.task_id = self.turn_to.task_id
+
+        self.ipu_from = self.turn_from.ipus[-1] if self.turn_from else None
+        self.ipu_to = self.turn_to.ipus[0]
+        self.transition_duration = self.ipu_to.start - self.ipu_from.end if self.ipu_from else 0
+        self.overlapped_transition = self.transition_duration < 0
 
 @dataclass
 class Task:
@@ -157,6 +202,22 @@ class Session:
     subject_a: str
     subject_b: str
     tasks: List[Task]
+
+    # Class-level storage (outside the dataclass fields)
+    _all_sessions = {}
+
+    def __post_init__(self):
+        # Register this session
+        Session._all_sessions[self.session_id] = self
+
+    @classmethod
+    def get_session_by_id(cls, session_id: int) -> Optional["Session"]:
+        return cls._all_sessions.get(session_id)
+
+    @classmethod
+    def clear_registry(cls):
+        """Clear the sessions registry"""
+        cls._all_sessions.clear()
 
 
 @dataclass

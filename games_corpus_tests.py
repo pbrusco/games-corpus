@@ -110,7 +110,7 @@ class TestTurnTransition:
             label="H", ipu_from=sample_ipus[0], ipu_to=sample_ipus[1]
         )
         assert transition.label == TurnTransitionType.HOLD_TURN
-        assert transition.duration == 1.0
+        assert transition.transition_duration == 1.0
         assert not transition.overlapped_transition
 
     def test_overlapped_transition(self, sample_ipus):
