@@ -160,7 +160,7 @@ def load_turns_for_task(
                     continue
 
                 turn = Turn(
-                    ipus=turn_ipus,
+                    ipu_ids=[ipu.ipu_id for ipu in turn_ipus],  # Changed from ipus to ipu_ids
                     speaker=speaker,
                     session_id=session_id,
                     task_id=task_id,
@@ -171,7 +171,7 @@ def load_turns_for_task(
 
     return sorted(turns, key=lambda x: x.start)
 
-1
+
 def load_turn_transitions_for_task(
     session_id: int,
     task_id: int,

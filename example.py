@@ -69,8 +69,9 @@ def main():
 
         print("Dev labels:", sorted(dev_counts.items(), key=lambda x: x[0]))
         print("Eval labels:", sorted(eval_counts.items(), key=lambda x: x[0]))
-
+        import ipdb; ipdb.set_trace()
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     main()
+    

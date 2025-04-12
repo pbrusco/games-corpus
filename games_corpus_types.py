@@ -57,13 +57,29 @@ class Word:
 
 @dataclass
 class IPU:
+    # Class-level storage
+    _all_ipus = {}
+    
     words: List[Word]
+    speaker: str = field(init=False)
     start: float = field(init=False)
     end: float = field(init=False)
-    speaker: str = field(init=False)
     duration: float = field(init=False)
     text: str = field(init=False)
     num_words: int = field(init=False)
+
+    @classmethod
+    def id_builder(cls, speaker: str, start: float, end: float) -> str:
+        return f"ipu_{speaker}_{start:.2f}_{end:.2f}"
+
+    @classmethod
+    def get_ipu_by_id(cls, ipu_id: str) -> Optional["IPU"]:
+        return cls._all_ipus.get(ipu_id)
+
+    @classmethod
+    def clear_registry(cls):
+        """Clear the IPUs registry"""
+        cls._all_ipus.clear()
 
     def __post_init__(self):
         self.start = self.words[0].start
@@ -72,6 +88,10 @@ class IPU:
         self.duration = self.end - self.start
         self.text = " ".join(word.text for word in self.words)
         self.num_words = len(self.words)
+        
+        # Register this IPU
+        self.ipu_id = IPU.id_builder(self.speaker, self.start, self.end)
+        IPU._all_ipus[self.ipu_id] = self
 
     def __str__(self) -> str:
         return f"[IPU ({self.speaker}) {self.start:.02f}:{self.end:.02f} ] {self.text}"
@@ -81,7 +101,7 @@ class IPU:
 class Turn:
     session_id: int
     task_id: int
-    ipus: List[IPU]
+    ipu_ids: List[str]  # Changed from ipus to ipu_ids
     speaker: str
     start: float 
     end: float 
@@ -105,9 +125,13 @@ class Turn:
     def id_builder(cls, session_id, task_id, speaker, turn_start, turn_end):
         return f"turn_{session_id:02d}_{task_id:02d}_{speaker}_{turn_start:.2f}_{turn_end:.2f}"
     
- 
+    @property
+    def ipus(self) -> List[IPU]:
+        """Get IPUs from their IDs"""
+        return [IPU.get_ipu_by_id(ipu_id) for ipu_id in self.ipu_ids]
+
     def __post_init__(self):
-        if not self.ipus:
+        if not self.ipu_ids:  # Changed from ipus to ipu_ids
             raise ValueError("IPUs list cannot be empty")
         
         self.turn_id = Turn.id_builder(self.session_id, self.task_id, self.speaker, self.start, self.end)
@@ -118,9 +142,9 @@ class Turn:
         self.duration = self.end - self.start
         self.text = (
             f"[Turn ({self.speaker}) {self.start:.02f}:{self.end:.02f} ] \t "
-            + " ".join(ipu.text for ipu in self.ipus)
+            + " ".join(ipu.text for ipu in self.ipus)  # Using the property
         )
-        self.num_words = sum(ipu.num_words for ipu in self.ipus)
+        self.num_words = sum(ipu.num_words for ipu in self.ipus)  # Using the property
 
     def __str__(self) -> str:
         return self.text
