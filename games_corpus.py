@@ -280,13 +280,15 @@ class SpanishGamesCorpusDialogues:
                 batch,
             )
 
-            turns, turn_transitions = (
+            turns = games_corpus_parsers.load_turns_for_task(session_id, task_id, turns_folder, batch, ipus, task_boundaries)
+            
+            turn_transitions = (
                 games_corpus_parsers.load_turn_transitions_for_task(
                     session_id,
                     task_id,
                     turns_folder,
                     batch,
-                    ipus,
+                    turns,
                     task_boundaries,
                 )
             )
