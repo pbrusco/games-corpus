@@ -278,10 +278,13 @@ class SpanishGamesCorpusDialogues:
                 batch,
             )
 
-            turns = load_turns_from_ipus(ipus)
-
-            turn_transitions = load_turn_transitions_for_task(
-                session_id, task_id, turns_folder, turns, batch, ipus, task_boundaries, 
+            turns, turn_transitions = load_turn_transitions_for_task(
+                session_id,
+                task_id,
+                turns_folder,
+                batch,
+                ipus,
+                task_boundaries,
             )
 
             task_obj = Task(
@@ -338,7 +341,7 @@ class Task:
         return "\n\t" + "\n\t".join([str(ipu) for ipu in self.ipus])
 
     def __repr__(self) -> str:
-        return f"Task({self.task_id}, {self.session_id}, {self.describer}, {self.target}, {self.score}, {self.duration}, {len(self.ipus)} IPUs, {len(self.wavs)} wavs)"
+        return f"Task({self.task_id}, {self.session_id}, {self.describer}, {self.target}, {self.score}, {self.duration}, {len(self.ipus)} IPUs, {len(self.turns)} Turns, {len(self.wavs)} wavs)"
 
     def __getitem__(self, key: str) -> Any:
         return getattr(self, key)
@@ -454,6 +457,7 @@ class TurnTransition:
 class Turn:
     # A turn is defined as a sequence of consecutive IPUs from one speaker without the activity from the interlocutor in between silences.
     def __init__(self, ipus: List[IPU], speaker: str) -> None:
+        assert len(ipus) > 0, "IPUs list cannot be empty"
         self.ipus = ipus
         self.start = ipus[0].start
         self.end = ipus[-1].end
@@ -525,6 +529,18 @@ def find_interlocutor_previous_ipu(ipus, starting_before=None):
     return None
 
 
+def find_turn_ipus(speaker_ipus, turn_start, turn_end, max_diff=0.1):
+    """Find IPUs that fall within the given turn boundaries"""
+    turn_ipus = []
+    for ipu in speaker_ipus:
+        if (turn_start - max_diff) <= ipu.start <= (turn_end + max_diff) or (
+            turn_start - max_diff
+        ) <= ipu.end <= (turn_end + max_diff):
+            turn_ipus.append(ipu)
+
+    return turn_ipus
+
+
 def find_nearest_ipu(ipus, starting_at=None, ending_at=None, max_diff=0.1):
     """Find IPU that best matches the given timestamps"""
     best_ipu = None
@@ -551,13 +567,14 @@ def load_turn_transitions_for_task(
     session_id: int,
     task_id: int,
     turns_folder: Dict[str, Path],
-    turns: List[Turn],
     batch: int,
     ipus: List[IPU],
     task_boundaries: tuple[int, int, int, int],
 ) -> List[TurnTransition]:
     """Load turn transitions for the given task and match them to IPUs"""
     transitions = []
+    turns = []
+
     # Sort IPUs by start time for efficient lookup
     ipus = sorted(ipus, key=lambda x: x.start) if ipus else []
     if not ipus:
@@ -607,9 +624,16 @@ def load_turn_transitions_for_task(
                     if label == "#":
                         continue
 
-                    starting_turn_ipu = find_nearest_ipu(
-                        ipus_by_speaker[speaker], starting_at=turn_start, max_diff=0.2
+                    turn_ipus = find_turn_ipus(
+                        ipus_by_speaker[speaker], turn_start, turn_end, max_diff=0.1
                     )
+                    if len(turn_ipus) == 0:
+                        logging.warning(
+                            f"Cannot find IPUs for turn [{turn_start=:.2f}:{turn_end:.2f}] ({session_id=} {task_id=} {speaker=})"
+                        )
+                        continue
+
+                    starting_turn_ipu = turn_ipus[0]
 
                     if label in ["L", "L-SIM", "N", "N-SIM", "A"]:
                         logging.debug("Skipping undefined turn transitions")
@@ -644,11 +668,19 @@ def load_turn_transitions_for_task(
                             f"Could not find matching starting IPUs for turn: {line.strip()}"
                         )
 
+                    turn = Turn(
+                        ipus=turn_ipus,
+                        speaker=speaker,
+                    )
+                    turns.append(turn)
+
         except Exception as e:
             logging.error(f"Error processing turns file {turns_file_id}: {e}")
             continue
 
-    return sorted(transitions, key=lambda x: x.ipu_to.start)
+    return sorted(turns, key=lambda x: x.ipus[0].start), sorted(
+        transitions, key=lambda x: x.ipu_to.start
+    )
 
 
 def load_wavs_for_task(session_id, task_id, wav_folder, batch):
@@ -688,7 +720,6 @@ def load_turns_from_ipus(ipus):
     turns_speaker_B = []
     # TODO
     pass
-
 
 
 def load_ipus_from_words(session_id, task_boundaries, words_folder):
