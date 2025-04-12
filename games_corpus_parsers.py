@@ -69,9 +69,9 @@ def find_turn_ipus(speaker_ipus, turn_start, turn_end, max_diff=0.1):
     """
     Find IPUs that fall within the given turn boundaries.
 
-    An IPU is considered to fall within the boundaries if its start time is 
-    greater than or equal to (turn_start - max_diff) and its end time is 
-    less than or equal to (turn_end + max_diff). IPUs that partially overlap 
+    An IPU is considered to fall within the boundaries if its start time is
+    greater than or equal to (turn_start - max_diff) and its end time is
+    less than or equal to (turn_end + max_diff). IPUs that partially overlap
     with the boundaries but do not meet these conditions are excluded.
     """
     turn_ipus = [
@@ -160,7 +160,9 @@ def load_turns_for_task(
                     continue
 
                 turn = Turn(
-                    ipu_ids=[ipu.ipu_id for ipu in turn_ipus],  # Changed from ipus to ipu_ids
+                    ipu_ids=[
+                        ipu.ipu_id for ipu in turn_ipus
+                    ],  # Changed from ipus to ipu_ids
                     speaker=speaker,
                     session_id=session_id,
                     task_id=task_id,
@@ -185,7 +187,7 @@ def load_turn_transitions_for_task(
     # Sort IPUs by start time for efficient lookup
     if not turns:
         return transitions
-    
+
     task_start = task_boundaries[0]
     task_end = task_boundaries[1]
 
@@ -238,25 +240,27 @@ def load_turn_transitions_for_task(
                         starting_before=turn_start,
                     )
                     if not prev_turn_id:
-                        logging.warning(f"Could not find matching previous turn for: {line.strip()}. Skipping Transition")
+                        logging.warning(
+                            f"Could not find matching previous turn for: {line.strip()=}. Skipping Transition"
+                        )
                         continue
 
-                turn_id = Turn.id_builder(session_id, task_id, speaker, turn_start, turn_end)
-                
+                turn_id = Turn.id_builder(
+                    session_id, task_id, speaker, turn_start, turn_end
+                )
+
                 if turn_id not in Turn._all_turns:
                     logging.warning(
                         f"Turn ID {turn_id} not found in loaded turns. Skipping transition."
                     )
                     continue
 
-                
                 transition = TurnTransition(
                     label=label,
                     turn_id_from=prev_turn_id,
                     turn_id_to=turn_id,
                 )
                 transitions.append(transition)
-
 
     return sorted(transitions, key=lambda x: x.ipu_to.start)
 

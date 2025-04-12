@@ -37,9 +37,10 @@ def main():
     for task in corpus.dev_tasks(batch=1):
         print(f"\nTurn transitions in task {task.task_id}:")
         for transition in task.turn_transitions:
-            print(f"  {transition.label}: {transition.turn_from} -> {transition.turn_to}")
+            print(
+                f"  {transition.label}: {transition.turn_from} -> {transition.turn_to}"
+            )
         break
-
 
     ## Show an example of the turns inside a task:
     for task in corpus.dev_tasks(batch=1):
@@ -56,7 +57,6 @@ def main():
         for task in corpus.dev_tasks(batch=batch):
             dev_tasks += 1
             for transition in task.turn_transitions:
-
                 dev_counts[transition.label] += 1
 
         for task in corpus.held_out_tasks(batch=batch):
@@ -69,9 +69,8 @@ def main():
 
         print("Dev labels:", sorted(dev_counts.items(), key=lambda x: x[0]))
         print("Eval labels:", sorted(eval_counts.items(), key=lambda x: x[0]))
-        import ipdb; ipdb.set_trace()
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     main()
-    

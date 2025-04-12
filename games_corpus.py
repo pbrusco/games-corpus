@@ -263,7 +263,7 @@ class SpanishGamesCorpusDialogues:
         if not tasks_file:
             raise ValueError(f"Tasks file {task_file_id} not found in {tasks_folder}.")
         tasks_info = games_corpus_parsers.load_tasks_info(tasks_file, batch)
-        
+
         for info in tasks_info:
             task_id = info["Task ID"]
             task_boundaries = (info["Start"], info["End"], task_id, session_id)
@@ -280,17 +280,17 @@ class SpanishGamesCorpusDialogues:
                 batch,
             )
 
-            turns = games_corpus_parsers.load_turns_for_task(session_id, task_id, turns_folder, batch, ipus, task_boundaries)
-            
-            turn_transitions = (
-                games_corpus_parsers.load_turn_transitions_for_task(
-                    session_id,
-                    task_id,
-                    turns_folder,
-                    batch,
-                    turns,
-                    task_boundaries,
-                )
+            turns = games_corpus_parsers.load_turns_for_task(
+                session_id, task_id, turns_folder, batch, ipus, task_boundaries
+            )
+
+            turn_transitions = games_corpus_parsers.load_turn_transitions_for_task(
+                session_id,
+                task_id,
+                turns_folder,
+                batch,
+                turns,
+                task_boundaries,
             )
 
             task_obj = Task(

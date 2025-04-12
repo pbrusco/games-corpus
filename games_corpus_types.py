@@ -59,7 +59,7 @@ class Word:
 class IPU:
     # Class-level storage
     _all_ipus = {}
-    
+
     words: List[Word]
     speaker: str = field(init=False)
     start: float = field(init=False)
@@ -88,7 +88,7 @@ class IPU:
         self.duration = self.end - self.start
         self.text = " ".join(word.text for word in self.words)
         self.num_words = len(self.words)
-        
+
         # Register this IPU
         self.ipu_id = IPU.id_builder(self.speaker, self.start, self.end)
         IPU._all_ipus[self.ipu_id] = self
@@ -103,12 +103,12 @@ class Turn:
     task_id: int
     ipu_ids: List[str]  # Changed from ipus to ipu_ids
     speaker: str
-    start: float 
-    end: float 
+    start: float
+    end: float
     duration: float = field(init=False)
     text: str = field(init=False)
     num_words: int = field(init=False)
-    
+
     # Class-level storage (outside the dataclass fields)
     _all_turns = {}
 
@@ -124,7 +124,7 @@ class Turn:
     @classmethod
     def id_builder(cls, session_id, task_id, speaker, turn_start, turn_end):
         return f"turn_{session_id:02d}_{task_id:02d}_{speaker}_{turn_start:.2f}_{turn_end:.2f}"
-    
+
     @property
     def ipus(self) -> List[IPU]:
         """Get IPUs from their IDs"""
@@ -133,12 +133,14 @@ class Turn:
     def __post_init__(self):
         if not self.ipu_ids:  # Changed from ipus to ipu_ids
             raise ValueError("IPUs list cannot be empty")
-        
-        self.turn_id = Turn.id_builder(self.session_id, self.task_id, self.speaker, self.start, self.end)
-        
+
+        self.turn_id = Turn.id_builder(
+            self.session_id, self.task_id, self.speaker, self.start, self.end
+        )
+
         # Register this turn
         Turn._all_turns[self.turn_id] = self
-        
+
         self.duration = self.end - self.start
         self.text = (
             f"[Turn ({self.speaker}) {self.start:.02f}:{self.end:.02f} ] \t "
@@ -167,13 +169,15 @@ class TurnTransition:
     label_type: TurnTransitionType = field(init=False)
     transition_duration: float = field(init=False)
     overlapped_transition: bool = field(init=False)
-    
+
     def __post_init__(self):
         self.label_type = TurnTransitionType.from_string(self.label)
 
-        self.turn_from = Turn.get_turn_by_id(self.turn_id_from) if self.turn_id_from else None
+        self.turn_from = (
+            Turn.get_turn_by_id(self.turn_id_from) if self.turn_id_from else None
+        )
         self.turn_to = Turn.get_turn_by_id(self.turn_id_to)
-        
+
         self.speaker_from = self.turn_from.speaker if self.turn_from else None
         self.speaker_to = self.turn_to.speaker
         self.session_id = self.turn_to.session_id
@@ -181,8 +185,11 @@ class TurnTransition:
 
         self.ipu_from = self.turn_from.ipus[-1] if self.turn_from else None
         self.ipu_to = self.turn_to.ipus[0]
-        self.transition_duration = self.ipu_to.start - self.ipu_from.end if self.ipu_from else 0
+        self.transition_duration = (
+            self.ipu_to.start - self.ipu_from.end if self.ipu_from else 0
+        )
         self.overlapped_transition = self.transition_duration < 0
+
 
 @dataclass
 class Task:
@@ -213,6 +220,18 @@ class Task:
             return ""
         return "\n\t" + "\n\t".join([str(ipu) for ipu in self.ipus])
 
+    def __str__(self) -> str:
+        return (
+            f"[Task {self.task_id} ({self.describer}) {self.start:.02f}:{self.start + self.duration:.02f} ] Turns {len(self.turns)} IPUs {len(self.ipus)}\n\t"
+            + "\n\t".join([str(turn) for turn in self.turns])
+            + "\n\t"
+            + "\n\t".join([str(ipu) for ipu in self.ipus])
+            + "\n"
+        )
+
+    def __repr__(self):
+        return f"[Task {self.task_id} ({self.describer}) {self.start:.02f}:{self.start + self.duration:.02f} ] Turns {len(self.turns)} IPUs {len(self.ipus)}"
+
 
 @dataclass(frozen=True)
 class Session:
@@ -237,6 +256,12 @@ class Session:
     def clear_registry(cls):
         """Clear the sessions registry"""
         cls._all_sessions.clear()
+
+    def __str__(self) -> str:
+        return f"[Session {self.session_id} ({self.subject_a}, {self.subject_b})] (tasks_count: {len(self.tasks)})"
+
+    def __repr__(self):
+        return f"[Session {self.session_id} ({self.subject_a}, {self.subject_b})] (tasks_count: {len(self.tasks)})"
 
 
 @dataclass
