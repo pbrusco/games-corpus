@@ -66,14 +66,20 @@ def find_interlocutor_previous_turn_id(turns, speaker, starting_before=None):
 
 
 def find_turn_ipus(speaker_ipus, turn_start, turn_end, max_diff=0.1):
-    """Find IPUs that fall within the given turn boundaries"""
-    turn_ipus = []
-    for ipu in speaker_ipus:
-        if (turn_start - max_diff) <= ipu.start <= (turn_end + max_diff) or (
-            turn_start - max_diff
-        ) <= ipu.end <= (turn_end + max_diff):
-            turn_ipus.append(ipu)
+    """
+    Find IPUs that fall within the given turn boundaries.
 
+    An IPU is considered to fall within the boundaries if its start time is 
+    greater than or equal to (turn_start - max_diff) and its end time is 
+    less than or equal to (turn_end + max_diff). IPUs that partially overlap 
+    with the boundaries but do not meet these conditions are excluded.
+    """
+    turn_ipus = [
+        ipu
+        for ipu in speaker_ipus
+        if (turn_start - max_diff) <= ipu.start <= (turn_end + max_diff)
+        or (turn_start - max_diff) <= ipu.end <= (turn_end + max_diff)
+    ]
     return turn_ipus
 
 
@@ -120,51 +126,48 @@ def load_turns_for_task(
         )
         turns_file = turns_folder.get(turns_file_id)
         if not turns_file:
-            logging.warning(f"Turn transitions file {turns_file_id} not found.")
+            logging.warning(f"Turn file {turns_file_id} not found.")
             continue
 
-        try:
-            with open(turns_file, "r", encoding="utf-8") as f:
-                for line in f:
-                    parts = line.strip().split()
-                    if len(parts) != 3:
-                        continue
+        with open(turns_file, "r", encoding="utf-8") as f:
+            for line in f:
+                parts = line.strip().split()
+                if len(parts) != 3:
+                    continue
 
-                    turn_start, turn_end, label = parts
-                    turn_start, turn_end = float(turn_start), float(turn_end)
+                turn_start, turn_end, label = parts
+                turn_start, turn_end = float(turn_start), float(turn_end)
 
-                    if turn_start > task_end:
-                        break
-                    if turn_end < task_start:
-                        continue
+                if turn_start > task_end:
+                    break
+                if turn_end < task_start:
+                    continue
 
-                    # Skip silence markers
-                    if label == "#":
-                        continue
+                # Skip silence markers
+                if label == "#":
+                    continue
 
-                    turn_ipus = find_turn_ipus(
-                        ipus_by_speaker[speaker], turn_start, turn_end, max_diff=0.1
+                turn_ipus = find_turn_ipus(
+                    ipus_by_speaker[speaker], turn_start, turn_end, max_diff=0.1
+                )
+                turn_id = Turn.id_builder(
+                    session_id, task_id, speaker, turn_start, turn_end
+                )
+                if len(turn_ipus) == 0:
+                    logging.warning(
+                        f"Cannot find IPUs for turn {turn_id}. Skipping turn"
                     )
-                    turn_id = Turn.id_builder(
-                        session_id, task_id, speaker, turn_start, turn_end
-                    )
-                    if len(turn_ipus) == 0:
-                        logging.warning(
-                            f"Cannot find IPUs for turn {turn_id}. Skipping turn"
-                        )
-                        continue
+                    continue
 
-                    turn = Turn(
-                        ipus=turn_ipus,
-                        speaker=speaker,
-                        session_id=session_id,
-                        task_id=task_id
-                    )
-                    turns.append(turn)
-
-        except Exception as e:
-            logging.error(f"Error processing turns file {turns_file_id}: {e}")
-            continue
+                turn = Turn(
+                    ipus=turn_ipus,
+                    speaker=speaker,
+                    session_id=session_id,
+                    task_id=task_id,
+                    start=turn_start,
+                    end=turn_end,
+                )
+                turns.append(turn)
 
     return sorted(turns, key=lambda x: x.start)
 
@@ -235,9 +238,9 @@ def load_turn_transitions_for_task(
                         starting_before=turn_start,
                     )
                     if not prev_turn_id:
-                        raise ValueError(
-                            f"Could not find matching previous turn for: {line.strip()}"
-                        )
+                        logging.warning(f"Could not find matching previous turn for: {line.strip()}. Skipping Transition")
+                        continue
+
                 turn_id = Turn.id_builder(session_id, task_id, speaker, turn_start, turn_end)
                 
                 if turn_id not in Turn._all_turns:

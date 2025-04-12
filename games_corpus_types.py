@@ -83,8 +83,8 @@ class Turn:
     task_id: int
     ipus: List[IPU]
     speaker: str
-    start: float = field(init=False)
-    end: float = field(init=False)
+    start: float 
+    end: float 
     duration: float = field(init=False)
     text: str = field(init=False)
     num_words: int = field(init=False)
@@ -110,8 +110,6 @@ class Turn:
         if not self.ipus:
             raise ValueError("IPUs list cannot be empty")
         
-        self.start = self.ipus[0].start
-        self.end = self.ipus[-1].end
         self.turn_id = Turn.id_builder(self.session_id, self.task_id, self.speaker, self.start, self.end)
         
         # Register this turn
