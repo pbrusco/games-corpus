@@ -53,14 +53,14 @@ def load_tasks_info(tasks_file, batch):
     return tasks_info
 
 
-def find_interlocutor_previous_ipu(ipus, starting_before=None):
-    """Find the most recent IPU before the given timestamp"""
-    if not ipus:
+def find_interlocutor_previous_turn(turns, starting_before=None):
+    """Find the most recent turn before the given timestamp"""
+    if not turns:
         return None
 
-    for ipu in reversed(ipus):
-        if ipu.start <= starting_before:
-            return ipu
+    for turn in reversed(turns):
+        if turn.start <= starting_before:
+            return turn
 
     return None
 
@@ -86,7 +86,7 @@ def get_speaker_and_suffixes(batch):
         raise ValueError("Unknown batch number: {}".format(batch))
 
 
-def load_turn_transitions_for_task(
+def load_turns_for_task(
     session_id: int,
     task_id: int,
     turns_folder: Dict[str, Path],
@@ -94,13 +94,12 @@ def load_turn_transitions_for_task(
     ipus: List[IPU],
     task_boundaries: tuple[int, int, int, int],
 ) -> List[TurnTransition]:
-    transitions = []
     turns = []
 
     # Sort IPUs by start time for efficient lookup
     ipus = sorted(ipus, key=lambda x: x.start) if ipus else []
     if not ipus:
-        return transitions
+        return turns
 
     task_start = task_boundaries[0]
     task_end = task_boundaries[1]
@@ -139,9 +138,6 @@ def load_turn_transitions_for_task(
                     if turn_end < task_start:
                         continue
 
-                    assert speaker in ["A", "B"]
-                    interlocutor = "B" if speaker == "A" else "A"
-
                     # Skip silence markers
                     if label == "#":
                         continue
@@ -155,41 +151,6 @@ def load_turn_transitions_for_task(
                         )
                         continue
 
-                    starting_turn_ipu = turn_ipus[0]
-
-                    if label in ["L", "L-SIM", "N", "N-SIM", "A"]:
-                        logging.debug("Skipping undefined turn transitions")
-                        continue
-
-                    if (
-                        label == TurnTransitionType.SIMULTANEOUS_START.value
-                        or label == TurnTransitionType.FIRST_TURN.value
-                    ):
-                        prev_turn_ipu = None
-                    else:
-                        prev_turn_ipu = find_interlocutor_previous_ipu(
-                            ipus_by_speaker[interlocutor],
-                            starting_before=turn_start,
-                        )
-                        if not prev_turn_ipu:
-                            raise ValueError(
-                                f"Could not find matching previous IPUs for turn: {line.strip()}"
-                            )
-
-                    if starting_turn_ipu:
-                        transition = TurnTransition(
-                            label=label,
-                            ipu_from=prev_turn_ipu,
-                            ipu_to=starting_turn_ipu,
-                            turn_from="<TODO>",
-                            turn_to="<TODO>",
-                        )
-                        transitions.append(transition)
-                    else:
-                        raise ValueError(
-                            f"Could not find matching starting IPUs for turn: {line.strip()}"
-                        )
-
                     turn = Turn(
                         ipus=turn_ipus,
                         speaker=speaker,
@@ -200,9 +161,115 @@ def load_turn_transitions_for_task(
             logging.error(f"Error processing turns file {turns_file_id}: {e}")
             continue
 
-    return sorted(turns, key=lambda x: x.ipus[0].start), sorted(
-        transitions, key=lambda x: x.ipu_to.start
-    )
+    return sorted(turns, key=lambda x: x.ipus[0].start)
+
+
+def load_turn_transitions_for_task(
+    session_id: int,
+    task_id: int,
+    turns_folder: Dict[str, Path],
+    batch: int,
+    turns: List[IPU],
+    task_boundaries: tuple[int, int, int, int],
+) -> List[TurnTransition]:
+    transitions = []
+
+    # Sort IPUs by start time for efficient lookup
+    if not turns:
+        return transitions
+
+    task_start = task_boundaries[0]
+    task_end = task_boundaries[1]
+
+    # Create lookup dictionary for IPUs by speaker
+    turns_by_speaker = {}
+    for turn in turns:
+        if turn.speaker not in turns_by_speaker:
+            turns_by_speaker[turn.speaker] = []
+        turns_by_speaker[turn.speaker].append(turn)
+
+    # Process each speaker's turns file
+    for speaker, speaker_suffix in get_speaker_and_suffixes(batch):
+        turns_file_id = (
+            f"s{session_id:02d}.objects.1.{speaker_suffix}.turns"
+            if batch == 1
+            else f"s{session_id:02d}.objects.{task_id:02d}.turns.{speaker_suffix}.turns"
+        )
+        turns_file = turns_folder.get(turns_file_id)
+        if not turns_file:
+            logging.warning(f"Turn transitions file {turns_file_id} not found.")
+            continue
+
+        try:
+            with open(turns_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    parts = line.strip().split()
+                    if len(parts) != 3:
+                        continue
+
+                    turn_start, turn_end, label = parts
+                    turn_start, turn_end = float(turn_start), float(turn_end)
+
+                    if turn_start > task_end:
+                        break
+                    if turn_end < task_start:
+                        continue
+
+                    assert speaker in ["A", "B"]
+                    interlocutor = "B" if speaker == "A" else "A"
+
+                    # Skip silence markers
+                    if label == "#":
+                        continue
+
+                    turn = [
+                        t
+                        for t in turns_by_speaker[speaker]
+                        if t.start == turn_start and t.end == turn_end
+                    ][0]
+
+                    starting_turn_ipu = turn.ipus[0]
+
+                    if label in ["L", "L-SIM", "N", "N-SIM", "A"]:
+                        logging.debug("Skipping undefined turn transitions")
+                        continue
+
+                    if (
+                        label == TurnTransitionType.SIMULTANEOUS_START.value
+                        or label == TurnTransitionType.FIRST_TURN.value
+                    ):
+                        prev_turn_ipu = None
+                        prev_turn = None
+                    else:
+                        prev_turn = find_interlocutor_previous_turn(
+                            turns_by_speaker[interlocutor],
+                            starting_before=turn_start,
+                        )
+                        prev_turn_ipu = prev_turn.ipus[-1]
+                        if not prev_turn_ipu:
+                            raise ValueError(
+                                f"Could not find matching previous turn for: {line.strip()}"
+                            )
+
+                    if starting_turn_ipu:
+                        transition = TurnTransition(
+                            label=label,
+                            ipu_from=prev_turn_ipu,
+                            ipu_to=starting_turn_ipu,
+                            turn_from=prev_turn,
+                            turn_to=turn,
+                        )
+                        transitions.append(transition)
+                    else:
+                        raise ValueError(
+                            f"Could not find matching starting IPUs for turn: {line.strip()}"
+                        )
+
+        except Exception as e:
+            logging.error(f"Error processing turns file {turns_file_id}: {e}")
+            continue
+
+    return sorted(transitions, key=lambda x: x.ipu_to.start)
 
 
 def load_ipus_from_words(session_id, task_boundaries, words_folder):
