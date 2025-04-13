@@ -5,6 +5,7 @@ from typing import List, Optional, Dict, Set, Tuple
 from enum import Enum
 import logging
 
+
 class TurnTransitionType(Enum):
     # Regular transitions
     SMOOTH_SWITCH = "S"

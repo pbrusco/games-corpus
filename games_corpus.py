@@ -20,6 +20,7 @@ logging.basicConfig(
 @dataclass(frozen=True)
 class CorpusInfo:
     """Metadata about the corpus."""
+
     name: str = "UBA Games Corpus"
     short_name: str = "uba-games"
     description: str = "The UBA Games Corpus includes Spanish dialogues..."
@@ -31,19 +32,22 @@ class CorpusInfo:
 @dataclass(frozen=True)
 class CorpusFiles:
     """Mapping of corpus file identifiers to their filenames."""
-    files: Dict[str, str] = field(default_factory=lambda: {
-        "b1-dialogue-phrases": "b1-dialogue-phrases.zip",
-        "b1-dialogue-tasks": "b1-dialogue-tasks.zip",
-        "b1-dialogue-turns": "b1-dialogue-turns.zip",
-        "b1-dialogue-wavs": "b1-dialogue-wavs.zip",
-        "b1-dialogue-words": "b1-dialogue-words.zip",
-        "b2-dialogue-phrases": "b2-dialogue-phrases.zip",
-        "b2-dialogue-tasks": "b2-dialogue-tasks.zip",
-        "b2-dialogue-turns": "b2-dialogue-turns.zip",
-        "b2-dialogue-wavs": "b2-dialogue-wavs.zip",
-        "sessions-info": "sessions-info.csv",
-        "subjects-info": "subjects-info.csv",
-    })
+
+    files: Dict[str, str] = field(
+        default_factory=lambda: {
+            "b1-dialogue-phrases": "b1-dialogue-phrases.zip",
+            "b1-dialogue-tasks": "b1-dialogue-tasks.zip",
+            "b1-dialogue-turns": "b1-dialogue-turns.zip",
+            "b1-dialogue-wavs": "b1-dialogue-wavs.zip",
+            "b1-dialogue-words": "b1-dialogue-words.zip",
+            "b2-dialogue-phrases": "b2-dialogue-phrases.zip",
+            "b2-dialogue-tasks": "b2-dialogue-tasks.zip",
+            "b2-dialogue-turns": "b2-dialogue-turns.zip",
+            "b2-dialogue-wavs": "b2-dialogue-wavs.zip",
+            "sessions-info": "sessions-info.csv",
+            "subjects-info": "subjects-info.csv",
+        }
+    )
 
 
 class CorpusConfig:
@@ -138,13 +142,13 @@ class SpanishGamesCorpusDialogues:
 
     def get_batch_config(self, batch: int) -> BatchConfig:
         """Get configuration for a specific batch.
-        
+
         Args:
             batch: Batch number to get configuration for
-            
+
         Returns:
             BatchConfig for the specified batch
-            
+
         Raises:
             ValueError: If batch number is not available
         """

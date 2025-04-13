@@ -32,7 +32,9 @@ def main():
         print(f"\nTurn transitions in task {task.task_id}:")
         print("-------------------------------------------")
         for transition in task.turn_transitions:
-            print(f"  {transition.label_type.name:20} | {transition.ipu_from} -> {transition.ipu_to}")
+            print(
+                f"  {transition.label_type.name:20} | {transition.ipu_from} -> {transition.ipu_to}"
+            )
         break
 
     ## Show an example of the turns inside a task:

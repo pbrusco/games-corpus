@@ -5,14 +5,15 @@ from games_corpus import (
     Session,
 )
 from games_corpus_types import (
-    Word, 
-    IPU, 
-    TurnTransition, 
+    Word,
+    IPU,
+    TurnTransition,
     Turn,
     TurnTransitionType,
 )
 
 from games_corpus_parsers import load_tasks_info
+
 
 @pytest.fixture
 def sample_task_file(tmp_path):
@@ -80,13 +81,13 @@ def sample_task(sample_ipus, sample_turns):
             TurnTransition(
                 label="X1",
                 turn_id_from=None,  # First turn has no previous turn
-                turn_id_to=sample_turns[0].turn_id
+                turn_id_to=sample_turns[0].turn_id,
             ),
             TurnTransition(
                 label="BC",
                 turn_id_from=sample_turns[0].turn_id,
-                turn_id_to=sample_turns[1].turn_id
-            )
+                turn_id_to=sample_turns[1].turn_id,
+            ),
         ],
         turns=sample_turns,
         ipus=sample_ipus,
@@ -120,7 +121,10 @@ class TestWord:
 
     def test_word_representation(self):
         word = Word(start=0.0, end=1.0, text="hello", speaker="A")
-        assert repr(word) == "Word(start=0.0, end=1.0, text='hello', speaker='A', duration=1.0)"
+        assert (
+            repr(word)
+            == "Word(start=0.0, end=1.0, text='hello', speaker='A', duration=1.0)"
+        )
 
 
 class TestIPU:
@@ -155,7 +159,11 @@ class TestTurnTransition:
         overlapped_turn = Turn(
             session_id=1,
             task_id=1,
-            ipu_ids=[IPU(words=[Word(start=0.5, end=1.5, text="overlap", speaker="B")]).ipu_id],
+            ipu_ids=[
+                IPU(
+                    words=[Word(start=0.5, end=1.5, text="overlap", speaker="B")]
+                ).ipu_id
+            ],
             speaker="B",
             start=0.5,
             end=1.5,
@@ -304,20 +312,20 @@ class TestSpanishGamesCorpusDialogues:
     def test_batch1_task_distribution(self):
         corpus = SpanishGamesCorpusDialogues()
         corpus.load(load_audio=False)
-        
+
         dev_tasks = list(corpus.dev_tasks(batch=1))
         held_out_tasks = list(corpus.held_out_tasks(batch=1))
-        
+
         assert len(dev_tasks) == 132, "Batch 1 dev tasks count mismatch"
         assert len(held_out_tasks) == 64, "Batch 1 eval tasks count mismatch"
 
     def test_batch2_task_distribution(self):
         corpus = SpanishGamesCorpusDialogues()
         corpus.load(load_audio=False)
-        
+
         dev_tasks = list(corpus.dev_tasks(batch=2))
         held_out_tasks = list(corpus.held_out_tasks(batch=2))
-        
+
         assert len(dev_tasks) == 172, "Batch 2 dev tasks count mismatch"
         assert len(held_out_tasks) == 47, "Batch 2 eval tasks count mismatch"
 
@@ -326,12 +334,30 @@ class TestSpanishGamesCorpusDialogues:
         corpus.load(load_audio=False)
 
         dev_labels = {
-            'BC': 565, 'BC_O': 57, 'BI': 61, 'I': 151, 'O': 491,
-            'PI': 196, 'S': 1466, 'X1': 126, 'X2': 464, 'X2_O': 48, 'X3': 352
+            "BC": 565,
+            "BC_O": 57,
+            "BI": 61,
+            "I": 151,
+            "O": 491,
+            "PI": 196,
+            "S": 1466,
+            "X1": 126,
+            "X2": 464,
+            "X2_O": 48,
+            "X3": 352,
         }
         eval_labels = {
-            'BC': 278, 'BC_O': 29, 'BI': 22, 'I': 41, 'O': 173,
-            'PI': 60, 'S': 577, 'X1': 61, 'X2': 232, 'X2_O': 24, 'X3': 136
+            "BC": 278,
+            "BC_O": 29,
+            "BI": 22,
+            "I": 41,
+            "O": 173,
+            "PI": 60,
+            "S": 577,
+            "X1": 61,
+            "X2": 232,
+            "X2_O": 24,
+            "X3": 136,
         }
 
         self._verify_label_distribution(corpus, 1, dev_labels, eval_labels)
@@ -341,12 +367,30 @@ class TestSpanishGamesCorpusDialogues:
         corpus.load(load_audio=False)
 
         dev_labels = {
-            'BC': 555, 'BC_O': 243, 'BI': 118, 'I': 283, 'O': 767,
-            'PI': 161, 'S': 1804, 'X1': 176, 'X2': 497, 'X2_O': 104, 'X3': 324
+            "BC": 555,
+            "BC_O": 243,
+            "BI": 118,
+            "I": 283,
+            "O": 767,
+            "PI": 161,
+            "S": 1804,
+            "X1": 176,
+            "X2": 497,
+            "X2_O": 104,
+            "X3": 324,
         }
         eval_labels = {
-            'BC': 157, 'BC_O': 46, 'BI': 43, 'I': 79, 'O': 193,
-            'PI': 34, 'S': 650, 'X1': 48, 'X2': 109, 'X2_O': 31, 'X3': 93
+            "BC": 157,
+            "BC_O": 46,
+            "BI": 43,
+            "I": 79,
+            "O": 193,
+            "PI": 34,
+            "S": 650,
+            "X1": 48,
+            "X2": 109,
+            "X2_O": 31,
+            "X3": 93,
         }
 
         self._verify_label_distribution(corpus, 2, dev_labels, eval_labels)
@@ -359,10 +403,14 @@ class TestSpanishGamesCorpusDialogues:
         eval_counts = self._count_transition_labels([t for t in eval_tasks])
 
         for label, count in dev_expected.items():
-            assert dev_counts.get(label, 0) == count, f"Batch {batch} dev {label} count mismatch"
-        
+            assert (
+                dev_counts.get(label, 0) == count
+            ), f"Batch {batch} dev {label} count mismatch"
+
         for label, count in eval_expected.items():
-            assert eval_counts.get(label, 0) == count, f"Batch {batch} eval {label} count mismatch"
+            assert (
+                eval_counts.get(label, 0) == count
+            ), f"Batch {batch} eval {label} count mismatch"
 
     def _count_transition_labels(self, tasks):
         counts = {}
