@@ -2,25 +2,49 @@
 
 A Python library for working with the UBA Games Corpus, a collection of Spanish dialogues from task-oriented, collaborative interactions.
 
-## Overview
-
-The UBA Games Corpus contains recorded dialogues between native speakers of Argentine Spanish (ages 19-59) engaged in collaborative game tasks. The corpus includes:
-
-- Transcribed dialogues with word-level timing
-- Task metadata and scores
-- Turn-taking annotations
-- Audio recordings (optional when loading the corpus)
-
 ## Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/pbrusco/games-corpus.git
-cd games-corpus
-
-# Install dependencies
 pip install -r requirements.txt
 ```
+
+## Examples
+
+The repository includes two example scripts:
+
+### Basic Usage
+Run the basic example to see how to load and process the corpus:
+
+```bash
+python example.py
+```
+
+This shows:
+- Loading the corpus
+- Accessing sessions and tasks 
+- Examining turn transitions
+- Basic corpus statistics
+
+### Audio Analysis
+Run the audio visualization example:
+
+```bash
+python example_with_audio.py
+```
+
+This demonstrates:
+- Loading and processing audio files
+- Visualizing waveforms and spectrograms
+- Analyzing turn transitions with audio
+- Stereo visualization of conversations between speakers
+- Audio feature extraction (MFCCs, spectral centroid, etc.)
+
+## Requirements
+- librosa
+- matplotlib
+- numpy
+- soundfile
+- pytest (for tests)
 
 ## Usage
 
