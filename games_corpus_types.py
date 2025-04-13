@@ -3,11 +3,10 @@
 from dataclasses import dataclass, field
 from typing import List, Optional, Dict, Set, Tuple
 from enum import Enum
-
+import logging
 
 class TurnTransitionType(Enum):
     # Regular transitions
-    HOLD_TURN = "H"
     SMOOTH_SWITCH = "S"
     BACKCHANNEL = "BC"
     PAUSED_INTERRUPTION = "PI"
