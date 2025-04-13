@@ -10,52 +10,68 @@ def plot_audio_and_features(y, sr, title="", turns=None, task_start=0):
     # Calculate features
     mfcc = librosa.feature.mfcc(y=y, sr=sr)
     mel_spec = librosa.feature.melspectrogram(y=y, sr=sr)
-    
+
     # Create subplots
     fig, axs = plt.subplots(3, 1, figsize=(12, 8))
     fig.suptitle(title)
-    
+
     # Plot waveform with turn boundaries
     librosa.display.waveshow(y, sr=sr, ax=axs[0])
-    axs[0].set_title('Waveform')
-    
+    axs[0].set_title("Waveform")
+
     # Add turn boundaries if provided
     if turns:
-        colors = ['r', 'g', 'b', 'c', 'm', 'y']  # Cycle through these colors
+        colors = ["r", "g", "b", "c", "m", "y"]  # Cycle through these colors
         for i, turn in enumerate(turns):
             # Convert turn times to plot coordinates
-            turn_start = (turn.start - task_start) 
-            turn_end = (turn.end - task_start)
+            turn_start = turn.start - task_start
+            turn_end = turn.end - task_start
             color = colors[i % len(colors)]
-            
+
             # Add vertical lines for turn boundaries in all subplots
             for ax in axs:
-                ax.axvline(x=turn_start, color=color, linestyle='--', alpha=0.5)
-                ax.axvline(x=turn_end, color=color, linestyle='--', alpha=0.5)
-                
-            # Add turn label
+                ax.axvline(x=turn_start, color=color, linestyle="--", alpha=0.5)
+                ax.axvline(x=turn_end, color=color, linestyle="--", alpha=0.5)
+
+            # Add turn label and transcript
             mid_point = (turn_start + turn_end) / 2
-            axs[0].text(mid_point, ax.get_ylim()[1], f'Turn {i+1}', 
-                       color=color, ha='center', va='bottom')
-    
+            # Get turn text (remove the metadata part)
+            turn_text = " ".join([ipu.text for ipu in turn.ipus])
+            # Add turn number at the top
+            axs[0].text(
+                mid_point,
+                ax.get_ylim()[1],
+                f"Turn {i+1}",
+                color=color,
+                ha="center",
+                va="bottom",
+            )
+            # Add transcript below the waveform
+            axs[0].text(
+                mid_point,
+                ax.get_ylim()[0],
+                turn_text,
+                color=color,
+                ha="center",
+                va="top",
+                rotation=45,
+                fontsize=8,
+            )
+
     # Plot mel spectrogram
     librosa.display.specshow(
         librosa.power_to_db(mel_spec, ref=np.max),
-        y_axis='mel', 
-        x_axis='time',
+        y_axis="mel",
+        x_axis="time",
         sr=sr,
-        ax=axs[1]
+        ax=axs[1],
     )
-    axs[1].set_title('Mel spectrogram')
-    
+    axs[1].set_title("Mel spectrogram")
+
     # Plot MFCCs
-    librosa.display.specshow(
-        mfcc, 
-        x_axis='time',
-        ax=axs[2]
-    )
-    axs[2].set_title('MFCC')
-    
+    librosa.display.specshow(mfcc, x_axis="time", ax=axs[2])
+    axs[2].set_title("MFCC")
+
     plt.tight_layout()
     return fig
 
@@ -67,7 +83,7 @@ def main():
 
     # Get the first development task from batch 1
     task = next(corpus.dev_tasks(batch=1))
-    
+
     print(f"\n=== Analyzing Task {task.task_id} (Session {task.session_id}) ===")
     print(f"Describer: {task.describer}")
     print(f"Target image: {task.target}")
@@ -79,34 +95,34 @@ def main():
     for speaker, wav_path in task.wavs.items():
         print(f"\nProcessing audio for speaker {speaker}")
         print(f"Audio file: {wav_path}")
-        
+
         # Load the audio file
         y, sr = librosa.load(wav_path)
-        
+
         # Get audio segment for this specific task
         start_sample = int(task.start * sr)
         end_sample = int((task.start + task.duration) * sr)
         y_task = y[start_sample:end_sample]
-        
+
         # Extract some basic features
         mfccs = librosa.feature.mfcc(y=y_task, sr=sr, n_mfcc=13)
         spectral_centroid = librosa.feature.spectral_centroid(y=y_task, sr=sr)
         zero_crossing_rate = librosa.feature.zero_crossing_rate(y_task)
-        
+
         print(f"Sample rate: {sr} Hz")
         print(f"Duration: {len(y_task)/sr:.2f}s")
         print(f"MFCCs shape: {mfccs.shape}")
         print(f"Mean spectral centroid: {np.mean(spectral_centroid):.2f}")
         print(f"Mean zero crossing rate: {np.mean(zero_crossing_rate):.2f}")
-        
+
         # Plot audio and features
         speaker_turns = [t for t in task.turns if t.speaker == speaker]
         fig = plot_audio_and_features(
-            y_task, 
-            sr, 
+            y_task,
+            sr,
             f"Task {task.task_id} - Speaker {speaker}\nSession {task.session_id} ({task.describer} describing {task.target})",
             turns=speaker_turns,
-            task_start=task.start
+            task_start=task.start,
         )
         plt.show()
 
@@ -119,7 +135,7 @@ def main():
                 turn_start_sample = int((turn.start - task.start) * sr)
                 turn_end_sample = int((turn.end - task.start) * sr)
                 y_turn = y_task[turn_start_sample:turn_end_sample]
-                
+
                 # Calculate energy
                 energy = np.sum(y_turn**2)
                 print(f"Turn energy: {energy:.2f}")
