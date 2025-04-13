@@ -301,6 +301,76 @@ class TestSpanishGamesCorpusDialogues:
         assert len(batch1_sessions) == 1
         assert 1 in batch1_sessions
 
+    def test_batch1_task_distribution(self):
+        corpus = SpanishGamesCorpusDialogues()
+        corpus.load(load_audio=False)
+        
+        dev_tasks = list(corpus.dev_tasks(batch=1))
+        held_out_tasks = list(corpus.held_out_tasks(batch=1))
+        
+        assert len(dev_tasks) == 132, "Batch 1 dev tasks count mismatch"
+        assert len(held_out_tasks) == 64, "Batch 1 eval tasks count mismatch"
+
+    def test_batch2_task_distribution(self):
+        corpus = SpanishGamesCorpusDialogues()
+        corpus.load(load_audio=False)
+        
+        dev_tasks = list(corpus.dev_tasks(batch=2))
+        held_out_tasks = list(corpus.held_out_tasks(batch=2))
+        
+        assert len(dev_tasks) == 172, "Batch 2 dev tasks count mismatch"
+        assert len(held_out_tasks) == 47, "Batch 2 eval tasks count mismatch"
+
+    def test_batch1_transition_label_distribution(self):
+        corpus = SpanishGamesCorpusDialogues()
+        corpus.load(load_audio=False)
+
+        dev_labels = {
+            'BC': 565, 'BC_O': 57, 'BI': 61, 'I': 151, 'O': 491,
+            'PI': 196, 'S': 1466, 'X1': 126, 'X2': 464, 'X2_O': 48, 'X3': 352
+        }
+        eval_labels = {
+            'BC': 278, 'BC_O': 29, 'BI': 22, 'I': 41, 'O': 173,
+            'PI': 60, 'S': 577, 'X1': 61, 'X2': 232, 'X2_O': 24, 'X3': 136
+        }
+
+        self._verify_label_distribution(corpus, 1, dev_labels, eval_labels)
+
+    def test_batch2_transition_label_distribution(self):
+        corpus = SpanishGamesCorpusDialogues()
+        corpus.load(load_audio=False)
+
+        dev_labels = {
+            'BC': 555, 'BC_O': 243, 'BI': 118, 'I': 283, 'O': 767,
+            'PI': 161, 'S': 1804, 'X1': 176, 'X2': 497, 'X2_O': 104, 'X3': 324
+        }
+        eval_labels = {
+            'BC': 157, 'BC_O': 46, 'BI': 43, 'I': 79, 'O': 193,
+            'PI': 34, 'S': 650, 'X1': 48, 'X2': 109, 'X2_O': 31, 'X3': 93
+        }
+
+        self._verify_label_distribution(corpus, 2, dev_labels, eval_labels)
+
+    def _verify_label_distribution(self, corpus, batch, dev_expected, eval_expected):
+        dev_tasks = list(corpus.dev_tasks(batch=batch))
+        eval_tasks = list(corpus.held_out_tasks(batch=batch))
+
+        dev_counts = self._count_transition_labels([t for t in dev_tasks])
+        eval_counts = self._count_transition_labels([t for t in eval_tasks])
+
+        for label, count in dev_expected.items():
+            assert dev_counts.get(label, 0) == count, f"Batch {batch} dev {label} count mismatch"
+        
+        for label, count in eval_expected.items():
+            assert eval_counts.get(label, 0) == count, f"Batch {batch} eval {label} count mismatch"
+
+    def _count_transition_labels(self, tasks):
+        counts = {}
+        for task in tasks:
+            for trans in task.turn_transitions:
+                counts[trans.label] = counts.get(trans.label, 0) + 1
+        return counts
+
 
 if __name__ == "__main__":
     pytest.main([__file__])

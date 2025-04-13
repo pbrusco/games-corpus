@@ -7,6 +7,8 @@ import zipfile
 import requests
 import pandas as pd
 import time
+from dataclasses import dataclass, field
+from typing import Dict, Set
 import games_corpus_parsers
 from games_corpus_types import Task, Session, BatchConfig
 
@@ -15,19 +17,21 @@ logging.basicConfig(
 )
 
 
-class CorpusConfig:
-    """Configuration for the UBA Games Corpus"""
+@dataclass(frozen=True)
+class CorpusInfo:
+    """Metadata about the corpus."""
+    name: str = "UBA Games Corpus"
+    short_name: str = "uba-games"
+    description: str = "The UBA Games Corpus includes Spanish dialogues..."
+    language: str = "Spanish"
+    participants: str = "Native speakers of Argentine Spanish"
+    age_range: str = "19-59 years"
 
-    CORPUS_INFO = {
-        "name": "UBA Games Corpus",
-        "short_name": "uba-games",
-        "description": "The UBA Games Corpus includes Spanish dialogues...",
-        "language": "Spanish",
-        "participants": "Native speakers of Argentine Spanish",
-        "age_range": "19-59 years",
-    }
 
-    CORPUS_FILES = {
+@dataclass(frozen=True)
+class CorpusFiles:
+    """Mapping of corpus file identifiers to their filenames."""
+    files: Dict[str, str] = field(default_factory=lambda: {
         "b1-dialogue-phrases": "b1-dialogue-phrases.zip",
         "b1-dialogue-tasks": "b1-dialogue-tasks.zip",
         "b1-dialogue-turns": "b1-dialogue-turns.zip",
@@ -39,10 +43,16 @@ class CorpusConfig:
         "b2-dialogue-wavs": "b2-dialogue-wavs.zip",
         "sessions-info": "sessions-info.csv",
         "subjects-info": "subjects-info.csv",
-    }
+    })
 
-    DEFAULT_URL = "https://ri.conicet.gov.ar/bitstream/handle/11336/191235/{filename}?sequence=29&isAllowed=y"
-    BANNED_SESSIONS = {28}
+
+class CorpusConfig:
+    """Configuration for the UBA Games Corpus"""
+
+    CORPUS_INFO: CorpusInfo = CorpusInfo()
+    CORPUS_FILES: CorpusFiles = CorpusFiles()
+    DEFAULT_URL: str = "https://ri.conicet.gov.ar/bitstream/handle/11336/191235/{filename}?sequence=29&isAllowed=y"
+    BANNED_SESSIONS: Set[int] = {28}
 
 
 class CorpusDownloader:
@@ -111,7 +121,7 @@ class SpanishGamesCorpusDialogues:
         self.config = CorpusConfig()
         self.corpus_url = self.config.DEFAULT_URL
         self.corpus_local_path = None
-        self.corpus_files = self.config.CORPUS_FILES.copy()
+        self.corpus_files = self.config.CORPUS_FILES.files.copy()
         self.batch_configs = {
             1: BatchConfig.create_batch1_config(),
             2: BatchConfig.create_batch2_config(),
@@ -120,11 +130,11 @@ class SpanishGamesCorpusDialogues:
 
     @property
     def name(self) -> str:
-        return self.config.CORPUS_INFO["name"]
+        return self.config.CORPUS_INFO.name
 
     @property
     def description(self) -> str:
-        return self.config.CORPUS_INFO["description"]
+        return self.config.CORPUS_INFO.description
 
     def get_batch_config(self, batch: int) -> BatchConfig:
         if batch not in self.batch_configs:
@@ -145,7 +155,7 @@ class SpanishGamesCorpusDialogues:
         self.corpus_local_path = (
             Path(local_path)
             if local_path
-            else Path(f"./.{self.config.CORPUS_INFO['short_name']}/")
+            else Path(f"./.{self.config.CORPUS_INFO.short_name}/")
         )
         self.corpus_local_path.mkdir(parents=True, exist_ok=True)
 
