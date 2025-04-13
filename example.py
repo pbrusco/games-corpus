@@ -30,16 +30,9 @@ def main():
     # Example 3: Access turn transitions
     for task in corpus.dev_tasks(batch=1):
         print(f"\nTurn transitions in task {task.task_id}:")
+        print("-------------------------------------------")
         for transition in task.turn_transitions:
-            print(f"  {transition.label}: {transition.ipu_from} -> {transition.ipu_to}")
-        break
-
-    for task in corpus.dev_tasks(batch=1):
-        print(f"\nTurn transitions in task {task.task_id}:")
-        for transition in task.turn_transitions:
-            print(
-                f"  {transition.label}: {transition.turn_from} -> {transition.turn_to}"
-            )
+            print(f"  {transition.label_type.name:20} | {transition.ipu_from} -> {transition.ipu_to}")
         break
 
     ## Show an example of the turns inside a task:

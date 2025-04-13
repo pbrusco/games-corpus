@@ -137,8 +137,21 @@ class SpanishGamesCorpusDialogues:
         return self.config.CORPUS_INFO.description
 
     def get_batch_config(self, batch: int) -> BatchConfig:
+        """Get configuration for a specific batch.
+        
+        Args:
+            batch: Batch number to get configuration for
+            
+        Returns:
+            BatchConfig for the specified batch
+            
+        Raises:
+            ValueError: If batch number is not available
+        """
         if batch not in self.batch_configs:
-            raise ValueError(f"No configuration available for batch {batch}")
+            raise ValueError(
+                f"Invalid batch number: {batch}. Available batches are: {list(self.batch_configs.keys())}"
+            )
         return self.batch_configs[batch]
 
     def load(self, url=None, load_audio=False, local_path=None):
