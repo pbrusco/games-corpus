@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def plot_audio_and_features(y, sr, title=""):
+def plot_audio_and_features(y, sr, title="", turns=None, task_start=0):
     """Helper function to visualize audio and its features"""
     # Calculate features
     mfcc = librosa.feature.mfcc(y=y, sr=sr)
@@ -15,9 +15,28 @@ def plot_audio_and_features(y, sr, title=""):
     fig, axs = plt.subplots(3, 1, figsize=(12, 8))
     fig.suptitle(title)
     
-    # Plot waveform
+    # Plot waveform with turn boundaries
     librosa.display.waveshow(y, sr=sr, ax=axs[0])
     axs[0].set_title('Waveform')
+    
+    # Add turn boundaries if provided
+    if turns:
+        colors = ['r', 'g', 'b', 'c', 'm', 'y']  # Cycle through these colors
+        for i, turn in enumerate(turns):
+            # Convert turn times to plot coordinates
+            turn_start = (turn.start - task_start) 
+            turn_end = (turn.end - task_start)
+            color = colors[i % len(colors)]
+            
+            # Add vertical lines for turn boundaries in all subplots
+            for ax in axs:
+                ax.axvline(x=turn_start, color=color, linestyle='--', alpha=0.5)
+                ax.axvline(x=turn_end, color=color, linestyle='--', alpha=0.5)
+                
+            # Add turn label
+            mid_point = (turn_start + turn_end) / 2
+            axs[0].text(mid_point, ax.get_ylim()[1], f'Turn {i+1}', 
+                       color=color, ha='center', va='bottom')
     
     # Plot mel spectrogram
     librosa.display.specshow(
@@ -81,10 +100,13 @@ def main():
         print(f"Mean zero crossing rate: {np.mean(zero_crossing_rate):.2f}")
         
         # Plot audio and features
+        speaker_turns = [t for t in task.turns if t.speaker == speaker]
         fig = plot_audio_and_features(
             y_task, 
             sr, 
-            f"Task {task.task_id} - Speaker {speaker}\nSession {task.session_id} ({task.describer} describing {task.target})"
+            f"Task {task.task_id} - Speaker {speaker}\nSession {task.session_id} ({task.describer} describing {task.target})",
+            turns=speaker_turns,
+            task_start=task.start
         )
         plt.show()
 
