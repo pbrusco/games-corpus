@@ -79,6 +79,7 @@ def sample_task(sample_ipus, sample_turns):
         turn_transitions=[
             TurnTransition(
                 label="X1",
+                turn_id_from=None,  # First turn has no previous turn
                 turn_id_to=sample_turns[0].turn_id
             ),
             TurnTransition(
@@ -104,7 +105,7 @@ class TestTurnTransitionType:
             TurnTransitionType.from_string("INVALID")
 
     def test_str_representation(self):
-        assert str(TurnTransitionType.HOLD_TURN) == "Transition H"
+        assert str(TurnTransitionType.SMOOTH_SWITCH) == "Transition S"
         assert str(TurnTransitionType.BACKCHANNEL) == "Transition BC"
 
 
@@ -145,7 +146,7 @@ class TestTurnTransition:
             turn_id_from=sample_turns[0].turn_id,
             turn_id_to=sample_turns[1].turn_id,
         )
-        assert transition.label_type == TurnTransitionType.HOLD_TURN
+        assert transition.label_type == TurnTransitionType.BACKCHANNEL
         assert transition.transition_duration == 1.0
         assert not transition.overlapped_transition
 
@@ -200,7 +201,7 @@ class TestTask:
         assert sample_task.target == "img1.jpg"
         assert sample_task.score == 1.0
         assert sample_task.time_used == 10.0
-        assert len(sample_task.turn_transitions) == 1
+        assert len(sample_task.turn_transitions) == 2
         assert len(sample_task.ipus) == 2
         assert len(sample_task.wavs) == 2
         assert sample_task.duration == 10.0
