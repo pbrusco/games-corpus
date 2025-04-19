@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+import math
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 GAMES_CORPUS_PATH = REPO_ROOT / "games-corpus"
@@ -21,7 +22,7 @@ from games_corpus_types import (
     TurnTransitionType,
 )
 
-from games_corpus_parsers import load_tasks_info
+from games_corpus_parsers import load_tasks_info, load_ipus_from_words, load_turns_for_task
 
 
 @pytest.fixture
@@ -81,6 +82,8 @@ def sample_task(sample_ipus, sample_turns):
     task = Task(
         task_id="01",
         session_id=1,
+        start=0.0,
+        duration=10.0,
         images=["img1.jpg", "img2.jpg"],
         describer="A",
         target="img1.jpg",
@@ -259,6 +262,8 @@ class TestTask:
         task = Task(
             task_id="02",
             session_id=1,
+            start=0.0,
+            duration=10.0,
             images=["img1.jpg"],
             describer="A",
             target="img1.jpg",
@@ -277,6 +282,8 @@ class TestTask:
         task = Task(
             task_id="03",
             session_id=1,
+            start=0.0,
+            duration=10.0,
             images=["img1.jpg"],
             describer="A",
             target="img1.jpg",
@@ -427,6 +434,69 @@ class TestSpanishGamesCorpusDialogues:
             for trans in task.turn_transitions:
                 counts[trans.label] = counts.get(trans.label, 0) + 1
         return counts
+
+
+    def test_raw_task_start(self):
+        """Verify task start time in raw .tasks file matches expected value."""
+        corpus = SpanishGamesCorpusDialogues()
+        corpus.load(load_audio=False)
+        
+        SESSION_ID = 3
+        TASK_ID = 2
+        EXPECTED_START = 34.949
+        
+        tasks_mapping = corpus.corpus_raw["b1-dialogue-tasks"]
+        task_key = f"s{SESSION_ID:02d}.objects.1.tasks"
+        alt_key = f"s{SESSION_ID}.objects.1.tasks"
+        
+        tasks_file = tasks_mapping.get(task_key) or tasks_mapping.get(alt_key)
+        tasks_info = load_tasks_info(tasks_file, batch=1)
+        raw_start = next(t["Start"] for t in tasks_info if t["Task ID"] == TASK_ID)
+        assert math.isclose(raw_start, EXPECTED_START, abs_tol=1e-6)
+
+    def test_task_start_preserved(self):
+        """Verify task start time is preserved when loaded by the tool."""
+        SESSION_ID = 3
+        TASK_ID = 2
+        EXPECTED_START = 34.949
+        
+        corpus = SpanishGamesCorpusDialogues()
+        corpus.load(load_audio=False)
+
+        task = next(t for t in corpus.sessions[SESSION_ID].tasks if t.task_id == TASK_ID)
+        assert math.isclose(task.start, EXPECTED_START, abs_tol=1e-6)
+
+    def test_first_B_turn_included(self):
+        """Verify first B turn (37.900-41.897s) is included in task turns."""
+        corpus = SpanishGamesCorpusDialogues()
+        corpus.load(load_audio=False)
+        
+        SESSION_ID = 3
+        TASK_ID = 2
+        FIRST_TURN_B = (37.900195, 41.897241)  
+
+        task = next(t for t in corpus.sessions[SESSION_ID].tasks if t.task_id == TASK_ID)
+        task_end = task.start + task.duration
+
+        ipus = load_ipus_from_words(
+            SESSION_ID, (task.start, task_end), corpus.corpus_raw["b1-dialogue-words"]
+        )
+
+        turns_B = load_turns_for_task(
+            SESSION_ID,
+            TASK_ID,
+            turns_folder=corpus.corpus_raw["b1-dialogue-turns"],
+            batch=1,
+            ipus=ipus,
+            task_boundaries=(task.start, task_end, None, None),
+        )
+
+        assert any(
+            turn.speaker == "B"
+            and math.isclose(turn.start, FIRST_TURN_B[0], abs_tol=1e-6)
+            and math.isclose(turn.end, FIRST_TURN_B[1], abs_tol=1e-6)
+            for turn in turns_B
+        )
 
 
 if __name__ == "__main__":
