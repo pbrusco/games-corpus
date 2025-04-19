@@ -1,3 +1,12 @@
+import sys
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+GAMES_CORPUS_PATH = REPO_ROOT / "games-corpus"
+
+if str(GAMES_CORPUS_PATH) not in sys.path:
+    sys.path.append(str(GAMES_CORPUS_PATH))
+
 import pytest
 from games_corpus import (
     SpanishGamesCorpusDialogues,
