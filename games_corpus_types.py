@@ -204,14 +204,12 @@ class Task:
     turns: List["Turn"]
     ipus: List["IPU"]
     wavs: Dict[str, str]
-    start: float = field(init=False)
-    duration: float = field(init=False)
+    start: float
+    duration: float
     text: str = field(init=False)
 
     def __post_init__(self):
         self.score = float(self.score)
-        self.start = self.ipus[0].start if self.ipus else 0
-        self.duration = float(self.time_used)
         self.ipus = sorted(self.ipus, key=lambda x: x.start) if self.ipus else []
         self.text = self._build_text()
 

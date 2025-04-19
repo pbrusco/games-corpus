@@ -322,6 +322,8 @@ class SpanishGamesCorpusDialogues:
 
             task_obj = Task(
                 task_id=task_id,
+                start=info["Start"],
+                duration=info["End"] - info["Start"],
                 session_id=session_id,
                 images=info["Images"],
                 describer=info["Describer"],
@@ -334,5 +336,6 @@ class SpanishGamesCorpusDialogues:
                 turns=turns,
             )
             tasks.append(task_obj)
+
 
         return tasks
