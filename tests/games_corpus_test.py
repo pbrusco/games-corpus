@@ -108,6 +108,11 @@ def sample_task(sample_ipus, sample_turns):
     return task
 
 
+def intersects(a, b):
+    """Check if two intervals (a and b) intersect."""
+    return not (a.end <= b.start or b.end <= a.start)
+
+
 class TestTurnTransitionType:
     def test_from_string_valid(self):
         assert TurnTransitionType.from_string("S") == TurnTransitionType.SMOOTH_SWITCH
@@ -210,6 +215,70 @@ class TestTurn:
     def test_get_turn_by_id(self, sample_turns):
         turn = sample_turns[0]
         assert Turn.get_turn_by_id(turn.turn_id) == turn
+
+    def test_turn_definition_correctness(self):
+        """Verify that turns follow the definition: maximal sequence of IPUs without interlocutor speech during silences."""
+        corpus = SpanishGamesCorpusDialogues()
+        corpus.load(load_audio=False)
+        
+        for session in corpus.sessions.values():
+            for task in session.tasks:
+                all_ipus = sorted(task.ipus, key=lambda x: x.start)
+                
+                for turn in task.turns:
+                    turn_ipus = sorted([IPU.get_ipu_by_id(ipu_id) for ipu_id in turn.ipu_ids], key=lambda x: x.start)
+                    if len(turn_ipus) <= 1:
+                        continue
+                        
+                    # Check each pair of consecutive IPUs in the turn
+                    for i in range(len(turn_ipus) - 1):
+                        current_ipu = turn_ipus[i]
+                        next_ipu = turn_ipus[i + 1]
+                        
+                        # Find any interlocutor IPUs between these two IPUs
+                        interlocutor_ipus = [
+                            ipu for ipu in all_ipus
+                            if ipu.speaker != turn.speaker
+                            and intersects(current_ipu, ipu)
+                        ]
+                        assert not interlocutor_ipus, (
+                            f"Found interlocutor IPUs between turn IPUs in "
+                            f"session {session.session_id}, task {task.task_id}, "
+                            f"turn {turn.turn_id}. Interlocutor IPUs: {interlocutor_ipus}"
+                        )
+
+    def test_no_consecutive_turns_same_speaker(self):
+        """Verify there are no consecutive turns from the same speaker with silence between them."""
+        corpus = SpanishGamesCorpusDialogues()
+        corpus.load(load_audio=False)
+        
+        for session in corpus.sessions.values():
+            for task in session.tasks:
+                turns = sorted(task.turns, key=lambda x: x.start)
+                
+                for i in range(len(turns) - 1):
+                    current_turn = turns[i]
+                    next_turn = turns[i + 1]
+                    
+                    # Skip if turns are from different speakers
+                    if current_turn.speaker != next_turn.speaker:
+                        continue
+                        
+                    # Find any IPUs between these two turns
+                    between_turn_ipus = [
+                        ipu for ipu in task.ipus
+                        if ipu.speaker != current_turn.speaker
+                        and intersects(current_turn, ipu)
+                    ]
+                    
+                    # If no interlocutor IPUs between turns, they should have been merged
+                    assert between_turn_ipus, (
+                        f"Found consecutive turns from speaker {current_turn.speaker} "
+                        f"without interlocutor speech between them in "
+                        f"session {session.session_id}, task {task.task_id}.\n"
+                        f"Turn 1: {current_turn} ({current_turn.start:.2f}-{current_turn.end:.2f})\n"
+                        f"Turn 2: {next_turn} ({next_turn.start:.2f}-{next_turn.end:.2f})"
+                    )
 
 
 class TestTask:
