@@ -192,6 +192,27 @@ class TestTurnTransition:
         )
         assert transition.overlapped_transition
 
+    def test_x3_transition_timing(self):
+        """Verify that X3 transitions are always less than 210ms away from an interlocutor turn start."""
+        MAX_X3_GAP = 0.210  # 210ms
+        corpus = SpanishGamesCorpusDialogues()
+        corpus.load(load_audio=False)
+
+        for session in corpus.sessions.values():
+            for task in session.tasks:
+                # Get all X3 transitions
+                x3_transitions = [t for t in task.turn_transitions if t.label == "X3"]
+                for trans in x3_transitions:
+                    to_turn = Turn.get_turn_by_id(trans.turn_id_to)
+                    interlocutor_previous_turn = [
+                        t for t in task.turns
+                        if t.speaker != to_turn.speaker
+                        and t.start <= to_turn.start][-1]
+                    
+                    gap = to_turn.start - interlocutor_previous_turn.start
+                    assert gap <= MAX_X3_GAP, f"X3 transition gap exceeds 210ms ({to_turn.start} vs {interlocutor_previous_turn.start})"
+
+
 
 class TestTurn:
     def test_turn_initialization(self, sample_turns):
