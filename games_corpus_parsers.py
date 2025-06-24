@@ -122,7 +122,7 @@ def load_turns_for_task(
         turns_file_id = (
             f"s{session_id:02d}.objects.1.{speaker_suffix}.turns"
             if batch == 1
-            else f"s{session_id:02d}.objects.{task_id:02d}.turns.{speaker_suffix}.turns"
+            else f"s{session_id:02d}.objects.{task_id:02d}.{speaker_suffix}.turns"
         )
         turns_file = turns_folder.get(turns_file_id)
         if not turns_file:
@@ -196,7 +196,7 @@ def load_turn_transitions_for_task(
         turns_file_id = (
             f"s{session_id:02d}.objects.1.{speaker_suffix}.turns"
             if batch == 1
-            else f"s{session_id:02d}.objects.{task_id:02d}.turns.{speaker_suffix}.turns"
+            else f"s{session_id:02d}.objects.{task_id:02d}.{speaker_suffix}.turns"
         )
         turns_file = turns_folder.get(turns_file_id)
         if not turns_file:
