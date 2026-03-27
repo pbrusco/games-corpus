@@ -1,6 +1,5 @@
 from games_corpus import SpanishGamesCorpusDialogues
 import librosa
-import soundfile as sf
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -41,7 +40,7 @@ def plot_audio_and_features(y, sr, title="", turns=None, task_start=0):
             axs[0].text(
                 mid_point,
                 ax.get_ylim()[1],
-                f"Turn {i+1}",
+                f"Turn {i + 1}",
                 color=color,
                 ha="center",
                 va="bottom",
@@ -76,9 +75,7 @@ def plot_audio_and_features(y, sr, title="", turns=None, task_start=0):
     return fig
 
 
-def plot_stereo_audio_and_transitions(
-    y_a, y_b, sr, title="", transitions=None, task_start=0
-):
+def plot_stereo_audio_and_transitions(y_a, y_b, sr, title="", transitions=None, task_start=0):
     """Helper function to visualize stereo audio and turn transitions"""
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 6), sharex=True)
     fig.suptitle(title)
@@ -167,9 +164,7 @@ def plot_stereo_audio_and_transitions(
             )
 
     # Add legends
-    transition_legend = [
-        plt.Line2D([0], [0], color=c, label=l) for l, c in colors.items()
-    ]
+    transition_legend = [plt.Line2D([0], [0], color=c, label=label) for label, c in colors.items()]
     ax1.legend(handles=transition_legend, loc="upper right")
 
     plt.tight_layout()
@@ -210,7 +205,7 @@ def main():
         zero_crossing_rate = librosa.feature.zero_crossing_rate(y_task)
 
         print(f"Sample rate: {sr} Hz")
-        print(f"Duration: {len(y_task)/sr:.2f}s")
+        print(f"Duration: {len(y_task) / sr:.2f}s")
         print(f"MFCCs shape: {mfccs.shape}")
         print(f"Mean spectral centroid: {np.mean(spectral_centroid):.2f}")
         print(f"Mean zero crossing rate: {np.mean(zero_crossing_rate):.2f}")

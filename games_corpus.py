@@ -12,9 +12,7 @@ from typing import Dict, Set
 import games_corpus_parsers
 from games_corpus_types import Task, Session, BatchConfig
 
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 
 @dataclass(frozen=True)
@@ -62,9 +60,7 @@ class CorpusConfig:
 class CorpusDownloader:
     """Handles downloading and extracting corpus files"""
 
-    def __init__(
-        self, url: str, local_path: Path, max_retries: int = 3, retry_delay: int = 5
-    ):
+    def __init__(self, url: str, local_path: Path, max_retries: int = 3, retry_delay: int = 5):
         self.url = url
         self.local_path = local_path
         self.max_retries = max_retries
@@ -113,7 +109,7 @@ class CorpusDownloader:
                     "This is a common issue on macOS with Homebrew Python.\n"
                     "Try one of the following fixes:\n"
                     "  1. Set the SSL_CERT_FILE environment variable before running:\n"
-                    "     export SSL_CERT_FILE=$(python -c \"import certifi; print(certifi.where())\")\n"
+                    '     export SSL_CERT_FILE=$(python -c "import certifi; print(certifi.where())")\n'
                     "  2. Or point it to the Homebrew CA bundle:\n"
                     "     export SSL_CERT_FILE=/opt/homebrew/etc/openssl@3/cert.pem\n"
                 ) from e
@@ -163,9 +159,7 @@ class SpanishGamesCorpusDialogues:
             ValueError: If batch number is not available
         """
         if batch not in self.batch_configs:
-            raise ValueError(
-                f"Invalid batch number: {batch}. Available batches are: {list(self.batch_configs.keys())}"
-            )
+            raise ValueError(f"Invalid batch number: {batch}. Available batches are: {list(self.batch_configs.keys())}")
         return self.batch_configs[batch]
 
     def load(self, url=None, load_audio=False, local_path=None):
@@ -179,19 +173,13 @@ class SpanishGamesCorpusDialogues:
     def _setup_paths(self, url=None, local_path=None):
         """Configure corpus URLs and paths."""
         self.corpus_url = url or self.config.DEFAULT_URL
-        self.corpus_local_path = (
-            Path(local_path)
-            if local_path
-            else Path(f"./.{self.config.CORPUS_INFO.short_name}/")
-        )
+        self.corpus_local_path = Path(local_path) if local_path else Path(f"./.{self.config.CORPUS_INFO.short_name}/")
         self.corpus_local_path.mkdir(parents=True, exist_ok=True)
 
     def _filter_audio_files(self, load_audio):
         """Remove audio files from corpus_files if not loading audio."""
         if not load_audio:
-            self.corpus_files = {
-                k: v for k, v in self.corpus_files.items() if not k.endswith("-wavs")
-            }
+            self.corpus_files = {k: v for k, v in self.corpus_files.items() if not k.endswith("-wavs")}
 
     def _prepare_corpus_data(self):
         """Load and parse corpus data."""
@@ -203,11 +191,7 @@ class SpanishGamesCorpusDialogues:
 
     def get_sessions_by_batch(self, batch):
         """Get all sessions for a specific batch"""
-        return {
-            sid: session
-            for sid, session in self.sessions.items()
-            if session.batch == batch
-        }
+        return {sid: session for sid, session in self.sessions.items() if session.batch == batch}
 
     def dev_tasks(self, batch: int):
         """Get development tasks for a specific batch"""
@@ -257,9 +241,7 @@ class SpanishGamesCorpusDialogues:
         self.sessions = {}
         for session in self.corpus_raw["sessions-info"].itertuples():
             session_id = session.session_id
-            if (
-                session_id in self.config.BANNED_SESSIONS
-            ):  # Changed from self.banned_sessions
+            if session_id in self.config.BANNED_SESSIONS:  # Changed from self.banned_sessions
                 logging.warning(f"Skipping banned session: {session_id}")
                 continue
             batch = session.batch
@@ -292,9 +274,7 @@ class SpanishGamesCorpusDialogues:
 
         # Load tasks from the tasks file
         sess_idx = f"s{str(session_id).zfill(2)}"
-        task_file_id = (
-            f"{sess_idx}.objects.1.tasks" if batch == 1 else f"{sess_idx}.objects.tasks"
-        )
+        task_file_id = f"{sess_idx}.objects.1.tasks" if batch == 1 else f"{sess_idx}.objects.tasks"
         tasks_file = tasks_folder.get(task_file_id)
 
         if not tasks_file:
@@ -305,9 +285,7 @@ class SpanishGamesCorpusDialogues:
             task_id = info["Task ID"]
             task_boundaries = (info["Start"], info["End"], task_id, session_id)
 
-            wavs = games_corpus_parsers.load_wavs_for_task(
-                session_id, task_id, wav_folder, batch
-            )
+            wavs = games_corpus_parsers.load_wavs_for_task(session_id, task_id, wav_folder, batch)
             ipus = games_corpus_parsers.load_ipus_for_task(
                 session_id,
                 task_id,
@@ -346,6 +324,5 @@ class SpanishGamesCorpusDialogues:
                 turns=turns,
             )
             tasks.append(task_obj)
-
 
         return tasks

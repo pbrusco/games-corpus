@@ -1,0 +1,50 @@
+[project]
+name = "games-corpus"
+version = "0.1.0"
+description = "A Python library for working with the UBA Games Corpus"
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=1.5.0",
+    "requests>=2.28.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.0.0",
+    "ruff>=0.15.0",
+    "mypy>=1.19.0",
+    "pandas-stubs",
+    "types-requests",
+    "pre-commit>=4.0.0",
+]
+audio = [
+    "librosa",
+    "soundfile",
+    "matplotlib",
+    "numpy",
+]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = ["E501"]  # line length handled by ruff-format
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+check_untyped_defs = false
+disallow_untyped_defs = false
+disable_error_code = [
+    "var-annotated",
+    "assignment",
+    "arg-type",
+    "attr-defined",
+    "operator",
+    "misc",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

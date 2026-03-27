@@ -4,10 +4,42 @@ A Python library for working with the UBA Games Corpus, a collection of Spanish 
 
 ## Installation
 
+This project uses [uv](https://docs.astral.sh/uv/) for dependency management. uv is a fast Python package manager that handles virtual environments, dependency resolution, and Python version management in a single tool.
+
+### Install uv
+
+If you don't have uv installed yet:
+
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+# macOS / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# or with Homebrew
+brew install uv
+```
+
+See the [uv installation docs](https://docs.astral.sh/uv/getting-started/installation/) for more options.
+
+### Set up the project
+
+```bash
+uv sync
+```
+
+This creates a virtual environment, installs Python if needed, and installs all dependencies. That's it.
+
+To also install the optional audio dependencies:
+
+```bash
+uv sync --group audio
+```
+
+### Running scripts
+
+Use `uv run` to execute scripts in the project environment (no need to activate anything):
+
+```bash
+uv run python example.py
 ```
 
 ### Troubleshooting: SSL certificate error on macOS
@@ -32,20 +64,21 @@ The repository includes two example scripts:
 Run the basic example to see how to load and process the corpus:
 
 ```bash
-python example.py
+uv run python example.py
 ```
 
 This shows:
 - Loading the corpus
-- Accessing sessions and tasks 
+- Accessing sessions and tasks
 - Examining turn transitions
 - Basic corpus statistics
 
 ### Audio Analysis
-Run the audio visualization example:
+Run the audio visualization example (requires the `audio` dependency group):
 
 ```bash
-python example_with_audio.py
+uv sync --group audio
+uv run python example_with_audio.py
 ```
 
 This demonstrates:
@@ -54,13 +87,6 @@ This demonstrates:
 - Analyzing turn transitions with audio
 - Stereo visualization of conversations between speakers
 - Audio feature extraction (MFCCs, spectral centroid, etc.)
-
-## Requirements
-- librosa
-- matplotlib
-- numpy
-- soundfile
-- pytest (for tests)
 
 ## Usage
 
@@ -92,20 +118,14 @@ for task in corpus.dev_tasks(batch=1):
 
 ```
 games-corpus/
-├── games_corpus/
-│   ├── __init__.py
-│   ├── games_corpus.py        # Main corpus class and data loading
-│   ├── games_corpus_types.py  # Data classes for corpus elements
-│   └── games_corpus_parsers.py # File parsing and data extraction
+├── games_corpus.py            # Main corpus class and data loading
+├── games_corpus_types.py      # Data classes for corpus elements
+├── games_corpus_parsers.py    # File parsing and data extraction
+├── example.py                 # Basic usage example
+├── example_with_audio.py      # Audio analysis example
 ├── tests/
-│   └── games_corpus_tests.py  # Comprehensive test suite
-├── examples/
-│   └── example.py            # Usage examples
-└── data/                     # Optional local data directory
-    ├── b1-dialogue-tasks/    # Batch 1 task information
-    ├── b1-dialogue-turns/    # Batch 1 turn annotations
-    ├── b2-dialogue-tasks/    # Batch 2 task information
-    └── b2-dialogue-turns/    # Batch 2 turn annotations
+│   └── games_corpus_test.py   # Test suite
+└── scripts/                   # Praat visualization scripts
 ```
 
 ## Data Structure
@@ -131,7 +151,7 @@ The corpus is organized into:
   - `BC_O`: Overlapping backchannel
   - `BI`: Backchannel with interruption
   - `PI`: Pause interruption
-  - `X1/X2/X2_O/X3`: First turn, Backchannel Continuation (with and without overlap), Simulaneuos speech. 
+  - `X1/X2/X2_O/X3`: First turn, Backchannel Continuation (with and without overlap), Simultaneous speech.
 
 ### Corpus Statistics
 
@@ -185,10 +205,10 @@ dev_tasks = list(corpus.dev_tasks(batch=1))
 # Analyze turn transitions in a task
 task = dev_tasks[0]
 for transition in task.turn_transitions:
-    print(f"Transition type: {transition.type}")
-    print(f"From speaker: {transition.from_turn.speaker}")
-    print(f"To speaker: {transition.to_turn.speaker}")
-    print(f"Gap duration: {transition.gap_duration:.2f}s")
+    print(f"Transition type: {transition.label_type}")
+    print(f"From speaker: {transition.turn_from.speaker if transition.turn_from else 'N/A'}")
+    print(f"To speaker: {transition.turn_to.speaker}")
+    print(f"Gap duration: {transition.transition_duration:.2f}s")
 
 # Access word-level information
 for ipu in task.ipus:
@@ -229,7 +249,7 @@ for session_id, session in batch1_sessions.items():
 Run the test suite:
 
 ```bash
-pytest games_corpus_tests.py
+uv run pytest
 ```
 
 ## License

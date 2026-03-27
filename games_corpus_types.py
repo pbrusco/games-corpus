@@ -3,7 +3,6 @@
 from dataclasses import dataclass, field
 from typing import List, Optional, Dict, Set, Tuple
 from enum import Enum
-import logging
 
 
 class TurnTransitionType(Enum):
@@ -134,9 +133,7 @@ class Turn:
         if not self.ipu_ids:  # Changed from ipus to ipu_ids
             raise ValueError("IPUs list cannot be empty")
 
-        self.turn_id = Turn.id_builder(
-            self.session_id, self.task_id, self.speaker, self.start, self.end
-        )
+        self.turn_id = Turn.id_builder(self.session_id, self.task_id, self.speaker, self.start, self.end)
 
         # Register this turn
         Turn._all_turns[self.turn_id] = self
@@ -173,9 +170,7 @@ class TurnTransition:
     def __post_init__(self):
         self.label_type = TurnTransitionType.from_string(self.label)
 
-        self.turn_from = (
-            Turn.get_turn_by_id(self.turn_id_from) if self.turn_id_from else None
-        )
+        self.turn_from = Turn.get_turn_by_id(self.turn_id_from) if self.turn_id_from else None
         self.turn_to = Turn.get_turn_by_id(self.turn_id_to)
 
         self.speaker_from = self.turn_from.speaker if self.turn_from else None
@@ -185,9 +180,7 @@ class TurnTransition:
 
         self.ipu_from = self.turn_from.ipus[-1] if self.turn_from else None
         self.ipu_to = self.turn_to.ipus[0]
-        self.transition_duration = (
-            self.ipu_to.start - self.ipu_from.end if self.ipu_from else 0
-        )
+        self.transition_duration = self.ipu_to.start - self.ipu_from.end if self.ipu_from else 0
         self.overlapped_transition = self.transition_duration < 0
 
 

@@ -147,22 +147,14 @@ def load_turns_for_task(
                 if label == "#":
                     continue
 
-                turn_ipus = find_turn_ipus(
-                    ipus_by_speaker[speaker], turn_start, turn_end, max_diff=0.1
-                )
-                turn_id = Turn.id_builder(
-                    session_id, task_id, speaker, turn_start, turn_end
-                )
+                turn_ipus = find_turn_ipus(ipus_by_speaker[speaker], turn_start, turn_end, max_diff=0.1)
+                turn_id = Turn.id_builder(session_id, task_id, speaker, turn_start, turn_end)
                 if len(turn_ipus) == 0:
-                    logging.warning(
-                        f"Cannot find IPUs for turn {turn_id}. Skipping turn"
-                    )
+                    logging.warning(f"Cannot find IPUs for turn {turn_id}. Skipping turn")
                     continue
 
                 turn = Turn(
-                    ipu_ids=[
-                        ipu.ipu_id for ipu in turn_ipus
-                    ],  # Changed from ipus to ipu_ids
+                    ipu_ids=[ipu.ipu_id for ipu in turn_ipus],  # Changed from ipus to ipu_ids
                     speaker=speaker,
                     session_id=session_id,
                     task_id=task_id,
@@ -228,10 +220,7 @@ def load_turn_transitions_for_task(
                     logging.debug("Skipping undefined turn transitions")
                     continue
 
-                if (
-                    label == TurnTransitionType.SIMULTANEOUS_START.value
-                    or label == TurnTransitionType.FIRST_TURN.value
-                ):
+                if label == TurnTransitionType.SIMULTANEOUS_START.value or label == TurnTransitionType.FIRST_TURN.value:
                     prev_turn_id = None
                 else:
                     prev_turn_id = find_interlocutor_previous_turn_id(
@@ -245,14 +234,10 @@ def load_turn_transitions_for_task(
                         )
                         continue
 
-                turn_id = Turn.id_builder(
-                    session_id, task_id, speaker, turn_start, turn_end
-                )
+                turn_id = Turn.id_builder(session_id, task_id, speaker, turn_start, turn_end)
 
                 if turn_id not in Turn._all_turns:
-                    logging.warning(
-                        f"Turn ID {turn_id} not found in loaded turns. Skipping transition."
-                    )
+                    logging.warning(f"Turn ID {turn_id} not found in loaded turns. Skipping transition.")
                     continue
 
                 transition = TurnTransition(
@@ -387,9 +372,7 @@ def load_wavs_for_task(session_id, task_id, wav_folder, batch):
         if batch == 1:
             wav_file_id = f"s{session_id:02d}.objects.1.{speaker_suffix}.wav"
         elif batch == 2:
-            wav_file_id = (
-                f"s{session_id:02d}.objects.{task_id:02d}.{speaker_suffix}.wav"
-            )
+            wav_file_id = f"s{session_id:02d}.objects.{task_id:02d}.{speaker_suffix}.wav"
 
         if wav_folder:
             wav_file = wav_folder.get(wav_file_id)
@@ -401,9 +384,7 @@ def load_wavs_for_task(session_id, task_id, wav_folder, batch):
     return wavs
 
 
-def load_ipus_for_task(
-    session_id, task_id, task_boundaries, phrases_folder, words_folder, batch
-):
+def load_ipus_for_task(session_id, task_id, task_boundaries, phrases_folder, words_folder, batch):
     if batch == 2:
         ipus = load_ipus_from_phrases(session_id, task_id, phrases_folder, batch)
     elif batch == 1:
