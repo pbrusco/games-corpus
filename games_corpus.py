@@ -107,6 +107,16 @@ class CorpusDownloader:
                 with open(save_path, "wb") as f:
                     f.write(response.content)
                 return
+            except requests.exceptions.SSLError as e:
+                raise RuntimeError(
+                    f"SSL certificate verification failed while downloading {file_name}.\n"
+                    "This is a common issue on macOS with Homebrew Python.\n"
+                    "Try one of the following fixes:\n"
+                    "  1. Set the SSL_CERT_FILE environment variable before running:\n"
+                    "     export SSL_CERT_FILE=$(python -c \"import certifi; print(certifi.where())\")\n"
+                    "  2. Or point it to the Homebrew CA bundle:\n"
+                    "     export SSL_CERT_FILE=/opt/homebrew/etc/openssl@3/cert.pem\n"
+                ) from e
             except (requests.RequestException, IOError) as e:
                 if attempt == self.max_retries - 1:
                     raise RuntimeError(f"Failed to download {file_name}: {e}")

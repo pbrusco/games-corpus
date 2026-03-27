@@ -5,7 +5,23 @@ A Python library for working with the UBA Games Corpus, a collection of Spanish 
 ## Installation
 
 ```bash
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
+```
+
+### Troubleshooting: SSL certificate error on macOS
+
+If you see `SSL: CERTIFICATE_VERIFY_FAILED` when downloading the corpus, this is a known issue with Homebrew Python on macOS. Fix it by setting the `SSL_CERT_FILE` environment variable before running:
+
+```bash
+export SSL_CERT_FILE=$(python -c "import certifi; print(certifi.where())")
+```
+
+Or point directly to the Homebrew CA bundle:
+
+```bash
+export SSL_CERT_FILE=/opt/homebrew/etc/openssl@3/cert.pem
 ```
 
 ## Examples
