@@ -1,6 +1,9 @@
-# UBA Games Corpus
+# Games Corpus
 
-A Python library for working with the UBA Games Corpus, a collection of Spanish dialogues from task-oriented, collaborative interactions.
+A Python library for working with collaborative dialogue game corpora:
+
+- **UBA Spanish Games Corpus** — Spanish dialogues, automatically downloaded from CONICET
+- **Columbia English Games Corpus** — English dialogues, requires manual download
 
 ## Installation
 
@@ -58,50 +61,36 @@ export SSL_CERT_FILE=/opt/homebrew/etc/openssl@3/cert.pem
 
 ## Examples
 
-The repository includes two example scripts:
-
-### Basic Usage
-Run the basic example to see how to load and process the corpus:
+### Spanish Corpus
 
 ```bash
-uv run python example.py
+uv run python examples/example_spanish.py
 ```
 
-This shows:
-- Loading the corpus
-- Accessing sessions and tasks
-- Examining turn transitions
-- Basic corpus statistics
+### English Corpus
 
-### Audio Analysis
-Run the audio visualization example (requires the `audio` dependency group):
+First, download the Columbia Games Corpus manually and place it in `corpus/games-english/`. Then:
+
+```bash
+uv run python examples/example_english.py
+```
+
+### Audio Analysis (Spanish)
 
 ```bash
 uv sync --group audio
-uv run python example_with_audio.py
+uv run python examples/example_with_audio.py
 ```
-
-This demonstrates:
-- Loading and processing audio files
-- Visualizing waveforms and spectrograms
-- Analyzing turn transitions with audio
-- Stereo visualization of conversations between speakers
-- Audio feature extraction (MFCCs, spectral centroid, etc.)
 
 ## Usage
 
-Basic example of loading and accessing the corpus:
+### Spanish Corpus
 
 ```python
-from games_corpus import SpanishGamesCorpusDialogues
+from games_corpus import SpanishGamesCorpus
 
-# Initialize and load the corpus
-corpus = SpanishGamesCorpusDialogues()
-corpus.load(
-    # url="https://custom-url.com/{filename}",  # optional custom URL
-    # local_path="./data",  # optional local path
-    load_audio=False  # set to True if you need audio files
-)
+corpus = SpanishGamesCorpus()
+corpus.load(load_audio=False)
 
 # Get all sessions from batch 1
 batch1_sessions = corpus.get_sessions_by_batch(1)
@@ -114,17 +103,34 @@ for task in corpus.dev_tasks(batch=1):
     print(f"  Score: {task.score}")
 ```
 
+### English Corpus
+
+```python
+from games_corpus import EnglishGamesCorpus
+
+corpus = EnglishGamesCorpus()
+corpus.load(load_audio=False)  # corpus must be at ./corpus/games-english/
+
+for session_id, session in corpus.sessions.items():
+    print(f"Session {session_id}: {len(session.tasks)} tasks")
+```
+
 ## Project Structure
 
 ```
 games-corpus/
-├── games_corpus.py            # Main corpus class and data loading
-├── games_corpus_types.py      # Data classes for corpus elements
-├── games_corpus_parsers.py    # File parsing and data extraction
-├── example.py                 # Basic usage example
-├── example_with_audio.py      # Audio analysis example
-├── tests/
-│   └── games_corpus_test.py   # Test suite
+├── games_corpus/              # Python package
+│   ├── __init__.py            # Public API
+│   ├── types.py               # Shared data types (Word, IPU, Turn, Task, Session)
+│   ├── parsers.py             # Shared file parsers
+│   ├── spanish.py             # SpanishGamesCorpus
+│   ├── english.py             # EnglishGamesCorpus
+│   └── downloader.py          # Remote file downloader (Spanish only)
+├── examples/
+│   ├── example_spanish.py     # Spanish corpus example
+│   ├── example_english.py     # English corpus example
+│   └── example_with_audio.py  # Audio analysis example
+├── tests/                     # Test suite
 └── scripts/                   # Praat visualization scripts
 ```
 

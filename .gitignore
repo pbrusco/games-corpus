@@ -1,5 +1,6 @@
 .venv/
 .uba-games/
+corpus/
 __pycache__/
 *.pyc
 .pytest_cache/
