@@ -1,14 +1,23 @@
 """Integration tests for the Columbia English Games Corpus."""
 
+from pathlib import Path
+
 import pytest
 from games_corpus import EnglishGamesCorpus, TurnTransitionType
 
+ENGLISH_CORPUS_PATH = Path(__file__).resolve().parent.parent / "corpus" / "games-english"
+requires_english_corpus = pytest.mark.skipif(
+    not (ENGLISH_CORPUS_PATH / "README.sessions-info").exists(),
+    reason="English corpus not available locally",
+)
 
+
+@requires_english_corpus
 class TestEnglishGamesCorpus:
     @pytest.fixture(scope="class")
     def corpus(self):
         c = EnglishGamesCorpus()
-        c.load(load_audio=False)
+        c.load(local_path=str(ENGLISH_CORPUS_PATH), load_audio=False)
         return c
 
     def test_load_sessions(self, corpus):

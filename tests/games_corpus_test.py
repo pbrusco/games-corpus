@@ -9,6 +9,12 @@ if str(GAMES_CORPUS_PATH) not in sys.path:
     sys.path.append(str(GAMES_CORPUS_PATH))
 
 import pytest  # noqa: E402
+
+SPANISH_CORPUS_PATH = Path(__file__).resolve().parent.parent / "corpus" / "games-spanish"
+requires_spanish_corpus = pytest.mark.skipif(
+    not (SPANISH_CORPUS_PATH / "sessions-info.csv").exists(),
+    reason="Spanish corpus not available locally",
+)
 from games_corpus import (  # noqa: E402
     SpanishGamesCorpusDialogues,
     Task,
@@ -189,6 +195,7 @@ class TestTurnTransition:
         )
         assert transition.overlapped_transition
 
+    @requires_spanish_corpus
     @pytest.mark.xfail(reason="Known corpus data quality issue")
     def test_x3_transition_timing(self):
         """Verify that X3 transitions are always less than 210ms away from an interlocutor turn start."""
@@ -235,6 +242,7 @@ class TestTurn:
         turn = sample_turns[0]
         assert Turn.get_turn_by_id(turn.turn_id) == turn
 
+    @requires_spanish_corpus
     @pytest.mark.xfail(reason="Known corpus data quality issue")
     def test_turn_definition_correctness(self):
         """Verify that turns follow the definition: maximal sequence of IPUs without interlocutor speech during silences."""
@@ -267,6 +275,7 @@ class TestTurn:
                             f"turn {turn.turn_id}. Interlocutor IPUs: {interlocutor_ipus}"
                         )
 
+    @requires_spanish_corpus
     @pytest.mark.xfail(reason="Known corpus data quality issue")
     def test_no_consecutive_turns_same_speaker(self):
         """Verify there are no consecutive turns from the same speaker with silence between them."""
@@ -415,6 +424,7 @@ class TestSpanishGamesCorpusDialogues:
         assert len(batch1_sessions) == 1
         assert 1 in batch1_sessions
 
+    @requires_spanish_corpus
     def test_batch1_task_distribution(self):
         corpus = SpanishGamesCorpusDialogues()
         corpus.load(load_audio=False)
@@ -425,6 +435,7 @@ class TestSpanishGamesCorpusDialogues:
         assert len(dev_tasks) == 132, "Batch 1 dev tasks count mismatch"
         assert len(held_out_tasks) == 64, "Batch 1 eval tasks count mismatch"
 
+    @requires_spanish_corpus
     def test_batch2_task_distribution(self):
         corpus = SpanishGamesCorpusDialogues()
         corpus.load(load_audio=False)
@@ -435,6 +446,7 @@ class TestSpanishGamesCorpusDialogues:
         assert len(dev_tasks) == 172, "Batch 2 dev tasks count mismatch"
         assert len(held_out_tasks) == 47, "Batch 2 eval tasks count mismatch"
 
+    @requires_spanish_corpus
     def test_batch1_transition_label_distribution(self):
         corpus = SpanishGamesCorpusDialogues()
         corpus.load(load_audio=False)
@@ -468,6 +480,7 @@ class TestSpanishGamesCorpusDialogues:
 
         self._verify_label_distribution(corpus, 1, dev_labels, eval_labels)
 
+    @requires_spanish_corpus
     def test_batch2_transition_label_distribution(self):
         corpus = SpanishGamesCorpusDialogues()
         corpus.load(load_audio=False)
@@ -521,6 +534,7 @@ class TestSpanishGamesCorpusDialogues:
                 counts[trans.label] = counts.get(trans.label, 0) + 1
         return counts
 
+    @requires_spanish_corpus
     def test_raw_task_start(self):
         """Verify task start time in raw .tasks file matches expected value."""
         corpus = SpanishGamesCorpusDialogues()
@@ -539,6 +553,7 @@ class TestSpanishGamesCorpusDialogues:
         raw_start = next(t["Start"] for t in tasks_info if t["Task ID"] == TASK_ID)
         assert math.isclose(raw_start, EXPECTED_START, abs_tol=1e-6)
 
+    @requires_spanish_corpus
     def test_task_start_preserved(self):
         """Verify task start time is preserved when loaded by the tool."""
         SESSION_ID = 3
@@ -551,6 +566,7 @@ class TestSpanishGamesCorpusDialogues:
         task = next(t for t in corpus.sessions[SESSION_ID].tasks if t.task_id == TASK_ID)
         assert math.isclose(task.start, EXPECTED_START, abs_tol=1e-6)
 
+    @requires_spanish_corpus
     def test_first_B_turn_included(self):
         """Verify first B turn (37.900-41.897s) is included in task turns."""
         corpus = SpanishGamesCorpusDialogues()
