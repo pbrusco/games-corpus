@@ -1,6 +1,7 @@
 .venv/
 .uba-games/
 corpus/
+features/
 __pycache__/
 *.pyc
 .pytest_cache/

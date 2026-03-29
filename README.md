@@ -200,6 +200,24 @@ for ipu in task.ipus:
         print(f"{word.speaker}: {word.text} [{word.start:.2f}s - {word.end:.2f}s]")
 ```
 
+### Pre-extracted Acoustic Features
+
+If you have pre-extracted features available (CSV time series with pitch, jitter, shimmer, HNR, intensity, VAD), pass the `features_path` to `load()`:
+
+```python
+from games_corpus import EnglishGamesCorpus
+
+corpus = EnglishGamesCorpus()
+corpus.load(features_path="features/games-english")
+
+task = corpus.sessions[1].tasks[0]
+df = corpus.get_features(task)
+# df.columns: time, pitch_standardized_A, jitter_standardized_A, ..., vad_B
+print(df.shape)  # (1555, 13) — one row per 10ms frame
+```
+
+Features are available per task at 100 Hz (10ms frames) with z-score standardized acoustic measurements for both speakers (A and B).
+
 ### Spanish-Specific: Dev/Eval Splits
 
 The Spanish corpus has predefined development and evaluation splits per batch:
@@ -214,11 +232,12 @@ for task in corpus.dev_tasks(batch=1):
     print(f"Task {task.task_id}, session {task.session_id}")
 ```
 
-## Features
+## Library Features
 
 - Unified data model across three corpora (Spanish, English, Slovak)
 - Shared turn-transition annotation scheme (S, O, I, BC, PI, X1, X2, X3, etc.)
 - Word-level and phrase-level timing information
+- Pre-extracted acoustic features (pitch, jitter, shimmer, HNR, intensity, VAD)
 - Optional audio file handling
 - Dev/eval task splits (Spanish corpus)
 

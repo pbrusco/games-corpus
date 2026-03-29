@@ -10,6 +10,7 @@ import pandas as pd
 
 from games_corpus.types import Task, Session, BatchConfig
 from games_corpus.downloader import CorpusDownloader
+from games_corpus.features import load_task_features
 from games_corpus import parsers
 
 
@@ -79,6 +80,7 @@ class SpanishGamesCorpus:
             2: BatchConfig.create_batch2_config(),
         }
         self.downloader = None
+        self.features_path = None
 
     @property
     def name(self) -> str:
@@ -93,13 +95,20 @@ class SpanishGamesCorpus:
             raise ValueError(f"Invalid batch number: {batch}. Available batches are: {list(self.batch_configs.keys())}")
         return self.batch_configs[batch]
 
-    def load(self, url=None, load_audio=False, local_path=None):
+    def load(self, url=None, load_audio=False, local_path=None, features_path=None):
         """Load the corpus from a URL or local path."""
         self._setup_paths(url, local_path)
         self._filter_audio_files(load_audio)
+        self.features_path = Path(features_path) if features_path else None
         self.downloader = CorpusDownloader(self.corpus_url, self.corpus_local_path)
         self.downloader.download_corpus(self.corpus_files)
         self._prepare_corpus_data()
+
+    def get_features(self, task):
+        """Get pre-extracted acoustic features for a task as a DataFrame."""
+        if self.features_path is None:
+            raise ValueError("No features path configured. Pass features_path to load().")
+        return load_task_features(self.features_path, task.session_id, task.task_id)
 
     def _setup_paths(self, url=None, local_path=None):
         self.corpus_url = url or self.config.DEFAULT_URL

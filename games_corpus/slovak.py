@@ -4,6 +4,7 @@ import logging
 from pathlib import Path
 
 from games_corpus.types import Task, Session
+from games_corpus.features import load_task_features
 from games_corpus import parsers
 
 
@@ -22,19 +23,22 @@ class SlovakGamesCorpus:
     def __init__(self):
         self.sessions = None
         self.corpus_local_path = None
+        self.features_path = None
 
     @property
     def name(self) -> str:
         return "Slovak Games Corpus"
 
-    def load(self, local_path=None, load_audio=False):
+    def load(self, local_path=None, load_audio=False, features_path=None):
         """Load the Slovak Games Corpus from a local directory.
 
         Args:
             local_path: Path to the corpus directory (default: ./corpus/games-slovak/)
             load_audio: Whether to load audio file references
+            features_path: Path to pre-extracted features (e.g. features/games-slovak/)
         """
         self.corpus_local_path = Path(local_path) if local_path else Path(self.DEFAULT_PATH)
+        self.features_path = Path(features_path) if features_path else None
         if not self.corpus_local_path.exists():
             raise FileNotFoundError(
                 f"Slovak corpus not found at {self.corpus_local_path}. "
@@ -43,6 +47,12 @@ class SlovakGamesCorpus:
 
         sessions_info = self._parse_sessions_info()
         self._parse_corpus(sessions_info, load_audio)
+
+    def get_features(self, task):
+        """Get pre-extracted acoustic features for a task as a DataFrame."""
+        if self.features_path is None:
+            raise ValueError("No features path configured. Pass features_path to load().")
+        return load_task_features(self.features_path, task.session_id, task.task_id)
 
     def _parse_sessions_info(self):
         """Parse the documents/sessions_info.txt tab-delimited table."""

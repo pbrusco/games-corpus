@@ -50,3 +50,6 @@ disable_error_code = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "to_be_reviewed_by_human: tests that need human verification of expected values",
+]
