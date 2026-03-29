@@ -4,6 +4,7 @@ A Python library for working with collaborative dialogue game corpora:
 
 - **UBA Spanish Games Corpus** — Spanish dialogues, automatically downloaded from CONICET
 - **Columbia English Games Corpus** — English dialogues, requires manual download
+- **Slovak Games Corpus** — Slovak dialogues, requires manual download
 
 ## Installation
 
@@ -29,20 +30,14 @@ See the [uv installation docs](https://docs.astral.sh/uv/getting-started/install
 uv sync
 ```
 
-This creates a virtual environment, installs Python if needed, and installs all dependencies. That's it.
-
-To also install the optional audio dependencies:
-
-```bash
-uv sync --group audio
-```
+This creates a virtual environment, installs Python if needed, and installs all dependencies (including audio). That's it.
 
 ### Running scripts
 
 Use `uv run` to execute scripts in the project environment (no need to activate anything):
 
 ```bash
-uv run python example.py
+uv run python examples/example_spanish.py
 ```
 
 ### Troubleshooting: SSL certificate error on macOS
@@ -75,10 +70,17 @@ First, download the Columbia Games Corpus manually and place it in `corpus/games
 uv run python examples/example_english.py
 ```
 
+### Slovak Corpus
+
+Download the Slovak Games Corpus manually and place it in `corpus/games-slovak/`. Then:
+
+```bash
+uv run python examples/example_slovak.py
+```
+
 ### Audio Analysis (Spanish)
 
 ```bash
-uv sync --group audio
 uv run python examples/example_with_audio.py
 ```
 
@@ -115,6 +117,18 @@ for session_id, session in corpus.sessions.items():
     print(f"Session {session_id}: {len(session.tasks)} tasks")
 ```
 
+### Slovak Corpus
+
+```python
+from games_corpus import SlovakGamesCorpus
+
+corpus = SlovakGamesCorpus()
+corpus.load(load_audio=False)  # corpus must be at ./corpus/games-slovak/
+
+for session_id, session in corpus.sessions.items():
+    print(f"Session {session_id}: {len(session.tasks)} tasks")
+```
+
 ## Project Structure
 
 ```
@@ -125,10 +139,12 @@ games-corpus/
 │   ├── parsers.py             # Shared file parsers
 │   ├── spanish.py             # SpanishGamesCorpus
 │   ├── english.py             # EnglishGamesCorpus
+│   ├── slovak.py              # SlovakGamesCorpus
 │   └── downloader.py          # Remote file downloader (Spanish only)
 ├── examples/
 │   ├── example_spanish.py     # Spanish corpus example
 │   ├── example_english.py     # English corpus example
+│   ├── example_slovak.py      # Slovak corpus example
 │   └── example_with_audio.py  # Audio analysis example
 ├── tests/                     # Test suite
 └── scripts/                   # Praat visualization scripts
@@ -136,18 +152,12 @@ games-corpus/
 
 ## Data Structure
 
-The corpus is organized into:
+All three corpora share the same data model:
 
-- **Batches**: Collection of sessions (currently batches 1 and 2)
-- **Sessions**: Individual recording sessions between two participants
-- **Tasks**: Game tasks within each session, including:
-  - Task ID and Session ID
-  - Images used in the task
-  - Describer role assignment
-  - Target image
-  - Score and completion time
+- **Sessions**: Individual recording sessions between two participants (A and B)
+- **Tasks**: Collaborative game tasks within each session (describer, target image, score, timing)
 - **Turns**: Speaking turns with timing information
-- **IPUs**: Inter-Pausal Units containing words and timing
+- **IPUs**: Inter-Pausal Units (continuous speech segments separated by pauses)
 - **Words**: Individual words with timing and speaker information
 - **TurnTransitions**: Annotated turn-taking patterns between speakers:
   - `S`: Smooth switch
@@ -159,57 +169,25 @@ The corpus is organized into:
   - `PI`: Pause interruption
   - `X1/X2/X2_O/X3`: First turn, Backchannel Continuation (with and without overlap), Simultaneous speech.
 
-### Corpus Statistics
+The Spanish corpus additionally organizes sessions into **batches** (batch 1 and batch 2), with predefined development/evaluation splits accessible via `corpus.dev_tasks(batch)` and `corpus.held_out_tasks(batch)`.
 
-**Batch 1:**
-- Development set: 132 tasks
-- Evaluation set: 64 tasks
-- Turn transition distribution:
-  Development set:
-  - Smooth switches (S): 1,466
-  - Backchannels (BC): 565
-  - Overlapping backchannels (BC_O): 57
-  - Backchannel interruptions (BI): 61
-  - Interruptions (I): 151
-  - Overlaps (O): 491
-  - Pause interruptions (PI): 196
-  - First turns (X1): 126
-  - Backchannel continuations (X2): 464
-  - Overlapping continuations (X2_O): 48
-  - Simultaneous speech (X3): 352
+### Corpus Overview
 
-  Evaluation set:
-  - Smooth switches (S): 577
-  - Backchannels (BC): 278
-  - Overlapping backchannels (BC_O): 29
-  - Backchannel interruptions (BI): 22
-  - Interruptions (I): 41
-  - Overlaps (O): 173
-  - Pause interruptions (PI): 60
-  - First turns (X1): 61
-  - Backchannel continuations (X2): 232
-  - Overlapping continuations (X2_O): 24
-  - Simultaneous speech (X3): 136
+| Corpus | Language | Sessions | Tasks | Loading |
+|--------|----------|----------|-------|---------|
+| Spanish (UBA) | Argentine Spanish | 24 (2 batches) | 415 | Auto-download |
+| English (Columbia) | English | 12 | 168 | Manual |
+| Slovak | Slovak | 9 | 122 | Manual |
 
-**Batch 2:**
-- Development set: 172 tasks
-- Evaluation set: 47 tasks
-
-## Advanced Usage Examples
+## Advanced Usage
 
 ### Working with Tasks and Turns
 
+This works with any of the three corpora:
+
 ```python
-from games_corpus import SpanishGamesCorpusDialogues
-
-corpus = SpanishGamesCorpusDialogues()
-corpus.load(load_audio=False)
-
-# Get development tasks for analysis
-dev_tasks = list(corpus.dev_tasks(batch=1))
-
 # Analyze turn transitions in a task
-task = dev_tasks[0]
+task = list(corpus.sessions.values())[0].tasks[0]
 for transition in task.turn_transitions:
     print(f"Transition type: {transition.label_type}")
     print(f"From speaker: {transition.turn_from.speaker if transition.turn_from else 'N/A'}")
@@ -222,33 +200,27 @@ for ipu in task.ipus:
         print(f"{word.speaker}: {word.text} [{word.start:.2f}s - {word.end:.2f}s]")
 ```
 
-### Working with Sessions
+### Spanish-Specific: Dev/Eval Splits
+
+The Spanish corpus has predefined development and evaluation splits per batch:
 
 ```python
-# Get all sessions from batch 1
-batch1_sessions = corpus.get_sessions_by_batch(1)
+from games_corpus import SpanishGamesCorpus
 
-# Analyze participant interactions
-for session_id, session in batch1_sessions.items():
-    print(f"\nSession {session_id}:")
-    print(f"Participants: {session.subject_a} and {session.subject_b}")
-    print(f"Number of tasks: {len(session.tasks)}")
-    
-    # Calculate session statistics
-    total_score = sum(task.score for task in session.tasks)
-    avg_duration = sum(task.time_used for task in session.tasks) / len(session.tasks)
-    print(f"Average task duration: {avg_duration:.2f}s")
-    print(f"Total score: {total_score}")
+corpus = SpanishGamesCorpus()
+corpus.load(load_audio=False)
+
+for task in corpus.dev_tasks(batch=1):
+    print(f"Task {task.task_id}, session {task.session_id}")
 ```
 
 ## Features
 
-- Load corpus data from remote URL or local path
-- Access session and task metadata
-- Extract turn-taking patterns and transitions
-- Process word-level timing information
+- Unified data model across three corpora (Spanish, English, Slovak)
+- Shared turn-transition annotation scheme (S, O, I, BC, PI, X1, X2, X3, etc.)
+- Word-level and phrase-level timing information
 - Optional audio file handling
-- Development and held-out task splits
+- Dev/eval task splits (Spanish corpus)
 
 ## Testing
 
@@ -264,7 +236,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Citation
 
-If you use this corpus in your research, please cite the following paper:
+If you use the **Spanish corpus** in your research, please cite:
 
 ```bibtex
 @techreport{gravano2023uba,
@@ -275,4 +247,6 @@ If you use this corpus in your research, please cite the following paper:
 }
 ```
 
-For detailed information about the corpus and its annotations, please refer to the [paper](https://ri.conicet.gov.ar/handle/11336/191235).
+For detailed information about the Spanish corpus and its annotations, refer to the [paper](https://ri.conicet.gov.ar/handle/11336/191235).
+
+For the **English** and **Slovak** corpora, please refer to their respective original publications.

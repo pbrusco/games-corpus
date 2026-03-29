@@ -20,6 +20,7 @@ class CorpusDownloader:
     def download_corpus(self, files_to_download: dict):
         """Download all corpus files"""
         for file_id, file_name in files_to_download.items():
+            logging.info(f"Downloading {file_name}")
             if ".zip" in file_name:
                 self._download_and_extract_zip(file_id, file_name)
             else:
@@ -37,8 +38,12 @@ class CorpusDownloader:
             self._download_file(file_name, zip_file_path)
 
         logging.info(f"Extracting {file_name}...")
-        with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
-            zip_ref.extractall(self.local_path)
+        try:
+            with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
+                zip_ref.extractall(self.local_path)
+
+        except zipfile.BadZipFile:
+            logging.error(f"{file_name} may be corrupted, please remove it and retry downloading it.")
 
     def _download_file(self, file_name: str, save_path: Path = None):
         save_path = save_path or self.local_path / file_name

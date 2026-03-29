@@ -274,7 +274,3 @@ class SpanishGamesCorpus:
             tasks.append(task_obj)
 
         return tasks
-
-
-# Backward compatibility alias
-SpanishGamesCorpusDialogues = SpanishGamesCorpus

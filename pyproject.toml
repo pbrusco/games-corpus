@@ -20,8 +20,6 @@ dev = [
     "pandas-stubs",
     "types-requests",
     "pre-commit>=4.0.0",
-]
-audio = [
     "librosa",
     "soundfile",
     "matplotlib",

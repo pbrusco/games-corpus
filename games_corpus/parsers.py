@@ -17,9 +17,10 @@ from games_corpus.types import TurnTransition, Turn, IPU, Word, TurnTransitionTy
 
 
 def load_objects_tasks(tasks_file) -> list:
-    """Parse tasks file in the B1/English objects format: START END LABEL (semicolon fields).
+    """Parse tasks file in the objects format: START END LABEL (semicolon fields).
 
-    Works for both Spanish B1 and English objects games.
+    Works for Spanish B1, English, and Slovak objects games.
+    Fields are parsed by name (key:value), not by position.
     """
     tasks_info = []
 
@@ -42,28 +43,34 @@ def load_objects_tasks(tasks_file) -> list:
             end = float(parts[1])
             rest = " ".join(parts[2:])
 
-            # Skip non-task lines (comments, talking-to-confederate, etc.)
+            # Skip non-task lines (comments, talking-to-confederate, practice, etc.)
             if not rest.startswith("Images:"):
                 continue
 
-            images = rest.split("Images:")[-1]
-            describer = task_info[1].split(":")[-1].strip()
-            target = task_info[2].split(":")[-1].strip()
-            score = task_info[3].split(":")[-1].strip()
-            time_used = float(task_info[4].split(":")[-1].strip())
-            task_id = len(tasks_info) + 1
+            # Parse all key:value fields by name
+            fields = {}
+            fields["Images"] = rest.split("Images:")[-1]
+            for field in task_info[1:]:
+                if ":" in field:
+                    key, value = field.split(":", 1)
+                    key = key.strip()
+                    value = value.strip()
+                    # Handle duplicate keys (e.g. Slovak has Describer twice) — keep first
+                    if key not in fields:
+                        fields[key] = value
 
-            images = images.split(",")
+            task_id = len(tasks_info) + 1
+            images = fields["Images"].split(",")
             tasks_info.append(
                 {
                     "Task ID": task_id,
                     "Start": start,
                     "End": end,
                     "Images": images,
-                    "Describer": describer,
-                    "Target": target,
-                    "Score": score,
-                    "Time-used": time_used,
+                    "Describer": fields.get("Describer", ""),
+                    "Target": fields.get("Target", ""),
+                    "Score": fields.get("Score", "0"),
+                    "Time-used": float(fields.get("Time-used", "0")),
                 }
             )
 
@@ -354,13 +361,21 @@ def load_ipus_from_words(
 
 def load_ipus_from_phrases(
     phrase_files: Dict[str, Path],
+    task_boundaries: tuple = None,
 ) -> List[IPU]:
     """Load IPUs by parsing phrase-level files.
 
+    Handles both tab-delimited (Spanish B2) and space-delimited (Slovak .Phrases) formats.
+    Recognizes both '#' and 'xxx' as silence markers.
+
     Args:
         phrase_files: mapping of speaker ("A"/"B") -> resolved .phrases file path
+        task_boundaries: optional (task_start, task_end, ...) to filter by time range
     """
+    task_start = task_boundaries[0] if task_boundaries else None
+    task_end = task_boundaries[1] if task_boundaries else None
     all_ipus = []
+
     for speaker, ipus_file in phrase_files.items():
         if not Path(ipus_file).exists():
             logging.warning(f"Phrases file {ipus_file} not found.")
@@ -373,15 +388,33 @@ def load_ipus_from_phrases(
             with open(ipus_file, "r", encoding="utf-8") as f:
                 for line in f:
                     line = line.strip()
+                    if not line:
+                        continue
                     try:
-                        t0, tf, text = line.split("\t")
-                        if text.strip() == "#":
+                        # Auto-detect delimiter: tab or space
+                        if "\t" in line:
+                            parts = line.split("\t", 2)
+                        else:
+                            parts = line.split(None, 2)
+
+                        if len(parts) < 2:
+                            continue
+
+                        t0, tf = float(parts[0]), float(parts[1])
+                        text = parts[2].strip() if len(parts) > 2 else ""
+
+                        if task_end is not None and t0 > task_end:
+                            break
+                        if task_start is not None and tf < task_start:
+                            continue
+
+                        # Silence markers: '#' or 'xxx' or empty
+                        if text in ("#", "xxx", ""):
                             if current_words:
                                 words_by_ipu.append(current_words)
                                 current_words = []
                             continue
 
-                        t0, tf = float(t0), float(tf)
                         words = text.replace("#", "").split()
                         if not words:
                             continue

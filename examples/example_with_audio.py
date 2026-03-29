@@ -1,7 +1,8 @@
-from games_corpus import SpanishGamesCorpusDialogues
+from games_corpus import SpanishGamesCorpus
 import librosa
 import numpy as np
 import matplotlib.pyplot as plt
+import logging
 
 
 def plot_audio_and_features(y, sr, title="", turns=None, task_start=0):
@@ -173,7 +174,8 @@ def plot_stereo_audio_and_transitions(y_a, y_b, sr, title="", transitions=None, 
 
 def main():
     # Initialize and load the corpus with audio
-    corpus = SpanishGamesCorpusDialogues()
+    logging.info("Loading Spanish corpus with audio...")
+    corpus = SpanishGamesCorpus()
     corpus.load(load_audio=True)
 
     # Get the first development task from batch 1
@@ -281,4 +283,5 @@ def main():
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     main()

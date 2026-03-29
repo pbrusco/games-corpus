@@ -1,4 +1,4 @@
-"""Games Corpus library — supporting the UBA Spanish and Columbia English Games Corpora."""
+"""Games Corpus library — supporting the UBA Spanish, Columbia English, and Slovak Games Corpora."""
 
 from games_corpus.types import (
     Word,
@@ -10,8 +10,9 @@ from games_corpus.types import (
     Session,
     BatchConfig,
 )
-from games_corpus.spanish import SpanishGamesCorpus, SpanishGamesCorpusDialogues
+from games_corpus.spanish import SpanishGamesCorpus
 from games_corpus.english import EnglishGamesCorpus
+from games_corpus.slovak import SlovakGamesCorpus
 
 __all__ = [
     "Word",
@@ -23,6 +24,6 @@ __all__ = [
     "Session",
     "BatchConfig",
     "SpanishGamesCorpus",
-    "SpanishGamesCorpusDialogues",
     "EnglishGamesCorpus",
+    "SlovakGamesCorpus",
 ]

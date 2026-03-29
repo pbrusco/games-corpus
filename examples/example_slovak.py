@@ -1,10 +1,10 @@
-from games_corpus import EnglishGamesCorpus
+from games_corpus import SlovakGamesCorpus
 import logging
 from collections import defaultdict
 
 
 def main():
-    corpus = EnglishGamesCorpus()
+    corpus = SlovakGamesCorpus()
     corpus.load(load_audio=False)
 
     print(f"Loaded {len(corpus.sessions)} sessions")

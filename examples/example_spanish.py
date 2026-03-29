@@ -1,11 +1,11 @@
-from games_corpus import SpanishGamesCorpusDialogues
+from games_corpus import SpanishGamesCorpus
 import logging
 from collections import defaultdict
 
 
 def main():
     # Initialize the corpus
-    corpus = SpanishGamesCorpusDialogues()
+    corpus = SpanishGamesCorpus()
 
     # Load the corpus (optionally specify custom URL or local path)
     corpus.load(
