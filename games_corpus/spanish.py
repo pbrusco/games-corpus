@@ -96,19 +96,39 @@ class SpanishGamesCorpus:
         return self.batch_configs[batch]
 
     def load(self, url=None, load_audio=False, local_path=None, features_path=None):
-        """Load the corpus from a URL or local path."""
+        """Load the corpus from a URL or local path.
+
+        Args:
+            features_path: Dict mapping batch number to features directory path,
+                e.g. {1: "features/games-spanish-batch1", 2: "features/games-spanish-batch2"}.
+                Also accepts a single string/Path if features are in one directory.
+        """
         self._setup_paths(url, local_path)
         self._filter_audio_files(load_audio)
-        self.features_path = Path(features_path) if features_path else None
+        if features_path is None:
+            self.features_paths = None
+        elif isinstance(features_path, dict):
+            self.features_paths = {k: Path(v) for k, v in features_path.items()}
+        else:
+            # Single path — assume it covers all batches
+            self.features_paths = {1: Path(features_path), 2: Path(features_path)}
         self.downloader = CorpusDownloader(self.corpus_url, self.corpus_local_path)
         self.downloader.download_corpus(self.corpus_files)
         self._prepare_corpus_data()
 
     def get_features(self, task):
         """Get pre-extracted acoustic features for a task as a DataFrame."""
-        if self.features_path is None:
-            raise ValueError("No features path configured. Pass features_path to load().")
-        return load_task_features(self.features_path, task.session_id, task.task_id)
+        if self.features_paths is None:
+            raise ValueError(
+                "No features path configured. Pass features_path to load(), "
+                "e.g. features_path={1: 'features/games-spanish-batch1', 2: 'features/games-spanish-batch2'}"
+            )
+        # Determine batch from session ID
+        session = self.sessions[task.session_id]
+        batch = session.batch
+        if batch not in self.features_paths:
+            raise ValueError(f"No features path configured for batch {batch}.")
+        return load_task_features(self.features_paths[batch], task.session_id, task.task_id)
 
     def _setup_paths(self, url=None, local_path=None):
         self.corpus_url = url or self.config.DEFAULT_URL

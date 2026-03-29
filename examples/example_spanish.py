@@ -9,9 +9,8 @@ def main():
 
     # Load the corpus (optionally specify custom URL or local path)
     corpus.load(
-        # url="https://custom-url.com/{filename}",  # optional custom URL
-        # local_path="./data",  # optional custom path
-        load_audio=False  # set to True if you need audio files
+        load_audio=False,
+        features_path={1: "features/games-spanish-batch1", 2: "features/games-spanish-batch2"},
     )
 
     # Example 1: Get all sessions from batch 1
@@ -62,6 +61,14 @@ def main():
 
         print("Dev labels:", sorted(dev_counts.items(), key=lambda x: x[0]))
         print("Eval labels:", sorted(eval_counts.items(), key=lambda x: x[0]))
+
+    # Features example
+    for batch in [1, 2]:
+        task = next(corpus.dev_tasks(batch=batch))
+        features = corpus.get_features(task)
+        print(f"\nBatch {batch} features for session {task.session_id}, task {task.task_id}:")
+        print(f"  Shape: {features.shape}")
+        print(f"  Time range: {features['time'].min():.2f}s - {features['time'].max():.2f}s")
 
 
 if __name__ == "__main__":
