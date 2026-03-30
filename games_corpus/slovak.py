@@ -3,7 +3,7 @@
 import logging
 from pathlib import Path
 
-from games_corpus.types import Task, Session
+from games_corpus.types import Session
 from games_corpus.features import load_task_features
 from games_corpus import parsers
 
@@ -49,7 +49,14 @@ class SlovakGamesCorpus:
         self._parse_corpus(sessions_info, load_audio)
 
     def get_features(self, task):
-        """Get pre-extracted acoustic features for a task as a DataFrame."""
+        """Get pre-extracted acoustic features for a task as a DataFrame.
+
+        Args:
+            task: A Task object from this corpus
+
+        Returns:
+            pandas DataFrame with time series of acoustic features
+        """
         if self.features_path is None:
             raise ValueError("No features path configured. Pass features_path to load().")
         return load_task_features(self.features_path, task.session_id, task.task_id)
@@ -112,60 +119,22 @@ class SlovakGamesCorpus:
     # ----- Task loading -----
 
     def _load_tasks_for_session(self, session_id, load_audio):
-        tasks = []
         session_dir = self._session_dir(session_id)
         if not session_dir.exists():
             logging.warning(f"Session directory {session_dir} not found. Skipping.")
-            return tasks
+            return []
 
         tasks_file = session_dir / f"s{session_id:02d}.objects.1.tasks"
         if not tasks_file.exists():
             logging.warning(f"Tasks file {tasks_file} not found. Skipping session {session_id}.")
-            return tasks
+            return []
 
-        tasks_info = parsers.load_objects_tasks(tasks_file)
-
-        word_files = self._resolve_speaker_files(session_id, "words")
-        turn_files = self._resolve_speaker_files(session_id, "turns")
-        # Slovak uses capitalized .Phrases extension
-        phrase_files = self._resolve_speaker_files(session_id, "Phrases")
-
-        for info in tasks_info:
-            task_id = info["Task ID"]
-            task_boundaries = (info["Start"], info["End"], task_id, session_id)
-
-            # Load IPUs: prefer words if available, fall back to phrases
-            if word_files:
-                ipus = parsers.load_ipus_from_words(word_files, task_boundaries)
-            elif phrase_files:
-                ipus = parsers.load_ipus_from_phrases(phrase_files, task_boundaries)
-            else:
-                ipus = []
-
-            turns = parsers.load_turns_for_task(session_id, task_id, turn_files, ipus, task_boundaries)
-            turn_transitions = parsers.load_turn_transitions_for_task(
-                session_id, task_id, turn_files, turns, task_boundaries
-            )
-
-            wav_files = {}
-            if load_audio:
-                wav_files = parsers.load_wavs_for_task(self._resolve_speaker_files(session_id, "wav"))
-
-            task_obj = Task(
-                task_id=task_id,
-                start=info["Start"],
-                duration=info["End"] - info["Start"],
-                session_id=session_id,
-                images=info["Images"],
-                describer=info["Describer"],
-                target=info["Target"],
-                score=info["Score"],
-                time_used=info["Time-used"],
-                turn_transitions=turn_transitions,
-                ipus=ipus,
-                wavs=wav_files,
-                turns=turns,
-            )
-            tasks.append(task_obj)
-
-        return tasks
+        return parsers.build_tasks_from_files(
+            session_id=session_id,
+            tasks_info=parsers.load_objects_tasks(tasks_file),
+            word_files=self._resolve_speaker_files(session_id, "words"),
+            turn_files=self._resolve_speaker_files(session_id, "turns"),
+            phrase_files=self._resolve_speaker_files(session_id, "Phrases"),  # Slovak uses capitalized extension
+            wav_files=self._resolve_speaker_files(session_id, "wav"),
+            load_audio=load_audio,
+        )

@@ -80,7 +80,7 @@ class SpanishGamesCorpus:
             2: BatchConfig.create_batch2_config(),
         }
         self.downloader = None
-        self.features_path = None
+        self.features_paths = None
 
     @property
     def name(self) -> str:
@@ -117,7 +117,14 @@ class SpanishGamesCorpus:
         self._prepare_corpus_data()
 
     def get_features(self, task):
-        """Get pre-extracted acoustic features for a task as a DataFrame."""
+        """Get pre-extracted acoustic features for a task as a DataFrame.
+
+        Args:
+            task: A Task object from this corpus
+
+        Returns:
+            pandas DataFrame with time series of acoustic features
+        """
         if self.features_paths is None:
             raise ValueError(
                 "No features path configured. Pass features_path to load(), "

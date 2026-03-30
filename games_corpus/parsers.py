@@ -8,7 +8,7 @@ import logging
 from pathlib import Path
 from typing import List, Dict
 
-from games_corpus.types import TurnTransition, Turn, IPU, Word, TurnTransitionType
+from games_corpus.types import Task, TurnTransition, Turn, IPU, Word, TurnTransitionType
 
 
 # ---------------------------------------------------------------------------
@@ -467,3 +467,58 @@ def load_wavs_for_task(wav_files: Dict[str, Path]) -> Dict[str, Path]:
         else:
             logging.warning(f"WAV file {wav_file} not found.")
     return result
+
+
+# ---------------------------------------------------------------------------
+# Shared task builder
+# ---------------------------------------------------------------------------
+
+
+def build_tasks_from_files(
+    session_id: int,
+    tasks_info: list,
+    word_files: Dict[str, Path],
+    turn_files: Dict[str, Path],
+    phrase_files: Dict[str, Path],
+    wav_files: Dict[str, Path],
+    load_audio: bool,
+) -> List[Task]:
+    """Build Task objects from parsed task info and resolved file paths.
+
+    Shared logic used by English and Slovak corpus classes.
+    """
+    tasks = []
+    for info in tasks_info:
+        task_id = info["Task ID"]
+        task_boundaries = (info["Start"], info["End"], task_id, session_id)
+
+        if word_files:
+            ipus = load_ipus_from_words(word_files, task_boundaries)
+        elif phrase_files:
+            ipus = load_ipus_from_phrases(phrase_files, task_boundaries)
+        else:
+            ipus = []
+
+        turns = load_turns_for_task(session_id, task_id, turn_files, ipus, task_boundaries)
+        turn_transitions = load_turn_transitions_for_task(session_id, task_id, turn_files, turns, task_boundaries)
+
+        task_wavs = load_wavs_for_task(wav_files) if load_audio else {}
+
+        task_obj = Task(
+            task_id=task_id,
+            start=info["Start"],
+            duration=info["End"] - info["Start"],
+            session_id=session_id,
+            images=info["Images"],
+            describer=info["Describer"],
+            target=info["Target"],
+            score=info["Score"],
+            time_used=info["Time-used"],
+            turn_transitions=turn_transitions,
+            ipus=ipus,
+            wavs=task_wavs,
+            turns=turns,
+        )
+        tasks.append(task_obj)
+
+    return tasks
