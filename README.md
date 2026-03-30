@@ -92,7 +92,10 @@ uv run python examples/example_with_audio.py
 from games_corpus import SpanishGamesCorpus
 
 corpus = SpanishGamesCorpus()
-corpus.load(load_audio=False)
+corpus.load(
+    load_audio=False,
+    features_path={1: "features/games-spanish-batch1", 2: "features/games-spanish-batch2"},
+)
 
 # Get all sessions from batch 1
 batch1_sessions = corpus.get_sessions_by_batch(1)
@@ -111,7 +114,7 @@ for task in corpus.dev_tasks(batch=1):
 from games_corpus import EnglishGamesCorpus
 
 corpus = EnglishGamesCorpus()
-corpus.load(load_audio=False)  # corpus must be at ./corpus/games-english/
+corpus.load(load_audio=False, features_path="features/games-english")
 
 for session_id, session in corpus.sessions.items():
     print(f"Session {session_id}: {len(session.tasks)} tasks")
@@ -123,7 +126,7 @@ for session_id, session in corpus.sessions.items():
 from games_corpus import SlovakGamesCorpus
 
 corpus = SlovakGamesCorpus()
-corpus.load(load_audio=False)  # corpus must be at ./corpus/games-slovak/
+corpus.load(load_audio=False, features_path="features/games-slovak")
 
 for session_id, session in corpus.sessions.items():
     print(f"Session {session_id}: {len(session.tasks)} tasks")
@@ -140,11 +143,18 @@ games-corpus/
 │   ├── spanish.py             # SpanishGamesCorpus
 │   ├── english.py             # EnglishGamesCorpus
 │   ├── slovak.py              # SlovakGamesCorpus
+│   ├── features.py            # Pre-extracted features loader
 │   └── downloader.py          # Remote file downloader (Spanish only)
+├── features/                  # Pre-extracted acoustic features (Git LFS)
+│   ├── games-english/
+│   ├── games-spanish-batch1/
+│   ├── games-spanish-batch2/
+│   └── games-slovak/
 ├── examples/
 │   ├── example_spanish.py     # Spanish corpus example
 │   ├── example_english.py     # English corpus example
 │   ├── example_slovak.py      # Slovak corpus example
+│   ├── example_all_pitch.py   # Cross-corpus pitch comparison plot
 │   └── example_with_audio.py  # Audio analysis example
 ├── tests/                     # Test suite
 └── scripts/                   # Praat visualization scripts
@@ -173,11 +183,11 @@ The Spanish corpus additionally organizes sessions into **batches** (batch 1 and
 
 ### Corpus Overview
 
-| Corpus | Language | Sessions | Tasks | Loading |
-|--------|----------|----------|-------|---------|
-| Spanish (UBA) | Argentine Spanish | 24 (2 batches) | 415 | Auto-download |
-| English (Columbia) | English | 12 | 168 | Manual |
-| Slovak | Slovak | 9 | 122 | Manual |
+| Corpus | Language | Sessions | Tasks | Loading | Features |
+|--------|----------|----------|-------|---------|----------|
+| Spanish (UBA) | Argentine Spanish | 24 (2 batches) | 415 | Auto-download | Included (LFS) |
+| English (Columbia) | English | 12 | 168 | Manual | Included (LFS) |
+| Slovak | Slovak | 9 | 122 | Manual | Included (LFS) |
 
 ## Advanced Usage
 
@@ -202,7 +212,7 @@ for ipu in task.ipus:
 
 ### Pre-extracted Acoustic Features
 
-If you have pre-extracted features available (CSV time series with pitch, jitter, shimmer, HNR, intensity, VAD), pass the `features_path` to `load()`:
+Pre-extracted acoustic features are included in the repo (via Git LFS). Pass the `features_path` to `load()` to enable `get_features(task)`:
 
 ```python
 from games_corpus import EnglishGamesCorpus
@@ -216,7 +226,14 @@ df = corpus.get_features(task)
 print(df.shape)  # (1555, 13) — one row per 10ms frame
 ```
 
-Features are available per task at 100 Hz (10ms frames) with z-score standardized acoustic measurements for both speakers (A and B).
+For the Spanish corpus (two batches), pass a dict:
+
+```python
+corpus = SpanishGamesCorpus()
+corpus.load(features_path={1: "features/games-spanish-batch1", 2: "features/games-spanish-batch2"})
+```
+
+Features are available per task at 100 Hz (10ms frames) with z-score standardized measurements for both speakers: pitch, jitter, shimmer, log HNR, intensity, and VAD.
 
 ### Spanish-Specific: Dev/Eval Splits
 
