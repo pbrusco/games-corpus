@@ -45,12 +45,21 @@ def main():
     print("Transition label distribution:", sorted(counts.items(), key=lambda x: x[0]))
 
     # Features example
-    task = list(corpus.sessions.values())[0].tasks[0]
-    features = corpus.get_features(task)
-    print(f"\nFeatures for session {task.session_id}, task {task.task_id}:")
-    print(f"  Shape: {features.shape}")
-    print(f"  Columns: {list(features.columns)}")
-    print(f"  Time range: {features['time'].min():.2f}s - {features['time'].max():.2f}s")
+    if not corpus.sessions:
+        print("\nNo sessions loaded; skipping features example.")
+    else:
+        # Select a stable session by choosing the smallest session ID key
+        first_session_id = sorted(corpus.sessions.keys())[0]
+        session = corpus.sessions[first_session_id]
+        if not session.tasks:
+            print(f"\nSession {first_session_id} has no tasks; skipping features example.")
+        else:
+            task = session.tasks[0]
+            features = corpus.get_features(task)
+            print(f"\nFeatures for session {task.session_id}, task {task.task_id}:")
+            print(f"  Shape: {features.shape}")
+            print(f"  Columns: {list(features.columns)}")
+            print(f"  Time range: {features['time'].min():.2f}s - {features['time'].max():.2f}s")
 
 
 if __name__ == "__main__":
