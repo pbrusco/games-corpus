@@ -8,33 +8,30 @@ A Python library for working with collaborative dialogue game corpora:
 
 ## Installation
 
-This project uses [uv](https://docs.astral.sh/uv/) for dependency management. uv is a fast Python package manager that handles virtual environments, dependency resolution, and Python version management in a single tool.
+### For users
 
-### Install uv
+```bash
+pip install games-corpus
+```
 
-If you don't have uv installed yet:
+### For developers
+
+This project uses [uv](https://docs.astral.sh/uv/) for development. If you don't have it:
 
 ```bash
 # macOS / Linux
 curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# or with Homebrew
-brew install uv
 ```
 
-See the [uv installation docs](https://docs.astral.sh/uv/getting-started/installation/) for more options.
-
-### Set up the project
+Then clone and set up:
 
 ```bash
+git clone https://github.com/pbrusco/games-corpus.git
+cd games-corpus
 uv sync
 ```
 
-This creates a virtual environment, installs Python if needed, and installs all dependencies (including audio). That's it.
-
-### Running scripts
-
-Use `uv run` to execute scripts in the project environment (no need to activate anything):
+This creates a virtual environment and installs all dependencies (including dev tools and audio libraries). Run scripts with `uv run`:
 
 ```bash
 uv run python examples/example_spanish.py
@@ -42,16 +39,10 @@ uv run python examples/example_spanish.py
 
 ### Troubleshooting: SSL certificate error on macOS
 
-If you see `SSL: CERTIFICATE_VERIFY_FAILED` when downloading the corpus, this is a known issue with Homebrew Python on macOS. Fix it by setting the `SSL_CERT_FILE` environment variable before running:
+If you see `SSL: CERTIFICATE_VERIFY_FAILED` when downloading the Spanish corpus, set the `SSL_CERT_FILE` environment variable:
 
 ```bash
 export SSL_CERT_FILE=$(python -c "import certifi; print(certifi.where())")
-```
-
-Or point directly to the Homebrew CA bundle:
-
-```bash
-export SSL_CERT_FILE=/opt/homebrew/etc/openssl@3/cert.pem
 ```
 
 ## Examples
