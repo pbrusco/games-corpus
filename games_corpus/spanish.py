@@ -10,7 +10,7 @@ import pandas as pd
 
 from games_corpus.types import Task, Session, BatchConfig
 from games_corpus.downloader import CorpusDownloader
-from games_corpus.features import load_task_features
+from games_corpus.features import load_task_features, download_features
 from games_corpus import parsers
 
 
@@ -116,6 +116,18 @@ class SpanishGamesCorpus:
         self.downloader.download_corpus(self.corpus_files)
         self._prepare_corpus_data()
 
+    def download_features(self, features_dir="features"):
+        """Download pre-extracted acoustic features from GitHub Releases.
+
+        Args:
+            features_dir: Base directory to store features (default: "features")
+        """
+        download_features(features_dir, ["games-spanish-batch1", "games-spanish-batch2"])
+        self.features_paths = {
+            1: Path(features_dir) / "games-spanish-batch1",
+            2: Path(features_dir) / "games-spanish-batch2",
+        }
+
     def get_features(self, task):
         """Get pre-extracted acoustic features for a task as a DataFrame.
 
@@ -126,10 +138,7 @@ class SpanishGamesCorpus:
             pandas DataFrame with time series of acoustic features
         """
         if self.features_paths is None:
-            raise ValueError(
-                "No features path configured. Pass features_path to load(), "
-                "e.g. features_path={1: 'features/games-spanish-batch1', 2: 'features/games-spanish-batch2'}"
-            )
+            raise ValueError("No features path configured. Call download_features() or pass features_path to load().")
         # Determine batch from session ID
         session = self.sessions[task.session_id]
         batch = session.batch

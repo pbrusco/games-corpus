@@ -4,13 +4,39 @@ build-backend = "hatchling.build"
 
 [project]
 name = "games-corpus"
-version = "0.2.0"
-description = "A Python library for working with the UBA Spanish and Columbia English Games Corpora"
+version = "0.2.1"
+description = "A Python library for working with collaborative dialogue game corpora (Spanish, English, Slovak)"
 requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    { name = "Agustín Gravano" },
+    { name = "Juan E. Kamienkowski" },
+    { name = "Pablo Brusco" },
+]
+readme = "README.md"
+keywords = ["corpus", "dialogue", "turn-taking", "prosody", "speech"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Text Processing :: Linguistic",
+]
 dependencies = [
     "pandas>=1.5.0",
     "requests>=2.28.0",
 ]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["features/", "corpus/", "examples/", "tests/", "scripts/", "dist/"]
+
+[project.urls]
+Homepage = "https://github.com/pbrusco/games-corpus"
+Repository = "https://github.com/pbrusco/games-corpus"
 
 [dependency-groups]
 dev = [

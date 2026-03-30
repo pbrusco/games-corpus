@@ -4,7 +4,7 @@ import logging
 from pathlib import Path
 
 from games_corpus.types import Session
-from games_corpus.features import load_task_features
+from games_corpus.features import load_task_features, download_features
 from games_corpus import parsers
 
 
@@ -46,6 +46,15 @@ class EnglishGamesCorpus:
         sessions_info = self._parse_sessions_info()
         self._parse_corpus(sessions_info, load_audio)
 
+    def download_features(self, features_dir="features"):
+        """Download pre-extracted acoustic features from GitHub Releases.
+
+        Args:
+            features_dir: Base directory to store features (default: "features")
+        """
+        download_features(features_dir, ["games-english"])
+        self.features_path = Path(features_dir) / "games-english"
+
     def get_features(self, task):
         """Get pre-extracted acoustic features for a task as a DataFrame.
 
@@ -56,7 +65,7 @@ class EnglishGamesCorpus:
             pandas DataFrame with time series of acoustic features
         """
         if self.features_path is None:
-            raise ValueError("No features path configured. Pass features_path to load().")
+            raise ValueError("No features path configured. Call download_features() or pass features_path to load().")
         return load_task_features(self.features_path, task.session_id, task.task_id)
 
     def _parse_sessions_info(self):

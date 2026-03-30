@@ -212,13 +212,14 @@ for ipu in task.ipus:
 
 ### Pre-extracted Acoustic Features
 
-Pre-extracted acoustic features are included in the repo via Git LFS. Make sure Git LFS is installed and LFS objects are fetched (for example, run `git lfs install` followed by `git lfs pull`, or clone with LFS enabled) before using these features; otherwise `get_features()` may fail or see only pointer files. Pass the `features_path` to `load()` to enable `get_features(task)`:
+Pre-extracted features (pitch, jitter, shimmer, HNR, intensity, VAD) can be downloaded automatically from GitHub Releases:
 
 ```python
 from games_corpus import EnglishGamesCorpus
 
 corpus = EnglishGamesCorpus()
-corpus.load(features_path="features/games-english")
+corpus.load(local_path="corpus/games-english")
+corpus.download_features()  # downloads to features/games-english/
 
 task = corpus.sessions[1].tasks[0]
 df = corpus.get_features(task)
@@ -226,11 +227,17 @@ df = corpus.get_features(task)
 print(df.shape)  # (1555, 13) — one row per 10ms frame
 ```
 
-For the Spanish corpus (two batches), pass a dict:
+Works the same for all corpora:
 
 ```python
-corpus = SpanishGamesCorpus()
-corpus.load(features_path={1: "features/games-spanish-batch1", 2: "features/games-spanish-batch2"})
+corpus.download_features()  # downloads once, skips if already present
+df = corpus.get_features(task)
+```
+
+Alternatively, pass `features_path` to `load()` if you have features in a custom location:
+
+```python
+corpus.load(features_path="my/custom/path")
 ```
 
 Features are available per task at 100 Hz (10ms frames) with z-score standardized measurements for both speakers: pitch, jitter, shimmer, log HNR, intensity, and VAD.
