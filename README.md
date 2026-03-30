@@ -47,6 +47,8 @@ export SSL_CERT_FILE=$(python -c "import certifi; print(certifi.where())")
 
 ## Examples
 
+Full example scripts are available in the [examples/](https://github.com/pbrusco/games-corpus/tree/main/examples) directory on GitHub.
+
 ### Spanish Corpus
 
 ```bash
