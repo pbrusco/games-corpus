@@ -1,55 +1,59 @@
-from games_corpus import SlovakGamesCorpus
+"""Example: loading and exploring the Slovak Games Corpus."""
+
 import logging
-from collections import defaultdict
+from collections import Counter
+
+from games_corpus import SlovakGamesCorpus
 
 
 def main():
     corpus = SlovakGamesCorpus()
     corpus.load(load_audio=False, features_path="features/games-slovak")
 
-    print(f"Loaded {len(corpus.sessions)} sessions")
+    # --- Corpus overview ---
+    print("=== Slovak Games Corpus ===\n")
+    total_tasks = sum(len(s.tasks) for s in corpus.sessions.values())
+    print(f"{len(corpus.sessions)} sessions, {total_tasks} tasks")
 
-    # Show first session's first task
-    for session_id, session in corpus.sessions.items():
-        print(f"\nSession {session_id}: {len(session.tasks)} tasks")
-        if session.tasks:
-            task = session.tasks[0]
-            print(f"  Task {task.task_id}: {task.describer} describing '{task.target}'")
-            print(f"  Score: {task.score}, Duration: {task.duration:.2f}s")
+    # --- First task detail ---
+    session = corpus.sessions[1]
+    task = session.tasks[0]
+    print(f"\n=== Task {task.task_id} (Session {task.session_id}) ===")
+    print(f"  Describer: {task.describer}")
+    print(f"  Target:    {task.target}")
+    print(f"  Score:     {task.score}")
+    print(f"  Duration:  {task.duration:.2f}s")
 
-            if task.turn_transitions:
-                print(f"\n  Turn transitions ({len(task.turn_transitions)}):")
-                for transition in task.turn_transitions[:5]:
-                    print(f"    {transition.label_type.name:20} | {transition.ipu_from} -> {transition.ipu_to}")
-                if len(task.turn_transitions) > 5:
-                    print(f"    ... and {len(task.turn_transitions) - 5} more")
+    # --- Turns ---
+    print(f"\n  Turns ({len(task.turns)}):")
+    for turn in task.turns[:5]:
+        print(f"    {turn}")
+    if len(task.turns) > 5:
+        print(f"    ... and {len(task.turns) - 5} more")
 
-            if task.turns:
-                print(f"\n  Turns ({len(task.turns)}):")
-                for turn in task.turns[:3]:
-                    print(f"    {turn}")
-                if len(task.turns) > 3:
-                    print(f"    ... and {len(task.turns) - 3} more")
-        break
+    # --- Turn transitions ---
+    print(f"\n  Turn transitions ({len(task.turn_transitions)}):")
+    for tt in task.turn_transitions[:5]:
+        print(f"    {tt.label_type.name:20} | {tt.ipu_from} -> {tt.ipu_to}")
+    if len(task.turn_transitions) > 5:
+        print(f"    ... and {len(task.turn_transitions) - 5} more")
 
-    # Label distribution across all sessions
-    counts = defaultdict(int)
-    total_tasks = 0
+    # --- Label distribution ---
+    print("\n=== Transition Label Distribution ===\n")
+    counts = Counter()
     for session in corpus.sessions.values():
         for task in session.tasks:
-            total_tasks += 1
-            for transition in task.turn_transitions:
-                counts[transition.label] += 1
+            for tt in task.turn_transitions:
+                counts[tt.label] += 1
+    print(dict(sorted(counts.items())))
 
-    print(f"\nTotal tasks: {total_tasks}")
-    print("Transition label distribution:", sorted(counts.items(), key=lambda x: x[0]))
-
-    # Features example
-    task = list(corpus.sessions.values())[0].tasks[0]
+    # --- Features ---
+    print("\n=== Pre-extracted Features ===\n")
+    task = corpus.sessions[1].tasks[0]
     features = corpus.get_features(task)
-    print(f"\nFeatures for session {task.session_id}, task {task.task_id}:")
-    print(f"  Shape: {features.shape}")
+    print(f"Session {task.session_id}, task {task.task_id}: {features.shape[0]} frames, {features.shape[1]} columns")
     print(f"  Time range: {features['time'].min():.2f}s - {features['time'].max():.2f}s")
+    print(f"  Columns: {', '.join(features.columns)}")
 
 
 if __name__ == "__main__":
