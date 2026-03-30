@@ -1,31 +1,15 @@
-import sys
-from pathlib import Path
 import math
+from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
-GAMES_CORPUS_PATH = REPO_ROOT / "games-corpus"
+import pytest
+from games_corpus import SpanishGamesCorpus, Task, Session
+from games_corpus.types import Word, IPU, TurnTransition, Turn, TurnTransitionType
+from games_corpus.parsers import load_objects_tasks, load_ipus_from_words, load_turns_for_task
 
-if str(GAMES_CORPUS_PATH) not in sys.path:
-    sys.path.append(str(GAMES_CORPUS_PATH))
-
-import pytest  # noqa: E402
-from games_corpus import (  # noqa: E402
-    SpanishGamesCorpusDialogues,
-    Task,
-    Session,
-)
-from games_corpus_types import (  # noqa: E402
-    Word,
-    IPU,
-    TurnTransition,
-    Turn,
-    TurnTransitionType,
-)
-
-from games_corpus_parsers import (  # noqa: E402
-    load_tasks_info,
-    load_ipus_from_words,
-    load_turns_for_task,
+SPANISH_CORPUS_PATH = Path(__file__).resolve().parent.parent / "corpus" / "games-spanish"
+requires_spanish_corpus = pytest.mark.skipif(
+    not (SPANISH_CORPUS_PATH / "sessions-info.csv").exists(),
+    reason="Spanish corpus not available locally",
 )
 
 
@@ -189,11 +173,12 @@ class TestTurnTransition:
         )
         assert transition.overlapped_transition
 
+    @requires_spanish_corpus
     @pytest.mark.xfail(reason="Known corpus data quality issue")
     def test_x3_transition_timing(self):
         """Verify that X3 transitions are always less than 210ms away from an interlocutor turn start."""
         MAX_X3_GAP = 0.210  # 210ms
-        corpus = SpanishGamesCorpusDialogues()
+        corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
 
         for session in corpus.sessions.values():
@@ -235,10 +220,11 @@ class TestTurn:
         turn = sample_turns[0]
         assert Turn.get_turn_by_id(turn.turn_id) == turn
 
+    @requires_spanish_corpus
     @pytest.mark.xfail(reason="Known corpus data quality issue")
     def test_turn_definition_correctness(self):
         """Verify that turns follow the definition: maximal sequence of IPUs without interlocutor speech during silences."""
-        corpus = SpanishGamesCorpusDialogues()
+        corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
 
         for session in corpus.sessions.values():
@@ -267,10 +253,11 @@ class TestTurn:
                             f"turn {turn.turn_id}. Interlocutor IPUs: {interlocutor_ipus}"
                         )
 
+    @requires_spanish_corpus
     @pytest.mark.xfail(reason="Known corpus data quality issue")
     def test_no_consecutive_turns_same_speaker(self):
         """Verify there are no consecutive turns from the same speaker with silence between them."""
-        corpus = SpanishGamesCorpusDialogues()
+        corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
 
         for session in corpus.sessions.values():
@@ -390,23 +377,23 @@ class TestTask:
 
 
 class TestLoadTasksInfo:
-    def test_load_tasks_info_batch1(self, sample_task_file):
-        tasks = load_tasks_info(sample_task_file, batch=1)
+    def test_load_objects_tasks_batch1(self, sample_task_file):
+        tasks = load_objects_tasks(sample_task_file)
         assert len(tasks) == 2
         assert tasks[0]["Images"] == ["img1", "img2"]
         assert tasks[0]["Describer"] == "A"
         assert float(tasks[0]["Score"]) == 1.0
 
 
-class TestSpanishGamesCorpusDialogues:
+class TestSpanishGamesCorpus:
     def test_initialization(self):
-        corpus = SpanishGamesCorpusDialogues()
+        corpus = SpanishGamesCorpus()
         assert corpus.corpus_raw is None
         assert corpus.sessions is None
         assert corpus.config.BANNED_SESSIONS == {28}
 
     def test_get_sessions_by_batch(self):
-        corpus = SpanishGamesCorpusDialogues()
+        corpus = SpanishGamesCorpus()
         corpus.sessions = {
             1: Session(session_id=1, batch=1, subject_a="A1", subject_b="B1", tasks=[]),
             2: Session(session_id=2, batch=2, subject_a="A2", subject_b="B2", tasks=[]),
@@ -415,8 +402,9 @@ class TestSpanishGamesCorpusDialogues:
         assert len(batch1_sessions) == 1
         assert 1 in batch1_sessions
 
+    @requires_spanish_corpus
     def test_batch1_task_distribution(self):
-        corpus = SpanishGamesCorpusDialogues()
+        corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
 
         dev_tasks = list(corpus.dev_tasks(batch=1))
@@ -425,8 +413,9 @@ class TestSpanishGamesCorpusDialogues:
         assert len(dev_tasks) == 132, "Batch 1 dev tasks count mismatch"
         assert len(held_out_tasks) == 64, "Batch 1 eval tasks count mismatch"
 
+    @requires_spanish_corpus
     def test_batch2_task_distribution(self):
-        corpus = SpanishGamesCorpusDialogues()
+        corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
 
         dev_tasks = list(corpus.dev_tasks(batch=2))
@@ -435,8 +424,9 @@ class TestSpanishGamesCorpusDialogues:
         assert len(dev_tasks) == 172, "Batch 2 dev tasks count mismatch"
         assert len(held_out_tasks) == 47, "Batch 2 eval tasks count mismatch"
 
+    @requires_spanish_corpus
     def test_batch1_transition_label_distribution(self):
-        corpus = SpanishGamesCorpusDialogues()
+        corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
 
         dev_labels = {
@@ -468,8 +458,9 @@ class TestSpanishGamesCorpusDialogues:
 
         self._verify_label_distribution(corpus, 1, dev_labels, eval_labels)
 
+    @requires_spanish_corpus
     def test_batch2_transition_label_distribution(self):
-        corpus = SpanishGamesCorpusDialogues()
+        corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
 
         dev_labels = {
@@ -521,9 +512,10 @@ class TestSpanishGamesCorpusDialogues:
                 counts[trans.label] = counts.get(trans.label, 0) + 1
         return counts
 
+    @requires_spanish_corpus
     def test_raw_task_start(self):
         """Verify task start time in raw .tasks file matches expected value."""
-        corpus = SpanishGamesCorpusDialogues()
+        corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
 
         SESSION_ID = 3
@@ -535,25 +527,27 @@ class TestSpanishGamesCorpusDialogues:
         alt_key = f"s{SESSION_ID}.objects.1.tasks"
 
         tasks_file = tasks_mapping.get(task_key) or tasks_mapping.get(alt_key)
-        tasks_info = load_tasks_info(tasks_file, batch=1)
+        tasks_info = load_objects_tasks(tasks_file)
         raw_start = next(t["Start"] for t in tasks_info if t["Task ID"] == TASK_ID)
         assert math.isclose(raw_start, EXPECTED_START, abs_tol=1e-6)
 
+    @requires_spanish_corpus
     def test_task_start_preserved(self):
         """Verify task start time is preserved when loaded by the tool."""
         SESSION_ID = 3
         TASK_ID = 2
         EXPECTED_START = 34.949
 
-        corpus = SpanishGamesCorpusDialogues()
+        corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
 
         task = next(t for t in corpus.sessions[SESSION_ID].tasks if t.task_id == TASK_ID)
         assert math.isclose(task.start, EXPECTED_START, abs_tol=1e-6)
 
+    @requires_spanish_corpus
     def test_first_B_turn_included(self):
         """Verify first B turn (37.900-41.897s) is included in task turns."""
-        corpus = SpanishGamesCorpusDialogues()
+        corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
 
         SESSION_ID = 3
@@ -563,15 +557,27 @@ class TestSpanishGamesCorpusDialogues:
         task = next(t for t in corpus.sessions[SESSION_ID].tasks if t.task_id == TASK_ID)
         task_end = task.start + task.duration
 
-        ipus = load_ipus_from_words(SESSION_ID, (task.start, task_end), corpus.corpus_raw["b1-dialogue-words"])
+        # Resolve file paths using the new API
+        words_folder = corpus.corpus_raw["b1-dialogue-words"]
+        word_files = {
+            speaker: words_folder[f"s{SESSION_ID:02d}.objects.1.{speaker}.words"]
+            for speaker in ["A", "B"]
+            if f"s{SESSION_ID:02d}.objects.1.{speaker}.words" in words_folder
+        }
+        ipus = load_ipus_from_words(word_files, (task.start, task_end))
 
+        turns_folder = corpus.corpus_raw["b1-dialogue-turns"]
+        turn_files = {
+            speaker: turns_folder[f"s{SESSION_ID:02d}.objects.1.{speaker}.turns"]
+            for speaker in ["A", "B"]
+            if f"s{SESSION_ID:02d}.objects.1.{speaker}.turns" in turns_folder
+        }
         turns_B = load_turns_for_task(
             SESSION_ID,
             TASK_ID,
-            turns_folder=corpus.corpus_raw["b1-dialogue-turns"],
-            batch=1,
-            ipus=ipus,
-            task_boundaries=(task.start, task_end, None, None),
+            turn_files,
+            ipus,
+            (task.start, task_end, None, None),
         )
 
         assert any(

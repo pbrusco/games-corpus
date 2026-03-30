@@ -1,7 +1,12 @@
 .venv/
 .uba-games/
+corpus/
+features/*/data/
+features/*/lists/
 __pycache__/
 *.pyc
 .pytest_cache/
 .mypy_cache/
 .python-version
+.DS_Store
+*.png
