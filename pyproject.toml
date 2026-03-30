@@ -23,6 +23,7 @@ dev = [
     "librosa",
     "soundfile",
     "matplotlib",
+    "seaborn",
     "numpy",
 ]
 
