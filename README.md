@@ -212,7 +212,7 @@ for ipu in task.ipus:
 
 ### Pre-extracted Acoustic Features
 
-Pre-extracted acoustic features are included in the repo (via Git LFS). Pass the `features_path` to `load()` to enable `get_features(task)`:
+Pre-extracted acoustic features are included in the repo via Git LFS. Make sure Git LFS is installed and LFS objects are fetched (for example, run `git lfs install` followed by `git lfs pull`, or clone with LFS enabled) before using these features; otherwise `get_features()` may fail or see only pointer files. Pass the `features_path` to `load()` to enable `get_features(task)`:
 
 ```python
 from games_corpus import EnglishGamesCorpus
