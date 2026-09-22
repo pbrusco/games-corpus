@@ -103,6 +103,15 @@ class TestTypesModernization:
         assert s.subject_b == "B"
         assert s.tasks == []
 
+    def test_session_preserves_positional_constructor_without_batch(self):
+        Session.clear_registry()
+        s = Session(99, "A", "B", [])
+        assert s.session_id == 99
+        assert s.batch is None
+        assert s.subject_a == "A"
+        assert s.subject_b == "B"
+        assert s.tasks == []
+
     def test_task_wavs_conversion_to_path(self):
         task = Task(
             task_id=1,
