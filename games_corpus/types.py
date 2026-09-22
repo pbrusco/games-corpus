@@ -163,6 +163,10 @@ class TurnTransition:
     session_id: int = field(init=False)
     task_id: int = field(init=False)
     label_type: TurnTransitionType = field(init=False)
+    # Signed seconds between ipu_from.end and ipu_to.start: positive = silence gap
+    # before turn_to starts, negative = magnitude of speech overlap between the two
+    # turns. Use overlapped_transition (below) rather than a sign check on this value
+    # -- e.g. abs(transition_duration) for a magnitude regardless of which case it is.
     transition_duration: float = field(init=False)
     overlapped_transition: bool = field(init=False)
 
@@ -179,6 +183,7 @@ class TurnTransition:
 
         self.ipu_from = self.turn_from.ipus[-1] if self.turn_from else None
         self.ipu_to = self.turn_to.ipus[0]
+        # See the transition_duration field comment above for the sign convention.
         self.transition_duration = self.ipu_to.start - self.ipu_from.end if self.ipu_from else 0
         self.overlapped_transition = self.transition_duration < 0
 
