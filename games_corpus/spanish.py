@@ -13,6 +13,7 @@ from games_corpus import parsers
 from games_corpus.base import BaseGamesCorpus
 from games_corpus.downloader import CorpusDownloader
 from games_corpus.features import download_features, load_task_features
+from games_corpus.punctuation import PunctuatedPhrase, load_session_punctuated_phrases
 from games_corpus.types import BatchConfig, Session, Task
 
 
@@ -159,6 +160,38 @@ class SpanishGamesCorpus(BaseGamesCorpus):
         if batch is None or batch not in self.features_paths:
             raise ValueError(f"No features path configured for batch {batch}.")
         return load_task_features(self.features_paths[batch], task.session_id, task.task_id)
+
+    def get_punctuated_phrases(self, task: Task) -> list[PunctuatedPhrase]:
+        """Get machine-restored punctuation/capitalization for a task, if available.
+
+        NOT HUMAN ANNOTATION -- see `games_corpus.punctuation`'s module
+        docstring before relying on the returned text for anything where
+        correctness matters. Currently only a small pilot of sessions has
+        been processed; see `games_corpus.punctuation.available_sessions`.
+
+        Args:
+            task: A Task object from this corpus
+
+        Returns:
+            Both speakers' phrases overlapping the task's time span, in
+            chronological order.
+
+        Raises:
+            FileNotFoundError: this task's session hasn't been processed.
+        """
+        if self.sessions is None:
+            raise ValueError("Corpus not loaded. Call load() first.")
+        session = self.sessions[task.session_id]
+        batch = session.batch or 1
+
+        task_end = task.start + task.duration
+        phrases = [
+            p
+            for speaker in ("A", "B")
+            for p in load_session_punctuated_phrases(batch, task.session_id, speaker)
+            if p.start < task_end and p.end > task.start
+        ]
+        return sorted(phrases, key=lambda p: p.start)
 
     def _setup_paths(self, url: str | None = None, local_path: str | Path | None = None) -> None:
         self.corpus_url = url or self.config.DEFAULT_URL

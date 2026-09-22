@@ -11,6 +11,7 @@ from games_corpus.types import (
     BatchConfig,
 )
 from games_corpus.base import BaseGamesCorpus
+from games_corpus.punctuation import PunctuatedPhrase
 from games_corpus.spanish import SpanishGamesCorpus
 from games_corpus.english import EnglishGamesCorpus
 from games_corpus.slovak import SlovakGamesCorpus
@@ -25,6 +26,7 @@ __all__ = [
     "Task",
     "Session",
     "BatchConfig",
+    "PunctuatedPhrase",
     "SpanishGamesCorpus",
     "EnglishGamesCorpus",
     "SlovakGamesCorpus",
