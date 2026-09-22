@@ -138,8 +138,8 @@ games-corpus/
 │   ├── slovak.py              # SlovakGamesCorpus
 │   ├── features.py            # Pre-extracted features loader
 │   ├── downloader.py          # Remote file downloader (Spanish only)
-│   ├── punctuation.py         # Machine-restored punctuation (Spanish pilot, NOT human annotation)
-│   └── data/punctuated_phrases/  # Shipped pilot data for punctuation.py
+│   ├── punctuation.py         # Machine-restored punctuation, generic (NOT human annotation)
+│   └── data/punctuated_phrases/{corpus-slug}/  # Shipped pilot data, per corpus
 ├── features/                  # Pre-extracted acoustic features (Git LFS)
 │   ├── games-english/
 │   ├── games-spanish-batch1/
@@ -256,28 +256,30 @@ for task in corpus.dev_tasks(batch=1):
     print(f"Task {task.task_id}, session {task.session_id}")
 ```
 
-### Spanish-Specific: Machine-Restored Punctuation (pilot, not human annotation)
+### Machine-Restored Punctuation (pilot, not human annotation)
+
+`get_punctuated_phrases` / `available_punctuated_sessions` are generic on
+`BaseGamesCorpus` — they work the same way for all three corpora — but only
+the Spanish corpus has any sessions processed so far.
 
 > **Warning:** the source transcripts have no punctuation or capitalization at
 > all (ASR-style). `get_punctuated_phrases` returns punctuation predicted by
 > an LLM (Gemini, given the session audio + original transcript), **not**
-> produced or checked by this corpus's human annotators. It's a noisy
+> produced or checked by any corpus's human annotators. It's a noisy
 > pseudo-label meant to recover information the plain transcript hides (e.g.
 > a bare "sí" answering a real question vs. just a backchannel — only a
 > restored "¿...?" tells them apart), not ground truth. See
 > `games_corpus.punctuation`'s module docstring for details on the fidelity
-> check and its limits. Only a small pilot has been processed so far —
-> `games_corpus.punctuation.available_sessions(batch)` lists what's covered;
-> anything else raises `FileNotFoundError`.
+> check and its limits. `available_punctuated_sessions()` lists what's
+> covered for a given corpus; anything else raises `FileNotFoundError`.
 
 ```python
 from games_corpus import SpanishGamesCorpus
-from games_corpus.punctuation import available_sessions
 
 corpus = SpanishGamesCorpus()
 corpus.load(load_audio=False)
 
-print(available_sessions(batch=1))  # currently: frozenset({2})
+print(corpus.available_punctuated_sessions())  # currently: frozenset({2})
 
 task = next(t for t in corpus.dev_tasks(batch=1) if t.session_id == 2)
 for phrase in corpus.get_punctuated_phrases(task):
@@ -292,7 +294,7 @@ for phrase in corpus.get_punctuated_phrases(task):
 - Pre-extracted acoustic features (pitch, jitter, shimmer, HNR, intensity, VAD)
 - Optional audio file handling
 - Dev/eval task splits (Spanish corpus)
-- Machine-restored punctuation pilot (Spanish corpus, NOT human annotation — see warning above)
+- Machine-restored punctuation pilot, generic across corpora (currently Spanish only has data — NOT human annotation, see warning above)
 
 ## Testing
 
