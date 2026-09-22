@@ -9,6 +9,7 @@ from games_corpus import EnglishGamesCorpus
 def main():
     corpus = EnglishGamesCorpus()
     corpus.load(load_audio=False, features_path="features/games-english")
+    assert corpus.sessions is not None
 
     # --- Corpus overview ---
     print("=== Columbia English Games Corpus ===\n")
@@ -40,7 +41,7 @@ def main():
 
     # --- Label distribution ---
     print("\n=== Transition Label Distribution ===\n")
-    counts = Counter()
+    counts: Counter[str] = Counter()
     for session in corpus.sessions.values():
         for task in session.tasks:
             for tt in task.turn_transitions:

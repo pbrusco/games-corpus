@@ -2,15 +2,19 @@
 
 import logging
 from pathlib import Path
+from typing import Any
 
-from games_corpus.types import Session
-from games_corpus.features import load_task_features, download_features
+import pandas as pd
+
 from games_corpus import parsers
+from games_corpus.base import BaseGamesCorpus
+from games_corpus.features import download_features, load_task_features
+from games_corpus.types import Session, Task
 
 
-class EnglishGamesCorpus:
-    """
-    A class for loading and processing the Columbia Games Corpus (English).
+class EnglishGamesCorpus(BaseGamesCorpus):
+    """A class for loading and processing the Columbia Games Corpus (English).
+
     This corpus includes English dialogues of task-oriented, collaborative interactions.
 
     The corpus must be downloaded manually and placed in a local directory.
@@ -18,16 +22,21 @@ class EnglishGamesCorpus:
 
     DEFAULT_PATH = "./corpus/games-english/"
 
-    def __init__(self):
-        self.sessions = None
-        self.corpus_local_path = None
-        self.features_path = None
+    def __init__(self) -> None:
+        self.sessions: dict[int, Session] | None = None
+        self.corpus_local_path: Path | None = None
+        self.features_path: Path | None = None
 
     @property
     def name(self) -> str:
         return "Columbia Games Corpus"
 
-    def load(self, local_path=None, load_audio=False, features_path=None):
+    def load(
+        self,
+        local_path: str | Path | None = None,
+        load_audio: bool = False,
+        features_path: str | Path | dict[int, str | Path] | None = None,
+    ) -> None:
         """Load the English Games Corpus from a local directory.
 
         Args:
@@ -36,7 +45,10 @@ class EnglishGamesCorpus:
             features_path: Path to pre-extracted features (e.g. features/games-english/)
         """
         self.corpus_local_path = Path(local_path) if local_path else Path(self.DEFAULT_PATH)
-        self.features_path = Path(features_path) if features_path else None
+        if isinstance(features_path, dict):
+            self.features_path = Path(next(iter(features_path.values()))) if features_path else None
+        else:
+            self.features_path = Path(features_path) if features_path else None
         if not self.corpus_local_path.exists():
             raise FileNotFoundError(
                 f"English corpus not found at {self.corpus_local_path}. "
@@ -46,7 +58,7 @@ class EnglishGamesCorpus:
         sessions_info = self._parse_sessions_info()
         self._parse_corpus(sessions_info, load_audio)
 
-    def download_features(self, features_dir="features"):
+    def download_features(self, features_dir: str = "features") -> None:
         """Download pre-extracted acoustic features from GitHub Releases.
 
         Args:
@@ -55,7 +67,7 @@ class EnglishGamesCorpus:
         download_features(features_dir, ["games-english"])
         self.features_path = Path(features_dir) / "games-english"
 
-    def get_features(self, task):
+    def get_features(self, task: Task) -> pd.DataFrame:
         """Get pre-extracted acoustic features for a task as a DataFrame.
 
         Args:
@@ -68,13 +80,14 @@ class EnglishGamesCorpus:
             raise ValueError("No features path configured. Call download_features() or pass features_path to load().")
         return load_task_features(self.features_path, task.session_id, task.task_id)
 
-    def _parse_sessions_info(self):
+    def _parse_sessions_info(self) -> list[dict[str, Any]]:
         """Parse the README.sessions-info plain text table."""
+        assert self.corpus_local_path is not None
         readme_path = self.corpus_local_path / "README.sessions-info"
         if not readme_path.exists():
             raise FileNotFoundError(f"Sessions info file not found at {readme_path}")
 
-        sessions = []
+        sessions: list[dict[str, Any]] = []
         with open(readme_path, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
@@ -90,14 +103,14 @@ class EnglishGamesCorpus:
                     )
         return sessions
 
-    def _parse_corpus(self, sessions_info, load_audio):
+    def _parse_corpus(self, sessions_info: list[dict[str, Any]], load_audio: bool) -> None:
         self.sessions = {}
         for info in sessions_info:
             session_id = info["session_id"]
             tasks = self._load_tasks_for_session(session_id, load_audio)
             session_obj = Session(
                 session_id=session_id,
-                batch=1,
+                batch=None,
                 subject_a=info["subject_a"],
                 subject_b=info["subject_b"],
                 tasks=tasks,
@@ -106,15 +119,16 @@ class EnglishGamesCorpus:
 
     # ----- File path resolution -----
 
-    def _session_dir(self, session_id):
+    def _session_dir(self, session_id: int) -> Path:
+        assert self.corpus_local_path is not None
         return self.corpus_local_path / f"session_{session_id:02d}"
 
-    def _file_path(self, session_id, game, part, speaker_suffix, extension):
+    def _file_path(self, session_id: int, game: str, part: int, speaker_suffix: str, extension: str) -> Path:
         return self._session_dir(session_id) / f"s{session_id:02d}.{game}.{part}.{speaker_suffix}.{extension}"
 
-    def _resolve_speaker_files(self, session_id, extension):
+    def _resolve_speaker_files(self, session_id: int, extension: str) -> dict[str, Path]:
         """Resolve per-speaker file paths for objects game (part 1)."""
-        result = {}
+        result: dict[str, Path] = {}
         for speaker in ["A", "B"]:
             path = self._file_path(session_id, "objects", 1, speaker, extension)
             if path.exists():
@@ -123,7 +137,7 @@ class EnglishGamesCorpus:
 
     # ----- Task loading -----
 
-    def _load_tasks_for_session(self, session_id, load_audio):
+    def _load_tasks_for_session(self, session_id: int, load_audio: bool) -> list[Task]:
         session_dir = self._session_dir(session_id)
         if not session_dir.exists():
             logging.warning(f"Session directory {session_dir} not found. Skipping.")

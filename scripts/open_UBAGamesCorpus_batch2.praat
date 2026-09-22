@@ -47,19 +47,19 @@ form Games Corpus
     option 28
     option 29
     option 30
-  
+
   boolean phrases_A 1
   boolean turns_A 1
 
   boolean phrases_B 1
   boolean turns_B 1
-  
+
   optionmenu wav_file 3
     option A
     option B
     option both (stereo)
 	option none
-endform 
+endform
 
 #############################################################
 ## Session's stem -- eg: s01.objects.1

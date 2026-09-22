@@ -3,7 +3,7 @@ use strict;
 
 # Agustin Gravano - Columbia University - November 2005
 
-# This script merges several wavesurfer annotation files 
+# This script merges several wavesurfer annotation files
 # into one Praat TextGrid file.
 
 # full path to the program 'duration'
@@ -36,7 +36,7 @@ if (!$stem || !@tiers) {
 		"Important: The file test.wav needs to be present in the same dir, unless\n".
 		"       the TIERNAME_FOR_XMIN_XMAX is specified. In that case, the first and\n".
 		"       last points in that tier will be used as the end point of the TextGrid.\n\n";
-} 
+}
 
 map {
 	my $filename = "$stem.$_";
@@ -85,12 +85,12 @@ for my $i (1..@tiers) {
 	my $tier = $tiers[$i-1];
 	my $type = $types[$i-1];
 	my $filename = "$stem.$tier";
-	
+
 	open FILE_HANDLER, $filename;
 	my @lines = <FILE_HANDLER>;
 	close FILE_HANDLER;
 	chomp @lines;
-	
+
 	$result .= tabs(1)."item [$i]:\n";
 	$result .= tabs(2)."class = \"".($type eq "p" || $type eq "P" ? 'TextTier' : 'IntervalTier')."\" \n";
 	$result .= tabs(2)."name = \"$tier\" \n";
@@ -99,10 +99,10 @@ for my $i (1..@tiers) {
 
 
 	my $buffer; # we'll save all contents of this tier here.
-	
+
 	my $previous_time = 0;
 	my $j = 0;
-		
+
 	for my $line (@lines) {
 		if ($line =~ m/^\s*(-?[0-9.]+)\s+(-?[0-9.]+)\s+(.*)$/) {
 			$j++;
@@ -111,26 +111,26 @@ for my $i (1..@tiers) {
 			my $col2 = $2;
 			my $col3 = escape_chars($3);
 
-			if ($type eq "p") { 
+			if ($type eq "p") {
 				# point, with time specified by the first column
 				$buffer .= tabs(2)."points [$j]:\n";
 				$buffer .= tabs(3)."time = $col1 \n";
 				$buffer .= tabs(3)."mark = \"$col3\" \n";
 			}
-			elsif ($type eq "P") { 
+			elsif ($type eq "P") {
 				# point, with time specified by the second column
 				$buffer .= tabs(2)."points [$j]:\n";
 				$buffer .= tabs(3)."time = $col2 \n";
 				$buffer .= tabs(3)."mark = \"$col3\" \n";
 			}
-			elsif ($type eq "i") { 
+			elsif ($type eq "i") {
 				# interval with both boundaries specified
 				$buffer .= tabs(2)."intervals [$j]:\n";
 				$buffer .= tabs(3)."xmin = $col1 \n";
 				$buffer .= tabs(3)."xmax = $col2 \n";
 				$buffer .= tabs(3)."text = \"$col3\" \n";
 			}
-			elsif ($type eq "I") { 
+			elsif ($type eq "I") {
 				# I = interval with only the first boundary specified
 				#     (the second column is ignored).
 				$buffer .= tabs(2)."intervals [$j]:\n";
@@ -148,8 +148,8 @@ for my $i (1..@tiers) {
 	if ($type eq "p" || $type eq "P") {    # - - - - point tier - - -
 		$result .= tabs(2)."points: size = ".$j." \n";
 	}
-	elsif ($type eq "i" || $type eq "I") { # - - - - interval tier - - - 
-	
+	elsif ($type eq "i" || $type eq "I") { # - - - - interval tier - - -
+
 		# special case: in praat, interval tiers must have at least
 		# one interval. ie, 'empty' interval tiers have one interval
 		# that starts at 0 and ends at the end of the file.
@@ -163,9 +163,9 @@ for my $i (1..@tiers) {
 
 		$result .= tabs(2)."intervals: size = ".$j." \n";
 	}
-	
+
 	# and we print the rest of the tier
-	$result .= $buffer;	
+	$result .= $buffer;
 };
 
 open FILE_HANDLER, ">$stem.TextGrid";
@@ -178,7 +178,7 @@ sub tabs {
 	my $n = shift;
 	my $TABS = "    ";
 	my $res;
-	
+
 	for (1..$n) { $res .= $TABS; }
 
 	return $res;
@@ -201,7 +201,7 @@ sub wav_length {
 # escapes the characters that might cause trouble: "
 sub escape_chars {
 	my $str = shift;
-	
+
 	$str =~ s/"/""/g;
 	return $str;
 }

@@ -2,16 +2,18 @@
 
 import logging
 import os
-from pathlib import Path
+from collections.abc import Iterator
 from dataclasses import dataclass, field
-from typing import Dict, Set
+from pathlib import Path
+from typing import Any
 
 import pandas as pd
 
-from games_corpus.types import Task, Session, BatchConfig
-from games_corpus.downloader import CorpusDownloader
-from games_corpus.features import load_task_features, download_features
 from games_corpus import parsers
+from games_corpus.base import BaseGamesCorpus
+from games_corpus.downloader import CorpusDownloader
+from games_corpus.features import download_features, load_task_features
+from games_corpus.types import BatchConfig, Session, Task
 
 
 @dataclass(frozen=True)
@@ -30,7 +32,7 @@ class CorpusInfo:
 class CorpusFiles:
     """Mapping of corpus file identifiers to their filenames."""
 
-    files: Dict[str, str] = field(
+    files: dict[str, str] = field(
         default_factory=lambda: {
             "b1-dialogue-phrases": "b1-dialogue-phrases.zip",
             "b1-dialogue-tasks": "b1-dialogue-tasks.zip",
@@ -53,7 +55,7 @@ class CorpusConfig:
     CORPUS_INFO: CorpusInfo = CorpusInfo()
     CORPUS_FILES: CorpusFiles = CorpusFiles()
     DEFAULT_URL: str = "https://ri.conicet.gov.ar/bitstream/handle/11336/191235/{filename}?sequence=29&isAllowed=y"
-    BANNED_SESSIONS: Set[int] = {28}
+    BANNED_SESSIONS: set[int] = {28}
 
 
 SPEAKER_SUFFIXES = {
@@ -62,25 +64,25 @@ SPEAKER_SUFFIXES = {
 }
 
 
-class SpanishGamesCorpus:
-    """
-    A class for loading and processing the UBA Games Corpus.
+class SpanishGamesCorpus(BaseGamesCorpus):
+    """A class for loading and processing the UBA Games Corpus.
+
     This corpus includes Spanish dialogues of task-oriented, collaborative interactions.
     """
 
-    def __init__(self):
-        self.corpus_raw = None
-        self.sessions = None
+    def __init__(self) -> None:
+        self.corpus_raw: dict[str, Any] | None = None
+        self.sessions: dict[int, Session] | None = None
         self.config = CorpusConfig()
         self.corpus_url = self.config.DEFAULT_URL
-        self.corpus_local_path = None
+        self.corpus_local_path: Path | None = None
         self.corpus_files = self.config.CORPUS_FILES.files.copy()
         self.batch_configs = {
             1: BatchConfig.create_batch1_config(),
             2: BatchConfig.create_batch2_config(),
         }
-        self.downloader = None
-        self.features_paths = None
+        self.downloader: CorpusDownloader | None = None
+        self.features_paths: dict[int, Path] | None = None
 
     @property
     def name(self) -> str:
@@ -95,10 +97,19 @@ class SpanishGamesCorpus:
             raise ValueError(f"Invalid batch number: {batch}. Available batches are: {list(self.batch_configs.keys())}")
         return self.batch_configs[batch]
 
-    def load(self, url=None, load_audio=False, local_path=None, features_path=None):
+    def load(
+        self,
+        url: str | None = None,
+        load_audio: bool = False,
+        local_path: str | Path | None = None,
+        features_path: str | Path | dict[int, str | Path] | None = None,
+    ) -> None:
         """Load the corpus from a URL or local path.
 
         Args:
+            url: Optional URL template for downloading
+            load_audio: Whether to include wav audio file paths
+            local_path: Path to directory where corpus is stored
             features_path: Dict mapping batch number to features directory path,
                 e.g. {1: "features/games-spanish-batch1", 2: "features/games-spanish-batch2"}.
                 Also accepts a single string/Path if features are in one directory.
@@ -112,11 +123,12 @@ class SpanishGamesCorpus:
         else:
             # Single path — assume it covers all batches
             self.features_paths = {1: Path(features_path), 2: Path(features_path)}
+        assert self.corpus_local_path is not None
         self.downloader = CorpusDownloader(self.corpus_url, self.corpus_local_path)
         self.downloader.download_corpus(self.corpus_files)
         self._prepare_corpus_data()
 
-    def download_features(self, features_dir="features"):
+    def download_features(self, features_dir: str = "features") -> None:
         """Download pre-extracted acoustic features from GitHub Releases.
 
         Args:
@@ -128,7 +140,7 @@ class SpanishGamesCorpus:
             2: Path(features_dir) / "games-spanish-batch2",
         }
 
-    def get_features(self, task):
+    def get_features(self, task: Task) -> pd.DataFrame:
         """Get pre-extracted acoustic features for a task as a DataFrame.
 
         Args:
@@ -139,33 +151,37 @@ class SpanishGamesCorpus:
         """
         if self.features_paths is None:
             raise ValueError("No features path configured. Call download_features() or pass features_path to load().")
+        if self.sessions is None:
+            raise ValueError("Corpus not loaded. Call load() first.")
         # Determine batch from session ID
         session = self.sessions[task.session_id]
         batch = session.batch
-        if batch not in self.features_paths:
+        if batch is None or batch not in self.features_paths:
             raise ValueError(f"No features path configured for batch {batch}.")
         return load_task_features(self.features_paths[batch], task.session_id, task.task_id)
 
-    def _setup_paths(self, url=None, local_path=None):
+    def _setup_paths(self, url: str | None = None, local_path: str | Path | None = None) -> None:
         self.corpus_url = url or self.config.DEFAULT_URL
         self.corpus_local_path = Path(local_path) if local_path else Path("./corpus/games-spanish/")
         self.corpus_local_path.mkdir(parents=True, exist_ok=True)
 
-    def _filter_audio_files(self, load_audio):
+    def _filter_audio_files(self, load_audio: bool) -> None:
         if not load_audio:
             self.corpus_files = {k: v for k, v in self.corpus_files.items() if not k.endswith("-wavs")}
 
-    def _prepare_corpus_data(self):
+    def _prepare_corpus_data(self) -> None:
         try:
             self._load_raw_corpus()
             self._parse_corpus()
         except Exception as e:
-            raise RuntimeError(f"Failed to prepare corpus data: {e}")
+            raise RuntimeError(f"Failed to prepare corpus data: {e}") from e
 
-    def get_sessions_by_batch(self, batch):
+    def get_sessions_by_batch(self, batch: int) -> dict[int, Session]:
+        if self.sessions is None:
+            return {}
         return {sid: session for sid, session in self.sessions.items() if session.batch == batch}
 
-    def dev_tasks(self, batch: int):
+    def dev_tasks(self, batch: int) -> Iterator[Task]:
         batch_sessions = self.get_sessions_by_batch(batch)
         config = self.get_batch_config(batch)
         for sess_id, sess in batch_sessions.items():
@@ -176,7 +192,7 @@ class SpanishGamesCorpus:
                     continue
                 yield task
 
-    def held_out_tasks(self, batch: int):
+    def held_out_tasks(self, batch: int) -> Iterator[Task]:
         batch_sessions = self.get_sessions_by_batch(batch)
         config = self.get_batch_config(batch)
         for sess_id, sess in batch_sessions.items():
@@ -190,8 +206,12 @@ class SpanishGamesCorpus:
 
     # ----- File path resolution -----
 
-    def _resolve_files(self, session_id, batch, extension, task_id=None):
+    def _resolve_files(
+        self, session_id: int, batch: int, extension: str, task_id: int | None = None
+    ) -> dict[str, Path]:
         """Resolve per-speaker file paths for a given extension."""
+        if self.corpus_raw is None:
+            return {}
         # Map extension to folder key: turns -> b1-dialogue-turns, words -> b1-dialogue-words, etc.
         folder_map = {
             "turns": f"b{batch}-dialogue-turns",
@@ -202,7 +222,7 @@ class SpanishGamesCorpus:
         prefix = folder_map[extension]
         folder = self.corpus_raw.get(prefix, {})
 
-        result = {}
+        result: dict[str, Path] = {}
         for speaker, suffix in SPEAKER_SUFFIXES[batch]:
             if batch == 1:
                 file_id = f"s{session_id:02d}.objects.1.{suffix}.{extension}"
@@ -213,21 +233,22 @@ class SpanishGamesCorpus:
                 result[speaker] = file_path
         return result
 
-    def _resolve_turn_files(self, session_id, batch, task_id=None):
+    def _resolve_turn_files(self, session_id: int, batch: int, task_id: int | None = None) -> dict[str, Path]:
         return self._resolve_files(session_id, batch, "turns", task_id)
 
-    def _resolve_word_files(self, session_id, batch):
+    def _resolve_word_files(self, session_id: int, batch: int) -> dict[str, Path]:
         return self._resolve_files(session_id, batch, "words")
 
-    def _resolve_phrase_files(self, session_id, batch, task_id=None):
+    def _resolve_phrase_files(self, session_id: int, batch: int, task_id: int | None = None) -> dict[str, Path]:
         return self._resolve_files(session_id, batch, "phrases", task_id)
 
-    def _resolve_wav_files(self, session_id, batch, task_id=None):
+    def _resolve_wav_files(self, session_id: int, batch: int, task_id: int | None = None) -> dict[str, Path]:
         return self._resolve_files(session_id, batch, "wav", task_id)
 
     # ----- Loading -----
 
-    def _load_raw_corpus(self):
+    def _load_raw_corpus(self) -> None:
+        assert self.corpus_local_path is not None
         self.corpus_raw = {}
         for file_id, file_name in self.corpus_files.items():
             file_path = self.corpus_local_path / file_name
@@ -238,26 +259,35 @@ class SpanishGamesCorpus:
                 folder_path = self.corpus_local_path / file_id
                 logging.info(f"Loading extracted ZIP folder: {file_id}")
                 self.corpus_raw[file_id] = {}
-                for sub_file in os.listdir(folder_path):
-                    sub_file_path = folder_path / sub_file
-                    self.corpus_raw[file_id][sub_file] = sub_file_path
+                if folder_path.exists():
+                    for sub_file in os.listdir(folder_path):
+                        sub_file_path = folder_path / sub_file
+                        self.corpus_raw[file_id][sub_file] = sub_file_path
 
-    def _parse_corpus(self):
+    def _parse_corpus(self) -> None:
+        assert self.corpus_raw is not None
         self.sessions = {}
         for session in self.corpus_raw["sessions-info"].itertuples():
-            session_id = session.session_id
+            session_id = int(session.session_id)
             if session_id in self.config.BANNED_SESSIONS:
                 logging.warning(f"Skipping banned session: {session_id}")
                 continue
-            batch = session.batch
-            subject_a = session.subject_id_A
-            subject_b = session.subject_id_B
+            batch = int(session.batch)
+            subject_a = str(session.subject_id_A)
+            subject_b = str(session.subject_id_B)
             tasks = self._load_tasks_for_session(session_id, batch)
-            session_obj = Session(session_id, batch, subject_a, subject_b, tasks)
+            session_obj = Session(
+                session_id=session_id,
+                subject_a=subject_a,
+                subject_b=subject_b,
+                tasks=tasks,
+                batch=batch,
+            )
             self.sessions[session_id] = session_obj
 
-    def _load_tasks_for_session(self, session_id, batch):
-        tasks = []
+    def _load_tasks_for_session(self, session_id: int, batch: int) -> list[Task]:
+        assert self.corpus_raw is not None
+        tasks: list[Task] = []
 
         # Resolve tasks file
         if batch == 1:
@@ -280,7 +310,7 @@ class SpanishGamesCorpus:
             tasks_info = parsers.load_objects_tasks_b2(tasks_file)
 
         for info in tasks_info:
-            task_id = info["Task ID"]
+            task_id = int(info["Task ID"])
             task_boundaries = (info["Start"], info["End"], task_id, session_id)
 
             # Resolve per-speaker file paths

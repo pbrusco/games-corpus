@@ -46,7 +46,7 @@ def main():
     # --- Label distribution ---
     print("\n=== Transition Label Distribution ===\n")
     for batch in [1, 2]:
-        dev_counts = Counter()
+        dev_counts: Counter[str] = Counter()
         for task in corpus.dev_tasks(batch=batch):
             for tt in task.turn_transitions:
                 dev_counts[tt.label] += 1

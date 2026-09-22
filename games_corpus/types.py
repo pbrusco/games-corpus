@@ -1,8 +1,10 @@
-"""Shared types and data classes for the Games Corpus"""
+"""Shared types and data classes for the Games Corpus."""
 
+from collections.abc import Mapping
 from dataclasses import dataclass, field
-from typing import List, Optional, Dict, Set, Tuple
 from enum import Enum
+from pathlib import Path
+from typing import ClassVar
 
 
 class TurnTransitionType(Enum):
@@ -47,7 +49,7 @@ class Word:
     speaker: str
     duration: float = field(init=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         object.__setattr__(self, "duration", self.end - self.start)
 
     def __str__(self) -> str:
@@ -57,9 +59,9 @@ class Word:
 @dataclass
 class IPU:
     # Class-level storage
-    _all_ipus = {}
+    _all_ipus: ClassVar[dict[str, "IPU"]] = {}
 
-    words: List[Word]
+    words: list[Word]
     speaker: str = field(init=False)
     start: float = field(init=False)
     end: float = field(init=False)
@@ -72,15 +74,15 @@ class IPU:
         return f"ipu_{speaker}_{start:.2f}_{end:.2f}"
 
     @classmethod
-    def get_ipu_by_id(cls, ipu_id: str) -> Optional["IPU"]:
+    def get_ipu_by_id(cls, ipu_id: str) -> "IPU | None":
         return cls._all_ipus.get(ipu_id)
 
     @classmethod
-    def clear_registry(cls):
-        """Clear the IPUs registry"""
+    def clear_registry(cls) -> None:
+        """Clear the IPUs registry."""
         cls._all_ipus.clear()
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.start = self.words[0].start
         self.end = self.words[-1].end
         self.speaker = self.words[0].speaker
@@ -100,7 +102,7 @@ class IPU:
 class Turn:
     session_id: int
     task_id: int
-    ipu_ids: List[str]
+    ipu_ids: list[str]
     speaker: str
     start: float
     end: float
@@ -109,27 +111,33 @@ class Turn:
     num_words: int = field(init=False)
 
     # Class-level storage (outside the dataclass fields)
-    _all_turns = {}
+    _all_turns: ClassVar[dict[str, "Turn"]] = {}
 
     @classmethod
-    def get_turn_by_id(cls, turn_id: str) -> Optional["Turn"]:
-        return cls._all_turns[turn_id]
+    def get_turn_by_id(cls, turn_id: str) -> "Turn | None":
+        return cls._all_turns.get(turn_id)
 
     @classmethod
-    def clear_registry(cls):
-        """Clear the turns registry"""
+    def clear_registry(cls) -> None:
+        """Clear the turns registry."""
         cls._all_turns.clear()
 
     @classmethod
-    def id_builder(cls, session_id, task_id, speaker, turn_start, turn_end):
+    def id_builder(cls, session_id: int, task_id: int, speaker: str, turn_start: float, turn_end: float) -> str:
         return f"turn_{session_id:02d}_{task_id:02d}_{speaker}_{turn_start:.2f}_{turn_end:.2f}"
 
     @property
-    def ipus(self) -> List[IPU]:
-        """Get IPUs from their IDs"""
-        return [IPU.get_ipu_by_id(ipu_id) for ipu_id in self.ipu_ids]
+    def ipus(self) -> list[IPU]:
+        """Get IPUs from their IDs."""
+        result: list[IPU] = []
+        for ipu_id in self.ipu_ids:
+            ipu = IPU.get_ipu_by_id(ipu_id)
+            if ipu is None:
+                raise KeyError(f"IPU with ID '{ipu_id}' not found in registry")
+            result.append(ipu)
+        return result
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if not self.ipu_ids:
             raise ValueError("IPUs list cannot be empty")
 
@@ -151,14 +159,14 @@ class Turn:
 @dataclass
 class TurnTransition:
     label: str
-    turn_id_from: Optional[str] = field()
+    turn_id_from: str | None = field()
     turn_id_to: str = field()
 
-    turn_from: Optional[Turn] = field(init=False)
+    turn_from: Turn | None = field(init=False)
     turn_to: Turn = field(init=False)
-    ipu_from: Optional[IPU] = field(init=False)
+    ipu_from: IPU | None = field(init=False)
     ipu_to: IPU = field(init=False)
-    speaker_from: Optional[str] = field(init=False)
+    speaker_from: str | None = field(init=False)
     speaker_to: str = field(init=False)
     session_id: int = field(init=False)
     task_id: int = field(init=False)
@@ -170,21 +178,33 @@ class TurnTransition:
     transition_duration: float = field(init=False)
     overlapped_transition: bool = field(init=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.label_type = TurnTransitionType.from_string(self.label)
 
-        self.turn_from = Turn.get_turn_by_id(self.turn_id_from) if self.turn_id_from else None
-        self.turn_to = Turn.get_turn_by_id(self.turn_id_to)
+        if self.turn_id_from:
+            turn_from = Turn.get_turn_by_id(self.turn_id_from)
+            if turn_from is None:
+                raise ValueError(f"Source turn not found: {self.turn_id_from}")
+            self.turn_from = turn_from
+        else:
+            self.turn_from = None
+
+        turn_to = Turn.get_turn_by_id(self.turn_id_to)
+        if turn_to is None:
+            raise ValueError(f"Target turn not found: {self.turn_id_to}")
+        self.turn_to = turn_to
 
         self.speaker_from = self.turn_from.speaker if self.turn_from else None
         self.speaker_to = self.turn_to.speaker
         self.session_id = self.turn_to.session_id
         self.task_id = self.turn_to.task_id
 
-        self.ipu_from = self.turn_from.ipus[-1] if self.turn_from else None
+        self.ipu_from = self.turn_from.ipus[-1] if self.turn_from and self.turn_from.ipus else None
+        if not self.turn_to.ipus:
+            raise ValueError(f"Target turn {self.turn_id_to} has no IPUs")
         self.ipu_to = self.turn_to.ipus[0]
         # See the transition_duration field comment above for the sign convention.
-        self.transition_duration = self.ipu_to.start - self.ipu_from.end if self.ipu_from else 0
+        self.transition_duration = self.ipu_to.start - self.ipu_from.end if self.ipu_from else 0.0
         self.overlapped_transition = self.transition_duration < 0
 
 
@@ -192,21 +212,23 @@ class TurnTransition:
 class Task:
     task_id: int
     session_id: int
-    images: List[str]
+    images: list[str]
     describer: str
     target: str
-    score: float
-    time_used: float
-    turn_transitions: List["TurnTransition"]
-    turns: List["Turn"]
-    ipus: List["IPU"]
-    wavs: Dict[str, str]
+    score: float | str
+    time_used: float | str
+    turn_transitions: list[TurnTransition]
+    turns: list[Turn]
+    ipus: list[IPU]
+    wavs: Mapping[str, Path | str]
     start: float
     duration: float
     text: str = field(init=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.score = float(self.score)
+        self.time_used = float(self.time_used)
+        self.wavs = {k: Path(v) for k, v in self.wavs.items()}
         self.ipus = sorted(self.ipus, key=lambda x: x.start) if self.ipus else []
         self.text = self._build_text()
 
@@ -217,55 +239,102 @@ class Task:
 
     def __str__(self) -> str:
         return (
-            f"[Task {self.task_id} ({self.describer}) {self.start:.02f}:{self.start + self.duration:.02f} ] Turns {len(self.turns)} IPUs {len(self.ipus)}\n\t"
+            f"[Task {self.task_id:02d} ({self.describer}) {self.start:.02f}:{self.start + self.duration:.02f} ] Turns {len(self.turns)} IPUs {len(self.ipus)}\n\t"
             + "\n\t".join([str(turn) for turn in self.turns])
             + "\n\t"
             + "\n\t".join([str(ipu) for ipu in self.ipus])
             + "\n"
         )
 
-    def __repr__(self):
-        return f"[Task {self.task_id} ({self.describer}) {self.start:.02f}:{self.start + self.duration:.02f} ] Turns {len(self.turns)} IPUs {len(self.ipus)}"
+    def __repr__(self) -> str:
+        return f"[Task {self.task_id:02d} ({self.describer}) {self.start:.02f}:{self.start + self.duration:.02f} ] Turns {len(self.turns)} IPUs {len(self.ipus)}"
 
 
-@dataclass(frozen=True)
+_SESSION_MISSING = object()
+
+
+@dataclass(frozen=True, init=False)
 class Session:
     session_id: int
-    batch: int
     subject_a: str
     subject_b: str
-    tasks: List[Task]
+    tasks: list[Task]
+    batch: int | None = None
 
     # Class-level storage (outside the dataclass fields)
-    _all_sessions = {}
+    _all_sessions: ClassVar[dict[int, "Session"]] = {}
 
-    def __post_init__(self):
+    def __init__(
+        self,
+        session_id: int,
+        *args: object,
+        batch: int | None | object = _SESSION_MISSING,
+        subject_a: str | object = _SESSION_MISSING,
+        subject_b: str | object = _SESSION_MISSING,
+        tasks: list[Task] | object = _SESSION_MISSING,
+    ) -> None:
+        if len(args) > 4:
+            raise TypeError(f"Session() takes from 4 to 5 positional arguments but {len(args) + 1} were given")
+
+        values = {
+            "batch": batch,
+            "subject_a": subject_a,
+            "subject_b": subject_b,
+            "tasks": tasks,
+        }
+
+        if len(args) == 3 and all(values[name] is _SESSION_MISSING for name in ("batch", "subject_a", "subject_b", "tasks")):
+            positional_names = ("subject_a", "subject_b", "tasks")
+        else:
+            positional_names = ("batch", "subject_a", "subject_b", "tasks")
+
+        for name, value in zip(positional_names, args):
+            if values[name] is not _SESSION_MISSING:
+                raise TypeError(f"Session() got multiple values for argument '{name}'")
+            values[name] = value
+
+        missing_args = [name for name in ("subject_a", "subject_b", "tasks") if values[name] is _SESSION_MISSING]
+        if missing_args:
+            missing_str = ", ".join(f"'{name}'" for name in missing_args)
+            raise TypeError(f"Session() missing required arguments: {missing_str}")
+
+        if values["batch"] is _SESSION_MISSING:
+            values["batch"] = None
+
+        object.__setattr__(self, "session_id", session_id)
+        object.__setattr__(self, "batch", values["batch"])
+        object.__setattr__(self, "subject_a", values["subject_a"])
+        object.__setattr__(self, "subject_b", values["subject_b"])
+        object.__setattr__(self, "tasks", values["tasks"])
+        self.__post_init__()
+
+    def __post_init__(self) -> None:
         # Register this session
         Session._all_sessions[self.session_id] = self
 
     @classmethod
-    def get_session_by_id(cls, session_id: int) -> Optional["Session"]:
+    def get_session_by_id(cls, session_id: int) -> "Session | None":
         return cls._all_sessions.get(session_id)
 
     @classmethod
-    def clear_registry(cls):
-        """Clear the sessions registry"""
+    def clear_registry(cls) -> None:
+        """Clear the sessions registry."""
         cls._all_sessions.clear()
 
     def __str__(self) -> str:
         return f"[Session {self.session_id} ({self.subject_a}, {self.subject_b})] (tasks_count: {len(self.tasks)})"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"[Session {self.session_id} ({self.subject_a}, {self.subject_b})] (tasks_count: {len(self.tasks)})"
 
 
 @dataclass
 class BatchConfig:
-    """Configuration for a specific batch of the corpus"""
+    """Configuration for a specific batch of the corpus (used by UBA Spanish Games Corpus)."""
 
     batch_num: int
-    heldout_tasks: Set[Tuple[int, int]]
-    heldout_sessions: Set[int]
+    heldout_tasks: set[tuple[int, int]]
+    heldout_sessions: set[int]
 
     @classmethod
     def create_batch1_config(cls) -> "BatchConfig":

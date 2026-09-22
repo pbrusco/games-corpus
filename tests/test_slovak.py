@@ -89,7 +89,7 @@ class TestSlovakCorpusDataQuality:
         """Verify total transition counts across the Slovak corpus."""
         from collections import Counter
 
-        counts = Counter()
+        counts: Counter[str] = Counter()
         for session in corpus.sessions.values():
             for task in session.tasks:
                 for trans in task.turn_transitions:

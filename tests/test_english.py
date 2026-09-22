@@ -149,7 +149,7 @@ class TestEnglishCorpusDataQuality:
         """Verify total transition counts across the English corpus."""
         from collections import Counter
 
-        counts = Counter()
+        counts: Counter[str] = Counter()
         for session in corpus.sessions.values():
             for task in session.tasks:
                 for trans in task.turn_transitions:

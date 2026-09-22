@@ -23,6 +23,9 @@ def main():
     slovak = SlovakGamesCorpus()
     slovak.load(load_audio=False, features_path="features/games-slovak")
 
+    assert english.sessions is not None
+    assert slovak.sessions is not None
+
     corpora = [
         ("Spanish B1", spanish, next(spanish.dev_tasks(batch=1))),
         ("Spanish B2", spanish, next(spanish.dev_tasks(batch=2))),

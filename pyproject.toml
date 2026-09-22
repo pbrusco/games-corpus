@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "games-corpus"
 version = "0.2.2"
 description = "A Python library for working with collaborative dialogue game corpora (Spanish, English, Slovak)"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 license = "MIT"
 authors = [
     { name = "Agustín Gravano" },
@@ -20,9 +20,8 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering",
     "Topic :: Text Processing :: Linguistic",
 ]
@@ -54,7 +53,7 @@ dev = [
 ]
 
 [tool.ruff]
-target-version = "py310"
+target-version = "py312"
 line-length = 120
 
 [tool.ruff.lint]
@@ -62,18 +61,13 @@ select = ["E", "F", "W"]
 ignore = ["E501"]  # line length handled by ruff-format
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.12"
 ignore_missing_imports = true
-check_untyped_defs = false
-disallow_untyped_defs = false
-disable_error_code = [
-    "var-annotated",
-    "assignment",
-    "arg-type",
-    "attr-defined",
-    "operator",
-    "misc",
-]
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = "games_corpus.*"
+disallow_untyped_defs = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
