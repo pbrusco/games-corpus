@@ -7,6 +7,10 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .mypy_cache/
+.ruff_cache/
 .python-version
 .DS_Store
 *.png
+dist/
+build/
+*.egg-info/

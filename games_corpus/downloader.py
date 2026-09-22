@@ -9,7 +9,7 @@ import requests
 
 
 class CorpusDownloader:
-    """Handles downloading and extracting corpus files"""
+    """Handles downloading and extracting corpus files."""
 
     def __init__(self, url: str, local_path: Path, max_retries: int = 3, retry_delay: int = 5):
         self.url = url
@@ -17,8 +17,9 @@ class CorpusDownloader:
         self.max_retries = max_retries
         self.retry_delay = retry_delay
 
-    def download_corpus(self, files_to_download: dict):
-        """Download all corpus files"""
+    def download_corpus(self, files_to_download: dict[str, str]) -> None:
+        """Download all corpus files."""
+        self.local_path.mkdir(parents=True, exist_ok=True)
         for file_id, file_name in files_to_download.items():
             logging.info(f"Downloading {file_name}")
             if ".zip" in file_name:
@@ -26,7 +27,7 @@ class CorpusDownloader:
             else:
                 self._download_file(file_name)
 
-    def _download_and_extract_zip(self, file_id: str, file_name: str):
+    def _download_and_extract_zip(self, file_id: str, file_name: str) -> None:
         zip_file_path = self.local_path / file_name
         extracted_folder_path = self.local_path / file_id
 
@@ -41,23 +42,26 @@ class CorpusDownloader:
         try:
             with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
                 zip_ref.extractall(self.local_path)
-
         except zipfile.BadZipFile:
             logging.error(f"{file_name} may be corrupted, please remove it and retry downloading it.")
 
-    def _download_file(self, file_name: str, save_path: Path = None):
-        save_path = save_path or self.local_path / file_name
-        if save_path.exists():
+    def _download_file(self, file_name: str, save_path: Path | None = None) -> None:
+        dest_path = save_path or (self.local_path / file_name)
+        if dest_path.exists():
             logging.info(f"{file_name} already exists.")
             return
+
+        dest_path.parent.mkdir(parents=True, exist_ok=True)
 
         for attempt in range(self.max_retries):
             try:
                 logging.info(f"Downloading {file_name} (attempt {attempt + 1})...")
-                response = requests.get(self.url.format(filename=file_name), timeout=30)
+                response = requests.get(self.url.format(filename=file_name), stream=True, timeout=60)
                 response.raise_for_status()
-                with open(save_path, "wb") as f:
-                    f.write(response.content)
+                with open(dest_path, "wb") as f:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        if chunk:
+                            f.write(chunk)
                 return
             except requests.exceptions.SSLError as e:
                 raise RuntimeError(
@@ -69,7 +73,7 @@ class CorpusDownloader:
                     "  2. Or point it to the Homebrew CA bundle:\n"
                     "     export SSL_CERT_FILE=/opt/homebrew/etc/openssl@3/cert.pem\n"
                 ) from e
-            except (requests.RequestException, IOError) as e:
+            except (requests.RequestException, OSError) as e:
                 if attempt == self.max_retries - 1:
-                    raise RuntimeError(f"Failed to download {file_name}: {e}")
+                    raise RuntimeError(f"Failed to download {file_name}: {e}") from e
                 time.sleep(self.retry_delay)

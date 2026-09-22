@@ -19,7 +19,7 @@ form Games Corpus
     option 12
     option 13
     option 14
-  
+
   boolean words_A 1
   boolean phrases_A 0
   boolean turns_A 1
@@ -27,7 +27,7 @@ form Games Corpus
   boolean words_B 1
   boolean phrases_B 0
   boolean turns_B 1
-  
+
   boolean tasks 0
 
   optionmenu wav_file 3
@@ -35,7 +35,7 @@ form Games Corpus
     option B
     option both (stereo)
 	option none
-endform 
+endform
 
 #############################################################
 ## Session's stem -- eg: s01.objects.1

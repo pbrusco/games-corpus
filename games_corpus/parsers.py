@@ -6,7 +6,7 @@ for mapping (session, task, speaker) to file paths.
 
 import logging
 from pathlib import Path
-from typing import List, Dict
+from typing import Any
 
 from games_corpus.types import Task, TurnTransition, Turn, IPU, Word, TurnTransitionType
 
@@ -16,13 +16,13 @@ from games_corpus.types import Task, TurnTransition, Turn, IPU, Word, TurnTransi
 # ---------------------------------------------------------------------------
 
 
-def load_objects_tasks(tasks_file) -> list:
+def load_objects_tasks(tasks_file: str | Path) -> list[dict[str, Any]]:
     """Parse tasks file in the objects format: START END LABEL (semicolon fields).
 
     Works for Spanish B1, English, and Slovak objects games.
     Fields are parsed by name (key:value), not by position.
     """
-    tasks_info = []
+    tasks_info: list[dict[str, Any]] = []
 
     with open(tasks_file, "r", encoding="utf-8") as f:
         for line in f:
@@ -77,9 +77,9 @@ def load_objects_tasks(tasks_file) -> list:
     return tasks_info
 
 
-def load_objects_tasks_b2(tasks_file) -> list:
+def load_objects_tasks_b2(tasks_file: str | Path) -> list[dict[str, Any]]:
     """Parse tasks file in the Spanish B2 format: TASK_ID LABEL (semicolon fields)."""
-    tasks_info = []
+    tasks_info: list[dict[str, Any]] = []
 
     with open(tasks_file, "r", encoding="utf-8") as f:
         for line in f:
@@ -87,17 +87,17 @@ def load_objects_tasks_b2(tasks_file) -> list:
             if not line:
                 continue
 
-            task_id, task_info_str = line.split(" ", 1)
-            task_id = int(task_id)
-            images, describer, target, score, time_used = task_info_str.split(";")
-            start = 0
-            time_used = float(time_used.split(":")[-1].strip())
+            raw_task_id, task_info_str = line.split(" ", 1)
+            task_id = int(raw_task_id)
+            raw_images, raw_describer, raw_target, raw_score, raw_time_used = task_info_str.split(";")
+            start = 0.0
+            time_used = float(raw_time_used.split(":")[-1].strip())
             end = time_used
 
-            images = images.split(",")
-            describer = describer.split(":")[-1].strip()
-            target = target.split(":")[-1].strip()
-            score = score.split(":")[-1].strip()
+            images = raw_images.split(",")
+            describer = raw_describer.split(":")[-1].strip()
+            target = raw_target.split(":")[-1].strip()
+            score = raw_score.split(":")[-1].strip()
             tasks_info.append(
                 {
                     "Task ID": task_id,
@@ -119,7 +119,7 @@ def load_objects_tasks_b2(tasks_file) -> list:
 # ---------------------------------------------------------------------------
 
 
-def find_turn_ipus(speaker_ipus, turn_start, turn_end, max_diff=0.1):
+def find_turn_ipus(speaker_ipus: list[IPU], turn_start: float, turn_end: float, max_diff: float = 0.1) -> list[IPU]:
     """Find IPUs that fall within the given turn boundaries."""
     return [
         ipu
@@ -129,9 +129,11 @@ def find_turn_ipus(speaker_ipus, turn_start, turn_end, max_diff=0.1):
     ]
 
 
-def find_interlocutor_previous_turn_id(turns, speaker, starting_before=None):
+def find_interlocutor_previous_turn_id(
+    turns: list[Turn], speaker: str, starting_before: float | None = None
+) -> str | None:
     """Find the most recent turn before the given timestamp."""
-    if not turns:
+    if not turns or starting_before is None:
         return None
     for turn in reversed(turns):
         if turn.start <= starting_before and turn.speaker == speaker:
@@ -147,16 +149,20 @@ def find_interlocutor_previous_turn_id(turns, speaker, starting_before=None):
 def load_turns_for_task(
     session_id: int,
     task_id: int,
-    turn_files: Dict[str, Path],
-    ipus: List[IPU],
-    task_boundaries: tuple,
-) -> List[Turn]:
+    turn_files: dict[str, Path],
+    ipus: list[IPU],
+    task_boundaries: tuple[Any, ...],
+) -> list[Turn]:
     """Load turns from per-speaker turn files.
 
     Args:
+        session_id: Session identifier
+        task_id: Task identifier
         turn_files: mapping of speaker ("A"/"B") -> resolved file path
+        ipus: Loaded IPUs for this task
+        task_boundaries: tuple containing (start, end, ...)
     """
-    turns = []
+    turns: list[Turn] = []
 
     ipus = sorted(ipus, key=lambda x: x.start) if ipus else []
     if not ipus:
@@ -165,7 +171,7 @@ def load_turns_for_task(
     task_start = task_boundaries[0]
     task_end = task_boundaries[1]
 
-    ipus_by_speaker = {}
+    ipus_by_speaker: dict[str, list[IPU]] = {}
     for ipu in ipus:
         if ipu.speaker not in ipus_by_speaker:
             ipus_by_speaker[ipu.speaker] = []
@@ -182,8 +188,8 @@ def load_turns_for_task(
                 if len(parts) != 3:
                     continue
 
-                turn_start, turn_end, label = parts
-                turn_start, turn_end = float(turn_start), float(turn_end)
+                raw_start, raw_end, label = parts
+                turn_start, turn_end = float(raw_start), float(raw_end)
 
                 if turn_start > task_end:
                     break
@@ -220,16 +226,20 @@ def load_turns_for_task(
 def load_turn_transitions_for_task(
     session_id: int,
     task_id: int,
-    turn_files: Dict[str, Path],
-    turns: List[Turn],
-    task_boundaries: tuple,
-) -> List[TurnTransition]:
+    turn_files: dict[str, Path],
+    turns: list[Turn],
+    task_boundaries: tuple[Any, ...],
+) -> list[TurnTransition]:
     """Load turn transitions from per-speaker turn files.
 
     Args:
+        session_id: Session identifier
+        task_id: Task identifier
         turn_files: mapping of speaker ("A"/"B") -> resolved file path
+        turns: Loaded Turn objects for this task
+        task_boundaries: tuple containing (start, end, ...)
     """
-    transitions = []
+    transitions: list[TurnTransition] = []
     if not turns:
         return transitions
 
@@ -247,15 +257,17 @@ def load_turn_transitions_for_task(
                 if len(parts) != 3:
                     continue
 
-                turn_start, turn_end, label = parts
-                turn_start, turn_end = float(turn_start), float(turn_end)
+                raw_start, raw_end, label = parts
+                turn_start, turn_end = float(raw_start), float(raw_end)
 
                 if turn_start > task_end:
                     break
                 if turn_end < task_start:
                     continue
 
-                assert speaker in ["A", "B"]
+                if speaker not in ("A", "B"):
+                    logging.warning(f"Unexpected speaker '{speaker}', skipping transition")
+                    continue
                 interlocutor = "B" if speaker == "A" else "A"
 
                 if label == "#":
@@ -264,7 +276,7 @@ def load_turn_transitions_for_task(
                     logging.debug("Skipping undefined turn transitions")
                     continue
 
-                if label == TurnTransitionType.SIMULTANEOUS_START.value or label == TurnTransitionType.FIRST_TURN.value:
+                if label in (TurnTransitionType.SIMULTANEOUS_START.value, TurnTransitionType.FIRST_TURN.value):
                     prev_turn_id = None
                 else:
                     prev_turn_id = find_interlocutor_previous_turn_id(
@@ -300,9 +312,9 @@ def load_turn_transitions_for_task(
 
 
 def load_ipus_from_words(
-    word_files: Dict[str, Path],
-    task_boundaries: tuple,
-) -> List[IPU]:
+    word_files: dict[str, Path],
+    task_boundaries: tuple[Any, ...],
+) -> list[IPU]:
     """Load IPUs by parsing word-level files.
 
     Args:
@@ -311,10 +323,10 @@ def load_ipus_from_words(
     """
     task_start = task_boundaries[0]
     task_end = task_boundaries[1]
-    all_ipus = []
+    all_ipus: list[IPU] = []
 
     for speaker, words_file in word_files.items():
-        words = []
+        words: list[Word] = []
         with open(words_file, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
@@ -360,9 +372,9 @@ def load_ipus_from_words(
 
 
 def load_ipus_from_phrases(
-    phrase_files: Dict[str, Path],
-    task_boundaries: tuple = None,
-) -> List[IPU]:
+    phrase_files: dict[str, Path],
+    task_boundaries: tuple[Any, ...] | None = None,
+) -> list[IPU]:
     """Load IPUs by parsing phrase-level files.
 
     Handles both tab-delimited (Spanish B2) and space-delimited (Slovak .Phrases) formats.
@@ -374,7 +386,7 @@ def load_ipus_from_phrases(
     """
     task_start = task_boundaries[0] if task_boundaries else None
     task_end = task_boundaries[1] if task_boundaries else None
-    all_ipus = []
+    all_ipus: list[IPU] = []
 
     for speaker, ipus_file in phrase_files.items():
         if not Path(ipus_file).exists():
@@ -382,8 +394,8 @@ def load_ipus_from_phrases(
             continue
 
         try:
-            words_by_ipu = []
-            current_words = []
+            words_by_ipu: list[list[Word]] = []
+            current_words: list[Word] = []
 
             with open(ipus_file, "r", encoding="utf-8") as f:
                 for line in f:
@@ -454,16 +466,16 @@ def load_ipus_from_phrases(
 # ---------------------------------------------------------------------------
 
 
-def load_wavs_for_task(wav_files: Dict[str, Path]) -> Dict[str, Path]:
+def load_wavs_for_task(wav_files: dict[str, Path]) -> dict[str, Path]:
     """Return validated wav file paths.
 
     Args:
         wav_files: mapping of speaker ("A"/"B") -> resolved .wav file path
     """
-    result = {}
+    result: dict[str, Path] = {}
     for speaker, wav_file in wav_files.items():
         if Path(wav_file).exists():
-            result[speaker] = wav_file
+            result[speaker] = Path(wav_file)
         else:
             logging.warning(f"WAV file {wav_file} not found.")
     return result
@@ -476,20 +488,22 @@ def load_wavs_for_task(wav_files: Dict[str, Path]) -> Dict[str, Path]:
 
 def build_tasks_from_files(
     session_id: int,
-    tasks_info: list,
-    word_files: Dict[str, Path],
-    turn_files: Dict[str, Path],
-    phrase_files: Dict[str, Path],
-    wav_files: Dict[str, Path],
+    tasks_info: list[dict[str, Any]],
+    word_files: dict[str, Path],
+    turn_files: dict[str, Path],
+    phrase_files: dict[str, Path],
+    wav_files: dict[str, Path],
     load_audio: bool,
-) -> List[Task]:
+) -> list[Task]:
     """Build Task objects from parsed task info and resolved file paths.
 
     Shared logic used by English and Slovak corpus classes.
     """
-    tasks = []
+    tasks: list[Task] = []
+    task_wavs = load_wavs_for_task(wav_files) if load_audio else {}
+
     for info in tasks_info:
-        task_id = info["Task ID"]
+        task_id = int(info["Task ID"])
         task_boundaries = (info["Start"], info["End"], task_id, session_id)
 
         if word_files:
@@ -501,8 +515,6 @@ def build_tasks_from_files(
 
         turns = load_turns_for_task(session_id, task_id, turn_files, ipus, task_boundaries)
         turn_transitions = load_turn_transitions_for_task(session_id, task_id, turn_files, turns, task_boundaries)
-
-        task_wavs = load_wavs_for_task(wav_files) if load_audio else {}
 
         task_obj = Task(
             task_id=task_id,

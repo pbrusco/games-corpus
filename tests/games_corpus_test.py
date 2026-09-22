@@ -68,14 +68,14 @@ def sample_turns(sample_ipus):
 @pytest.fixture
 def sample_task(sample_ipus, sample_turns):
     task = Task(
-        task_id="01",
+        task_id=1,
         session_id=1,
         start=0.0,
         duration=10.0,
         images=["img1.jpg", "img2.jpg"],
         describer="A",
         target="img1.jpg",
-        score="1.0",
+        score=1.0,
         time_used=10.0,
         turn_transitions=[
             TurnTransition(
@@ -180,6 +180,7 @@ class TestTurnTransition:
         MAX_X3_GAP = 0.210  # 210ms
         corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
+        assert corpus.sessions is not None
 
         for session in corpus.sessions.values():
             for task in session.tasks:
@@ -187,6 +188,7 @@ class TestTurnTransition:
                 x3_transitions = [t for t in task.turn_transitions if t.label == "X3"]
                 for trans in x3_transitions:
                     to_turn = Turn.get_turn_by_id(trans.turn_id_to)
+                    assert to_turn is not None
                     interlocutor_previous_turn = [
                         t for t in task.turns if t.speaker != to_turn.speaker and t.start <= to_turn.start
                     ][-1]
@@ -226,16 +228,14 @@ class TestTurn:
         """Verify that turns follow the definition: maximal sequence of IPUs without interlocutor speech during silences."""
         corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
+        assert corpus.sessions is not None
 
         for session in corpus.sessions.values():
             for task in session.tasks:
                 all_ipus = sorted(task.ipus, key=lambda x: x.start)
 
                 for turn in task.turns:
-                    turn_ipus = sorted(
-                        [IPU.get_ipu_by_id(ipu_id) for ipu_id in turn.ipu_ids],
-                        key=lambda x: x.start,
-                    )
+                    turn_ipus = sorted(turn.ipus, key=lambda x: x.start)
                     if len(turn_ipus) <= 1:
                         continue
 
@@ -259,6 +259,7 @@ class TestTurn:
         """Verify there are no consecutive turns from the same speaker with silence between them."""
         corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
+        assert corpus.sessions is not None
 
         for session in corpus.sessions.values():
             for task in session.tasks:
@@ -291,7 +292,7 @@ class TestTurn:
 
 class TestTask:
     def test_task_initialization(self, sample_task):
-        assert sample_task.task_id == "01"
+        assert sample_task.task_id == 1
         assert sample_task.session_id == 1
         assert sample_task.images == ["img1.jpg", "img2.jpg"]
         assert sample_task.describer == "A"
@@ -321,7 +322,7 @@ class TestTask:
         assert repr(sample_task) == expected
 
     def test_task_attributes(self, sample_task):
-        assert sample_task.task_id == "01"
+        assert sample_task.task_id == 1
         assert sample_task.describer == "A"
         assert sample_task.score == 1.0
 
@@ -337,7 +338,7 @@ class TestTask:
             )
         ]
         task = Task(
-            task_id="02",
+            task_id=2,
             session_id=1,
             start=0.0,
             duration=10.0,
@@ -357,7 +358,7 @@ class TestTask:
     def test_task_empty_ipus(self):
         # Create a task with empty IPUs - should initialize with start=0
         task = Task(
-            task_id="03",
+            task_id=3,
             session_id=1,
             start=0.0,
             duration=10.0,
@@ -506,7 +507,7 @@ class TestSpanishGamesCorpus:
             assert eval_counts.get(label, 0) == count, f"Batch {batch} eval {label} count mismatch"
 
     def _count_transition_labels(self, tasks):
-        counts = {}
+        counts: dict[str, int] = {}
         for task in tasks:
             for trans in task.turn_transitions:
                 counts[trans.label] = counts.get(trans.label, 0) + 1
@@ -517,6 +518,7 @@ class TestSpanishGamesCorpus:
         """Verify task start time in raw .tasks file matches expected value."""
         corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
+        assert corpus.corpus_raw is not None
 
         SESSION_ID = 3
         TASK_ID = 2
@@ -540,6 +542,7 @@ class TestSpanishGamesCorpus:
 
         corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
+        assert corpus.sessions is not None
 
         task = next(t for t in corpus.sessions[SESSION_ID].tasks if t.task_id == TASK_ID)
         assert math.isclose(task.start, EXPECTED_START, abs_tol=1e-6)
@@ -547,12 +550,14 @@ class TestSpanishGamesCorpus:
     @requires_spanish_corpus
     def test_first_B_turn_included(self):
         """Verify first B turn (37.900-41.897s) is included in task turns."""
-        corpus = SpanishGamesCorpus()
-        corpus.load(load_audio=False)
-
         SESSION_ID = 3
         TASK_ID = 2
         FIRST_TURN_B = (37.900195, 41.897241)
+
+        corpus = SpanishGamesCorpus()
+        corpus.load(load_audio=False)
+        assert corpus.sessions is not None
+        assert corpus.corpus_raw is not None
 
         task = next(t for t in corpus.sessions[SESSION_ID].tasks if t.task_id == TASK_ID)
         task_end = task.start + task.duration

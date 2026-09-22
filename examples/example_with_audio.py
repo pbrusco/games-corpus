@@ -159,7 +159,7 @@ def main():
 
     # Transition statistics
     print("\n=== Turn Transition Analysis ===")
-    stats = {}
+    stats: dict[str, dict[str, float]] = {}
     for trans in task.turn_transitions:
         s = stats.setdefault(trans.label, {"count": 0, "total_dur": 0.0, "overlaps": 0})
         s["count"] += 1

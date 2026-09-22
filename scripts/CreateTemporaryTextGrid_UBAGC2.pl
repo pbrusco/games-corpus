@@ -21,7 +21,7 @@ my $script = "$dir/scripts/wavesurfer2praat.pl";
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Script arguments: 
+# Script arguments:
 my $stem = shift;	# input stem: 's01.cards.2', 's12.objects.1'
 my @tiernames = @ARGV;	# ([AB].{words,breaks,tones,misc,dm,pos,turns,questions}, tasks)+
 
@@ -40,7 +40,7 @@ print STDERR `mkdir $tmp_dir`;
 # create a synlink to each file in $tmp_dir
 for my $tiername (@tiernames) {
     # $tiername has "channel1.phrases", etc.
-	
+
 	my $tier = '';
 	my $subject = '';
 	my $tier_dir = '';
@@ -53,10 +53,10 @@ for my $tiername (@tiernames) {
         $tier_dir = "b2-dialogue-turns";
     } else {
         die "Invalid tiername format: $tiername.\n";
-    }	
+    }
     print STDERR `ln -s $dir/$tier_dir/$stem.$tiername $tmp_dir/`;
 }
-# Use $stem.channel1.wav as a placeholder for $stem.wav, 
+# Use $stem.channel1.wav as a placeholder for $stem.wav,
 # since there are no stereo files in this corpus.
 print STDERR `ln -s $dir/b2-dialogue-wavs/$stem.channel1.wav $tmp_dir/$stem.wav`;
 
@@ -84,7 +84,7 @@ print STDERR `$commands`;
 
 print STDERR `cp $tmp_dir/$stem.TextGrid $file_out`;
 
-# Save in a file the path and name of the new TextGrid file, so that 
+# Save in a file the path and name of the new TextGrid file, so that
 # the Praat script can find it.
 open COMMFILE, ">/tmp/praat-tmp-communication.dat";
 print COMMFILE $file_out;
