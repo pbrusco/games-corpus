@@ -99,21 +99,27 @@ class SpanishGamesCorpus(BaseGamesCorpus):
 
     def load(
         self,
-        url: str | None = None,
-        load_audio: bool = False,
         local_path: str | Path | None = None,
+        load_audio: bool = False,
         features_path: str | Path | dict[int, str | Path] | None = None,
+        url: str | None = None,
+        **kwargs: Any,
     ) -> None:
         """Load the corpus from a URL or local path.
 
         Args:
-            url: Optional URL template for downloading
-            load_audio: Whether to include wav audio file paths
             local_path: Path to directory where corpus is stored
+            load_audio: Whether to include wav audio file paths
             features_path: Dict mapping batch number to features directory path,
                 e.g. {1: "features/games-spanish-batch1", 2: "features/games-spanish-batch2"}.
                 Also accepts a single string/Path if features are in one directory.
+            url: Optional URL template for downloading
+            **kwargs: Additional options
         """
+        if url is None and isinstance(local_path, str) and local_path.startswith(("http://", "https://")):
+            url = local_path
+            local_path = None
+
         self._setup_paths(url, local_path)
         self._filter_audio_files(load_audio)
         if features_path is None:

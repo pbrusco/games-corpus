@@ -52,28 +52,36 @@ class CorpusDownloader:
             return
 
         dest_path.parent.mkdir(parents=True, exist_ok=True)
+        part_path = dest_path.with_name(f"{dest_path.name}.part")
 
-        for attempt in range(self.max_retries):
-            try:
-                logging.info(f"Downloading {file_name} (attempt {attempt + 1})...")
-                response = requests.get(self.url.format(filename=file_name), stream=True, timeout=60)
-                response.raise_for_status()
-                with open(dest_path, "wb") as f:
-                    for chunk in response.iter_content(chunk_size=8192):
-                        if chunk:
-                            f.write(chunk)
-                return
-            except requests.exceptions.SSLError as e:
-                raise RuntimeError(
-                    f"SSL certificate verification failed while downloading {file_name}.\n"
-                    "This is a common issue on macOS with Homebrew Python.\n"
-                    "Try one of the following fixes:\n"
-                    "  1. Set the SSL_CERT_FILE environment variable before running:\n"
-                    '     export SSL_CERT_FILE=$(python -c "import certifi; print(certifi.where())")\n'
-                    "  2. Or point it to the Homebrew CA bundle:\n"
-                    "     export SSL_CERT_FILE=/opt/homebrew/etc/openssl@3/cert.pem\n"
-                ) from e
-            except (requests.RequestException, OSError) as e:
-                if attempt == self.max_retries - 1:
-                    raise RuntimeError(f"Failed to download {file_name}: {e}") from e
-                time.sleep(self.retry_delay)
+        try:
+            for attempt in range(self.max_retries):
+                try:
+                    logging.info(f"Downloading {file_name} (attempt {attempt + 1})...")
+                    with requests.get(self.url.format(filename=file_name), stream=True, timeout=60) as response:
+                        response.raise_for_status()
+                        with open(part_path, "wb") as f:
+                            for chunk in response.iter_content(chunk_size=8192):
+                                if chunk:
+                                    f.write(chunk)
+                    part_path.replace(dest_path)
+                    return
+                except requests.exceptions.SSLError as e:
+                    raise RuntimeError(
+                        f"SSL certificate verification failed while downloading {file_name}.\n"
+                        "This is a common issue on macOS with Homebrew Python.\n"
+                        "Try one of the following fixes:\n"
+                        "  1. Set the SSL_CERT_FILE environment variable before running:\n"
+                        '     export SSL_CERT_FILE=$(python -c "import certifi; print(certifi.where())")\n'
+                        "  2. Or point it to the Homebrew CA bundle:\n"
+                        "     export SSL_CERT_FILE=/opt/homebrew/etc/openssl@3/cert.pem\n"
+                    ) from e
+                except (requests.RequestException, OSError) as e:
+                    if part_path.exists():
+                        part_path.unlink()
+                    if attempt == self.max_retries - 1:
+                        raise RuntimeError(f"Failed to download {file_name}: {e}") from e
+                    time.sleep(self.retry_delay)
+        finally:
+            if part_path.exists():
+                part_path.unlink()

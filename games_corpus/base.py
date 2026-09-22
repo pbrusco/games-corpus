@@ -1,7 +1,8 @@
 """Abstract base class for dialogue game corpora."""
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING
+from pathlib import Path
+from typing import TYPE_CHECKING, Any
 
 import pandas as pd
 
@@ -20,8 +21,21 @@ class BaseGamesCorpus(ABC):
         """Name of the corpus."""
 
     @abstractmethod
-    def load(self, *args, **kwargs) -> None:
-        """Load corpus sessions and tasks."""
+    def load(
+        self,
+        local_path: str | Path | None = None,
+        load_audio: bool = False,
+        features_path: str | Path | dict[int, str | Path] | None = None,
+        **kwargs: Any,
+    ) -> None:
+        """Load corpus sessions and tasks.
+
+        Args:
+            local_path: Path to local corpus directory.
+            load_audio: Whether to load audio file references.
+            features_path: Path to pre-extracted acoustic features directory or mapping.
+            **kwargs: Additional corpus-specific options.
+        """
 
     @abstractmethod
     def download_features(self, features_dir: str = "features") -> None:

@@ -132,8 +132,9 @@ class Turn:
         result: list[IPU] = []
         for ipu_id in self.ipu_ids:
             ipu = IPU.get_ipu_by_id(ipu_id)
-            if ipu is not None:
-                result.append(ipu)
+            if ipu is None:
+                raise KeyError(f"IPU with ID '{ipu_id}' not found in registry")
+            result.append(ipu)
         return result
 
     def __post_init__(self):
@@ -180,7 +181,14 @@ class TurnTransition:
     def __post_init__(self):
         self.label_type = TurnTransitionType.from_string(self.label)
 
-        self.turn_from = Turn.get_turn_by_id(self.turn_id_from) if self.turn_id_from else None
+        if self.turn_id_from:
+            turn_from = Turn.get_turn_by_id(self.turn_id_from)
+            if turn_from is None:
+                raise ValueError(f"Source turn not found: {self.turn_id_from}")
+            self.turn_from = turn_from
+        else:
+            self.turn_from = None
+
         turn_to = Turn.get_turn_by_id(self.turn_id_to)
         if turn_to is None:
             raise ValueError(f"Target turn not found: {self.turn_id_to}")

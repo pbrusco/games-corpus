@@ -35,7 +35,8 @@ class EnglishGamesCorpus(BaseGamesCorpus):
         self,
         local_path: str | Path | None = None,
         load_audio: bool = False,
-        features_path: str | Path | None = None,
+        features_path: str | Path | dict[int, str | Path] | None = None,
+        **kwargs: Any,
     ) -> None:
         """Load the English Games Corpus from a local directory.
 
@@ -45,7 +46,10 @@ class EnglishGamesCorpus(BaseGamesCorpus):
             features_path: Path to pre-extracted features (e.g. features/games-english/)
         """
         self.corpus_local_path = Path(local_path) if local_path else Path(self.DEFAULT_PATH)
-        self.features_path = Path(features_path) if features_path else None
+        if isinstance(features_path, dict):
+            self.features_path = Path(next(iter(features_path.values()))) if features_path else None
+        else:
+            self.features_path = Path(features_path) if features_path else None
         if not self.corpus_local_path.exists():
             raise FileNotFoundError(
                 f"English corpus not found at {self.corpus_local_path}. "
