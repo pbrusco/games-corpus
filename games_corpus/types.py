@@ -273,34 +273,39 @@ class Session:
         subject_b: str | object = _SESSION_MISSING,
         tasks: list[Task] | object = _SESSION_MISSING,
     ) -> None:
-        if len(args) == 4:
-            if any(value is not _SESSION_MISSING for value in (batch, subject_a, subject_b, tasks)):
-                raise TypeError("Session() got multiple values for constructor arguments")
-            batch, subject_a, subject_b, tasks = args
-        elif len(args) == 3:
-            if any(value is not _SESSION_MISSING for value in (subject_a, subject_b, tasks)):
-                raise TypeError("Session() got multiple values for constructor arguments")
-            subject_a, subject_b, tasks = args
-        elif len(args) > 4:
+        if len(args) > 4:
             raise TypeError(f"Session() takes from 4 to 5 positional arguments but {len(args) + 1} were given")
 
-        missing_args = [
-            name
-            for name, value in (("subject_a", subject_a), ("subject_b", subject_b), ("tasks", tasks))
-            if value is _SESSION_MISSING
-        ]
+        values = {
+            "batch": batch,
+            "subject_a": subject_a,
+            "subject_b": subject_b,
+            "tasks": tasks,
+        }
+
+        if len(args) == 3 and all(values[name] is _SESSION_MISSING for name in ("batch", "subject_a", "subject_b", "tasks")):
+            positional_names = ("subject_a", "subject_b", "tasks")
+        else:
+            positional_names = ("batch", "subject_a", "subject_b", "tasks")
+
+        for name, value in zip(positional_names, args):
+            if values[name] is not _SESSION_MISSING:
+                raise TypeError(f"Session() got multiple values for argument '{name}'")
+            values[name] = value
+
+        missing_args = [name for name in ("subject_a", "subject_b", "tasks") if values[name] is _SESSION_MISSING]
         if missing_args:
             missing_str = ", ".join(f"'{name}'" for name in missing_args)
             raise TypeError(f"Session() missing required arguments: {missing_str}")
 
-        if batch is _SESSION_MISSING:
-            batch = None
+        if values["batch"] is _SESSION_MISSING:
+            values["batch"] = None
 
         object.__setattr__(self, "session_id", session_id)
-        object.__setattr__(self, "batch", batch)
-        object.__setattr__(self, "subject_a", subject_a)
-        object.__setattr__(self, "subject_b", subject_b)
-        object.__setattr__(self, "tasks", tasks)
+        object.__setattr__(self, "batch", values["batch"])
+        object.__setattr__(self, "subject_a", values["subject_a"])
+        object.__setattr__(self, "subject_b", values["subject_b"])
+        object.__setattr__(self, "tasks", values["tasks"])
         self.__post_init__()
 
     def __post_init__(self) -> None:

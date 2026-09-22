@@ -112,6 +112,15 @@ class TestTypesModernization:
         assert s.subject_b == "B"
         assert s.tasks == []
 
+    def test_session_preserves_mixed_legacy_constructor_with_keywords(self):
+        Session.clear_registry()
+        s = Session(99, 2, subject_a="A", subject_b="B", tasks=[])
+        assert s.session_id == 99
+        assert s.batch == 2
+        assert s.subject_a == "A"
+        assert s.subject_b == "B"
+        assert s.tasks == []
+
     def test_session_preserves_positional_constructor_without_batch(self):
         Session.clear_registry()
         s = Session(99, "A", "B", [])
