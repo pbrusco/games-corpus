@@ -59,8 +59,11 @@ class PunctuatedPhrase:
 
 
 def _phrases_file(corpus_key: str, session_id: int, speaker: str) -> Path:
+    # Same s{session:02d}.objects.1.{speaker}.* naming every corpus already
+    # uses for its own raw .phrases files (see e.g. EnglishGamesCorpus._file_path),
+    # with an .autopunct. infix so these are never mistaken for the human ones.
     slug = _CORPUS_SLUGS.get(corpus_key, corpus_key)
-    return _DATA_DIR / slug / f"session_{session_id:02d}_{speaker}.phrases"
+    return _DATA_DIR / slug / f"s{session_id:02d}.objects.1.{speaker}.autopunct.phrases"
 
 
 def available_sessions(corpus_key: str) -> frozenset[int]:
