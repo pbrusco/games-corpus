@@ -49,7 +49,7 @@ class Word:
     speaker: str
     duration: float = field(init=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         object.__setattr__(self, "duration", self.end - self.start)
 
     def __str__(self) -> str:
@@ -82,7 +82,7 @@ class IPU:
         """Clear the IPUs registry."""
         cls._all_ipus.clear()
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.start = self.words[0].start
         self.end = self.words[-1].end
         self.speaker = self.words[0].speaker
@@ -137,7 +137,7 @@ class Turn:
             result.append(ipu)
         return result
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if not self.ipu_ids:
             raise ValueError("IPUs list cannot be empty")
 
@@ -178,7 +178,7 @@ class TurnTransition:
     transition_duration: float = field(init=False)
     overlapped_transition: bool = field(init=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.label_type = TurnTransitionType.from_string(self.label)
 
         if self.turn_id_from:
@@ -225,7 +225,7 @@ class Task:
     duration: float
     text: str = field(init=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.score = float(self.score)
         self.time_used = float(self.time_used)
         self.wavs = {k: Path(v) for k, v in self.wavs.items()}
@@ -253,15 +253,15 @@ class Task:
 @dataclass(frozen=True)
 class Session:
     session_id: int
+    subject_a: str
+    subject_b: str
+    tasks: list[Task]
     batch: int | None = None
-    subject_a: str = ""
-    subject_b: str = ""
-    tasks: list[Task] = field(default_factory=list)
 
     # Class-level storage (outside the dataclass fields)
     _all_sessions: ClassVar[dict[int, "Session"]] = {}
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         # Register this session
         Session._all_sessions[self.session_id] = self
 
@@ -277,7 +277,7 @@ class Session:
     def __str__(self) -> str:
         return f"[Session {self.session_id} ({self.subject_a}, {self.subject_b})] (tasks_count: {len(self.tasks)})"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"[Session {self.session_id} ({self.subject_a}, {self.subject_b})] (tasks_count: {len(self.tasks)})"
 
 

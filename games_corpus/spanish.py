@@ -70,7 +70,7 @@ class SpanishGamesCorpus(BaseGamesCorpus):
     This corpus includes Spanish dialogues of task-oriented, collaborative interactions.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.corpus_raw: dict[str, Any] | None = None
         self.sessions: dict[int, Session] | None = None
         self.config = CorpusConfig()
@@ -99,27 +99,21 @@ class SpanishGamesCorpus(BaseGamesCorpus):
 
     def load(
         self,
-        local_path: str | Path | None = None,
-        load_audio: bool = False,
-        features_path: str | Path | dict[int, str | Path] | None = None,
         url: str | None = None,
-        **kwargs: Any,
+        load_audio: bool = False,
+        local_path: str | Path | None = None,
+        features_path: str | Path | dict[int, str | Path] | None = None,
     ) -> None:
         """Load the corpus from a URL or local path.
 
         Args:
-            local_path: Path to directory where corpus is stored
+            url: Optional URL template for downloading
             load_audio: Whether to include wav audio file paths
+            local_path: Path to directory where corpus is stored
             features_path: Dict mapping batch number to features directory path,
                 e.g. {1: "features/games-spanish-batch1", 2: "features/games-spanish-batch2"}.
                 Also accepts a single string/Path if features are in one directory.
-            url: Optional URL template for downloading
-            **kwargs: Additional options
         """
-        if url is None and isinstance(local_path, str) and local_path.startswith(("http://", "https://")):
-            url = local_path
-            local_path = None
-
         self._setup_paths(url, local_path)
         self._filter_audio_files(load_audio)
         if features_path is None:
@@ -282,7 +276,13 @@ class SpanishGamesCorpus(BaseGamesCorpus):
             subject_a = str(session.subject_id_A)
             subject_b = str(session.subject_id_B)
             tasks = self._load_tasks_for_session(session_id, batch)
-            session_obj = Session(session_id, batch, subject_a, subject_b, tasks)
+            session_obj = Session(
+                session_id=session_id,
+                subject_a=subject_a,
+                subject_b=subject_b,
+                tasks=tasks,
+                batch=batch,
+            )
             self.sessions[session_id] = session_obj
 
     def _load_tasks_for_session(self, session_id: int, batch: int) -> list[Task]:

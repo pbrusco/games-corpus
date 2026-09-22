@@ -22,7 +22,7 @@ class EnglishGamesCorpus(BaseGamesCorpus):
 
     DEFAULT_PATH = "./corpus/games-english/"
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.sessions: dict[int, Session] | None = None
         self.corpus_local_path: Path | None = None
         self.features_path: Path | None = None
@@ -36,7 +36,6 @@ class EnglishGamesCorpus(BaseGamesCorpus):
         local_path: str | Path | None = None,
         load_audio: bool = False,
         features_path: str | Path | dict[int, str | Path] | None = None,
-        **kwargs: Any,
     ) -> None:
         """Load the English Games Corpus from a local directory.
 

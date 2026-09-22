@@ -57,10 +57,10 @@ class TestBaseGamesCorpus:
 
             def load(
                 self,
+                *,
                 local_path: str | Path | None = None,
                 load_audio: bool = False,
                 features_path: str | Path | dict[int, str | Path] | None = None,
-                **kwargs,
             ) -> None:
                 self.loaded = True
 
@@ -76,6 +76,9 @@ class TestBaseGamesCorpus:
         c.load(local_path="/tmp", load_audio=True, features_path="/tmp/features")
         assert getattr(c, "loaded", False) is True
 
+        with pytest.raises(TypeError):
+            c.load(invalid_kwarg=True)  # type: ignore[call-arg]
+
 
 class TestTypesModernization:
     def test_turn_get_by_id_returns_none_when_missing(self):
@@ -84,9 +87,12 @@ class TestTypesModernization:
 
     def test_session_batch_optional(self):
         Session.clear_registry()
-        s = Session(session_id=99, subject_a="A", subject_b="B")
+        s = Session(session_id=99, subject_a="A", subject_b="B", tasks=[])
         assert s.batch is None
         assert s.session_id == 99
+
+        with pytest.raises(TypeError):
+            Session(session_id=100)  # type: ignore[call-arg]
 
     def test_task_wavs_conversion_to_path(self):
         task = Task(
@@ -183,6 +189,7 @@ class TestDownloaderStreaming:
         assert saved_file.read_bytes() == b"chunk1chunk2"
 
     def test_downloader_atomic_streaming_cleans_up_on_failure(self, tmp_path):
+        from collections.abc import Generator
         import requests
 
         target_dir = tmp_path / "download"
@@ -193,9 +200,14 @@ class TestDownloaderStreaming:
             retry_delay=0,
         )
 
+        def fail_stream() -> Generator[bytes, None, None]:
+            yield b"partial content"
+            raise requests.RequestException("Interrupted mid-stream")
+
         mock_response = MagicMock()
         mock_response.__enter__.return_value = mock_response
-        mock_response.raise_for_status.side_effect = requests.RequestException("Network error")
+        mock_response.raise_for_status.return_value = None
+        mock_response.iter_content.return_value = fail_stream()
 
         with patch("requests.get", return_value=mock_response):
             with pytest.raises(RuntimeError, match="Failed to download test.txt"):
