@@ -112,6 +112,13 @@ class TestTypesModernization:
         assert s.subject_b == "B"
         assert s.tasks == []
 
+    def test_session_rejects_duplicate_positional_and_keyword_arguments(self):
+        with pytest.raises(TypeError, match="multiple values"):
+            Session(99, 2, "A", "B", [], batch=3)
+
+        with pytest.raises(TypeError, match="multiple values"):
+            Session(99, "A", "B", [], subject_a="A")
+
     def test_task_wavs_conversion_to_path(self):
         task = Task(
             task_id=1,
