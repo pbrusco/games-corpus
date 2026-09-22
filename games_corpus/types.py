@@ -284,8 +284,14 @@ class Session:
         elif len(args) > 4:
             raise TypeError(f"Session() takes from 4 to 5 positional arguments but {len(args) + 1} were given")
 
-        if subject_a is _SESSION_MISSING or subject_b is _SESSION_MISSING or tasks is _SESSION_MISSING:
-            raise TypeError("Session() missing required arguments: 'subject_a', 'subject_b', and 'tasks'")
+        missing_args = [
+            name
+            for name, value in (("subject_a", subject_a), ("subject_b", subject_b), ("tasks", tasks))
+            if value is _SESSION_MISSING
+        ]
+        if missing_args:
+            missing_str = ", ".join(f"'{name}'" for name in missing_args)
+            raise TypeError(f"Session() missing required arguments: {missing_str}")
 
         if batch is _SESSION_MISSING:
             batch = None

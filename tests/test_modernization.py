@@ -128,6 +128,14 @@ class TestTypesModernization:
         with pytest.raises(TypeError, match="multiple values"):
             Session(99, "A", "B", [], subject_a="A")
 
+    def test_session_reports_missing_required_arguments(self):
+        with pytest.raises(TypeError, match="'tasks'"):
+            Session(session_id=99, subject_a="A", subject_b="B")
+
+    def test_session_rejects_too_many_positional_arguments(self):
+        with pytest.raises(TypeError, match="takes from 4 to 5 positional arguments"):
+            Session(99, 2, "A", "B", [], "extra")
+
     def test_task_wavs_conversion_to_path(self):
         task = Task(
             task_id=1,
