@@ -283,7 +283,10 @@ class Session:
             "tasks": tasks,
         }
 
-        if len(args) == 3 and all(values[name] is _SESSION_MISSING for name in ("batch", "subject_a", "subject_b", "tasks")):
+        positional_names: tuple[str, ...]
+        if len(args) == 3 and all(
+            values[name] is _SESSION_MISSING for name in ("batch", "subject_a", "subject_b", "tasks")
+        ):
             positional_names = ("subject_a", "subject_b", "tasks")
         else:
             positional_names = ("batch", "subject_a", "subject_b", "tasks")
