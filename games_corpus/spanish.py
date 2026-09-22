@@ -160,6 +160,9 @@ class SpanishGamesCorpus(BaseGamesCorpus):
             raise ValueError(f"No features path configured for batch {batch}.")
         return load_task_features(self.features_paths[batch], task.session_id, task.task_id)
 
+    # get_punctuated_phrases / available_punctuated_sessions: inherited from
+    # BaseGamesCorpus, generic across all three corpora.
+
     def _setup_paths(self, url: str | None = None, local_path: str | Path | None = None) -> None:
         self.corpus_url = url or self.config.DEFAULT_URL
         self.corpus_local_path = Path(local_path) if local_path else Path("./corpus/games-spanish/")

@@ -137,7 +137,9 @@ games-corpus/
 │   ├── english.py             # EnglishGamesCorpus
 │   ├── slovak.py              # SlovakGamesCorpus
 │   ├── features.py            # Pre-extracted features loader
-│   └── downloader.py          # Remote file downloader (Spanish only)
+│   ├── downloader.py          # Remote file downloader (Spanish only)
+│   ├── punctuation.py         # Machine-restored punctuation, generic (NOT human annotation)
+│   └── data/punctuated_phrases/{corpus-slug}/  # Shipped pilot data, per corpus
 ├── features/                  # Pre-extracted acoustic features (Git LFS)
 │   ├── games-english/
 │   ├── games-spanish-batch1/
@@ -254,6 +256,39 @@ for task in corpus.dev_tasks(batch=1):
     print(f"Task {task.task_id}, session {task.session_id}")
 ```
 
+### Machine-Restored Punctuation (pilot, not human annotation)
+
+`get_punctuated_phrases` / `available_punctuated_sessions` are generic on
+`BaseGamesCorpus` — they work the same way for all three corpora — but only
+the Spanish corpus has any sessions processed so far.
+
+> **Warning:** the source transcripts have no punctuation or capitalization at
+> all (ASR-style). `get_punctuated_phrases` returns punctuation predicted by
+> an LLM (Gemini, given the session audio + original transcript), **not**
+> produced or checked by any corpus's human annotators. It's a noisy
+> pseudo-label meant to recover information the plain transcript hides (e.g.
+> a bare "sí" answering a real question vs. just a backchannel — only a
+> restored "¿...?" tells them apart), not ground truth. Punctuation, casing,
+> **and diacritics/accents** may all be added or corrected — "buho" → "búho"
+> is a deliberate orthography fix, not a wording change. See
+> `games_corpus.punctuation`'s module docstring for details on the fidelity
+> check, its known ~2-7%-per-file disfluency-cleanup noise rate, and its
+> limits. `available_punctuated_sessions()` lists what's covered for a given
+> corpus; anything else raises `FileNotFoundError`.
+
+```python
+from games_corpus import SpanishGamesCorpus
+
+corpus = SpanishGamesCorpus()
+corpus.load(load_audio=False)
+
+print(corpus.available_punctuated_sessions())  # currently: batch 1, sessions 1-14
+
+task = next(t for t in corpus.dev_tasks(batch=1) if t.session_id == 2)
+for phrase in corpus.get_punctuated_phrases(task):
+    print(f"{phrase.speaker} [{phrase.start:.2f}-{phrase.end:.2f}] {phrase.text}")
+```
+
 ## Library Features
 
 - Unified data model across three corpora (Spanish, English, Slovak)
@@ -262,6 +297,7 @@ for task in corpus.dev_tasks(batch=1):
 - Pre-extracted acoustic features (pitch, jitter, shimmer, HNR, intensity, VAD)
 - Optional audio file handling
 - Dev/eval task splits (Spanish corpus)
+- Machine-restored punctuation pilot, generic across corpora (currently Spanish only has data — NOT human annotation, see warning above)
 
 ## Testing
 

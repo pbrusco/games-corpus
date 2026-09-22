@@ -6,6 +6,8 @@ from typing import TYPE_CHECKING
 
 import pandas as pd
 
+from games_corpus.punctuation import PunctuatedPhrase, available_sessions, load_session_punctuated_phrases
+
 if TYPE_CHECKING:
     from games_corpus.types import Session, Task
 
@@ -43,3 +45,43 @@ class BaseGamesCorpus(ABC):
     @abstractmethod
     def get_features(self, task: "Task") -> pd.DataFrame:
         """Get pre-extracted acoustic features for a task as a DataFrame."""
+
+    def available_punctuated_sessions(self) -> frozenset[int]:
+        """Session ids that have machine-restored punctuation available.
+
+        NOT HUMAN ANNOTATION -- see `games_corpus.punctuation`'s module
+        docstring. Empty for corpora/sessions not processed yet.
+        """
+        return available_sessions(type(self).__name__)
+
+    def get_punctuated_phrases(self, task: "Task") -> list[PunctuatedPhrase]:
+        """Get machine-restored punctuation/capitalization for a task, if available.
+
+        NOT HUMAN ANNOTATION -- see `games_corpus.punctuation`'s module
+        docstring before relying on the returned text for anything where
+        correctness matters. Coverage is currently a small pilot; check
+        `available_punctuated_sessions()` first if you want to avoid the
+        exception.
+
+        Args:
+            task: A Task object from this corpus.
+
+        Returns:
+            Both speakers' phrases overlapping the task's time span, in
+            chronological order.
+
+        Raises:
+            FileNotFoundError: this task's session hasn't been processed.
+            ValueError: the corpus hasn't been loaded yet.
+        """
+        if self.sessions is None:
+            raise ValueError("Corpus not loaded. Call load() first.")
+        corpus_key = type(self).__name__
+        task_end = task.start + task.duration
+        phrases = [
+            p
+            for speaker in ("A", "B")
+            for p in load_session_punctuated_phrases(corpus_key, task.session_id, speaker)
+            if p.start < task_end and p.end > task.start
+        ]
+        return sorted(phrases, key=lambda p: p.start)
