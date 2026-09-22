@@ -13,6 +13,15 @@ changed the wording (falling back to the original unpunctuated text in that
 case), but false negatives are possible, and even accepted phrases are
 unverified by a human. Do not use this as ground truth.
 
+Known failure mode, quantified by this package's own tests
+(test_stripping_punctuation_recovers_the_human_transcript): the fidelity
+check is a similarity threshold, not exact match, so it lets through a small
+rate (~2-7% of phrases per file in batch 1) of disfluency cleanup -- Gemini
+tends to drop stutters, false starts, and filler words in an otherwise-long,
+mostly-matching phrase (e.g. "está es hacia" -> "hacia"). Two sessions that
+originally hit ~20% from this were re-generated with a stricter threshold;
+the remaining baseline is accepted as documented noise, not silently hidden.
+
 Generic across all three corpora (Spanish, English, Slovak) by design, even
 though only Spanish has any sessions processed so far -- see `_COVERAGE`.
 Prefer `BaseGamesCorpus.get_punctuated_phrases(task)` /
@@ -39,7 +48,7 @@ _CORPUS_SLUGS: dict[str, str] = {
 #: available. A session is only listed once BOTH speakers' files are shipped
 #: -- keep this in sync with games_corpus/data/punctuated_phrases/.
 _COVERAGE: dict[str, frozenset[int]] = {
-    "SpanishGamesCorpus": frozenset({2}),
+    "SpanishGamesCorpus": frozenset(range(1, 15)),  # batch 1, sessions 1-14
 }
 
 
@@ -47,9 +56,12 @@ _COVERAGE: dict[str, frozenset[int]] = {
 class PunctuatedPhrase:
     """One phrase with LLM-predicted punctuation/capitalization.
 
-    NOT human-verified -- see this module's docstring. `text` has the same
-    words as the source transcript's phrase (enforced at generation time by a
-    word-level fidelity check), only punctuation and casing may differ.
+    NOT human-verified -- see this module's docstring. `text` is meant to
+    have the same words as the source transcript's phrase (enforced at
+    generation time by a word-level fidelity check, with a small known
+    false-negative rate -- see the module docstring); punctuation, casing,
+    AND diacritics/accents may all differ (e.g. "buho" -> "búho" is an
+    intentional orthography fix, not a wording change).
     """
 
     speaker: str
@@ -93,11 +105,14 @@ def load_session_punctuated_phrases(corpus_key: str, session_id: int, speaker: s
     path = _phrases_file(corpus_key, session_id, speaker)
 
     phrases = []
-    for line in path.read_text().splitlines():
+    for line in path.read_text(encoding="utf-8").splitlines():
         if not line.strip():
             continue
-        start, end, text = line.split("\t")
-        if text == "#":
+        parts = line.split("\t")
+        if len(parts) != 3:
+            continue  # a handful of source phrases are zero-duration/empty; not real content
+        start, end, text = parts
+        if text == "#" or not text:
             continue
         phrases.append(PunctuatedPhrase(speaker=speaker, start=float(start), end=float(end), text=text))
     return phrases

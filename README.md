@@ -268,10 +268,13 @@ the Spanish corpus has any sessions processed so far.
 > produced or checked by any corpus's human annotators. It's a noisy
 > pseudo-label meant to recover information the plain transcript hides (e.g.
 > a bare "sí" answering a real question vs. just a backchannel — only a
-> restored "¿...?" tells them apart), not ground truth. See
+> restored "¿...?" tells them apart), not ground truth. Punctuation, casing,
+> **and diacritics/accents** may all be added or corrected — "buho" → "búho"
+> is a deliberate orthography fix, not a wording change. See
 > `games_corpus.punctuation`'s module docstring for details on the fidelity
-> check and its limits. `available_punctuated_sessions()` lists what's
-> covered for a given corpus; anything else raises `FileNotFoundError`.
+> check, its known ~2-7%-per-file disfluency-cleanup noise rate, and its
+> limits. `available_punctuated_sessions()` lists what's covered for a given
+> corpus; anything else raises `FileNotFoundError`.
 
 ```python
 from games_corpus import SpanishGamesCorpus
@@ -279,7 +282,7 @@ from games_corpus import SpanishGamesCorpus
 corpus = SpanishGamesCorpus()
 corpus.load(load_audio=False)
 
-print(corpus.available_punctuated_sessions())  # currently: frozenset({2})
+print(corpus.available_punctuated_sessions())  # currently: batch 1, sessions 1-14
 
 task = next(t for t in corpus.dev_tasks(batch=1) if t.session_id == 2)
 for phrase in corpus.get_punctuated_phrases(task):
