@@ -94,6 +94,15 @@ class TestTypesModernization:
         with pytest.raises(TypeError):
             Session(session_id=100)  # type: ignore[call-arg]
 
+    def test_session_preserves_legacy_positional_constructor(self):
+        Session.clear_registry()
+        s = Session(99, 2, "A", "B", [])
+        assert s.session_id == 99
+        assert s.batch == 2
+        assert s.subject_a == "A"
+        assert s.subject_b == "B"
+        assert s.tasks == []
+
     def test_task_wavs_conversion_to_path(self):
         task = Task(
             task_id=1,

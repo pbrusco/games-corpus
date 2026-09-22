@@ -250,7 +250,10 @@ class Task:
         return f"[Task {self.task_id:02d} ({self.describer}) {self.start:.02f}:{self.start + self.duration:.02f} ] Turns {len(self.turns)} IPUs {len(self.ipus)}"
 
 
-@dataclass(frozen=True)
+_SESSION_MISSING = object()
+
+
+@dataclass(frozen=True, init=False)
 class Session:
     session_id: int
     subject_a: str
@@ -260,6 +263,39 @@ class Session:
 
     # Class-level storage (outside the dataclass fields)
     _all_sessions: ClassVar[dict[int, "Session"]] = {}
+
+    def __init__(
+        self,
+        session_id: int,
+        *args: object,
+        batch: int | None | object = _SESSION_MISSING,
+        subject_a: str | object = _SESSION_MISSING,
+        subject_b: str | object = _SESSION_MISSING,
+        tasks: list[Task] | object = _SESSION_MISSING,
+    ) -> None:
+        if len(args) == 4:
+            if any(value is not _SESSION_MISSING for value in (batch, subject_a, subject_b, tasks)):
+                raise TypeError("Session() got multiple values for constructor arguments")
+            batch, subject_a, subject_b, tasks = args
+        elif len(args) == 3:
+            if any(value is not _SESSION_MISSING for value in (subject_a, subject_b, tasks)):
+                raise TypeError("Session() got multiple values for constructor arguments")
+            subject_a, subject_b, tasks = args
+        elif len(args) > 4:
+            raise TypeError(f"Session() takes from 4 to 5 positional arguments but {len(args) + 1} were given")
+
+        if subject_a is _SESSION_MISSING or subject_b is _SESSION_MISSING or tasks is _SESSION_MISSING:
+            raise TypeError("Session() missing required arguments: 'subject_a', 'subject_b', and 'tasks'")
+
+        if batch is _SESSION_MISSING:
+            batch = None
+
+        object.__setattr__(self, "session_id", session_id)
+        object.__setattr__(self, "batch", batch)
+        object.__setattr__(self, "subject_a", subject_a)
+        object.__setattr__(self, "subject_b", subject_b)
+        object.__setattr__(self, "tasks", tasks)
+        self.__post_init__()
 
     def __post_init__(self) -> None:
         # Register this session
