@@ -195,7 +195,12 @@ for transition in task.turn_transitions:
     print(f"Transition type: {transition.label_type}")
     print(f"From speaker: {transition.turn_from.speaker if transition.turn_from else 'N/A'}")
     print(f"To speaker: {transition.turn_to.speaker}")
-    print(f"Gap duration: {transition.transition_duration:.2f}s")
+    # transition_duration is signed: positive = silence gap, negative = overlap
+    # magnitude. Check overlapped_transition rather than the sign yourself.
+    if transition.overlapped_transition:
+        print(f"Overlap duration: {abs(transition.transition_duration):.2f}s")
+    else:
+        print(f"Gap duration: {transition.transition_duration:.2f}s")
 
 # Access word-level information
 for ipu in task.ipus:
