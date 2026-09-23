@@ -5,7 +5,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from games_corpus import EnglishGamesCorpus, SlovakGamesCorpus, SpanishGamesCorpus
+from games_corpus import IPU, EnglishGamesCorpus, SlovakGamesCorpus, SpanishGamesCorpus, Turn, TurnTransition, Word
 from games_corpus.parsers import find_interlocutor_previous_turn_id, find_turn_ipus
 
 CORPUS_DIR = Path(__file__).resolve().parent.parent / "corpus"
@@ -79,6 +79,52 @@ def test_non_x3_turn_is_kept_even_if_it_started_just_before():
 
 def test_first_turn_simultaneous_start_has_no_earlier_turn_to_fall_back_to():
     assert find_interlocutor_previous_turn_id(TURNS[1:], "A", 20.01, frozenset({"A2"})) == "A2"
+
+
+# --- transition_duration clips IPU times to their turn's bounds -------------------------
+
+
+@pytest.fixture
+def registries():
+    IPU.clear_registry()
+    Turn.clear_registry()
+    yield
+    IPU.clear_registry()
+    Turn.clear_registry()
+
+
+def make_turn(speaker, turn_start, turn_end, ipu_start, ipu_end):
+    ipu = IPU(words=[Word(start=ipu_start, end=ipu_end, text="x", speaker=speaker)])
+    return Turn(session_id=1, task_id=1, speaker=speaker, start=turn_start, end=turn_end, ipu_ids=[ipu.ipu_id])
+
+
+def transition(label, turn_from, turn_to):
+    return TurnTransition(label=label, turn_id_from=turn_from.turn_id, turn_id_to=turn_to.turn_id)
+
+
+def test_ipu_running_past_the_end_of_its_turn_is_clipped(registries):
+    # Like the Spanish batch 2 IPU "está <missing> ah okay" [84.89, 89.07] of a turn [84.89, 85.27]
+    s1 = make_turn("A", 0.0, 1.0, 0.0, 4.0)
+    s2 = make_turn("B", 1.5, 2.0, 1.5, 2.0)
+    tt = transition("S", s1, s2)
+    assert tt.transition_duration == pytest.approx(0.5)  # unclipped: 1.5 - 4.0 = -2.5
+    assert not tt.overlapped_transition
+
+
+def test_ipu_starting_before_its_turn_is_clipped(registries):
+    s1 = make_turn("A", 0.0, 1.0, 0.0, 1.0)
+    s2 = make_turn("B", 2.0, 3.0, 0.5, 3.0)
+    tt = transition("S", s1, s2)
+    assert tt.transition_duration == pytest.approx(1.0)  # unclipped: 0.5 - 1.0 = -0.5
+    assert not tt.overlapped_transition
+
+
+def test_real_overlap_inside_the_turn_bounds_is_unchanged(registries):
+    s1 = make_turn("A", 0.0, 2.0, 0.0, 2.0)
+    s2 = make_turn("B", 1.5, 2.5, 1.5, 2.5)
+    tt = transition("O", s1, s2)
+    assert tt.transition_duration == pytest.approx(-0.5)
+    assert tt.overlapped_transition
 
 
 # --- real corpora ---------------------------------------------------------------------

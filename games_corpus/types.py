@@ -235,10 +235,11 @@ class TurnTransition:
     # rebuild label_type (TurnTransitionType.from_kind). See TurnTransitionKind.
     kind: TurnTransitionKind = field(init=False)
     annotated_overlap: bool | None = field(init=False)
-    # Signed seconds between ipu_from.end and ipu_to.start: positive = silence gap
-    # before turn_to starts, negative = magnitude of speech overlap between the two
-    # turns. Use overlapped_transition (below) rather than a sign check on this value
-    # -- e.g. abs(transition_duration) for a magnitude regardless of which case it is.
+    # Signed seconds between ipu_from.end and ipu_to.start, each clipped to its own turn's
+    # bounds (an IPU can run past the turn it was annotated with): positive = silence gap
+    # before turn_to starts, negative = magnitude of speech overlap between the two turns.
+    # Use overlapped_transition (below) rather than a sign check on this value -- e.g.
+    # abs(transition_duration) for a magnitude regardless of which case it is.
     transition_duration: float = field(init=False)
     overlapped_transition: bool = field(init=False)
 
