@@ -164,15 +164,17 @@ All three corpora share the same data model:
 - **Turns**: Speaking turns with timing information
 - **IPUs**: Inter-Pausal Units (continuous speech segments separated by pauses)
 - **Words**: Individual words with timing and speaker information
-- **TurnTransitions**: Annotated turn-taking patterns between speakers:
+- **TurnTransitions**: Annotated turn-taking patterns between speakers (`tt.label`, following Gravano & Hirschberg 2011):
   - `S`: Smooth switch
-  - `O`: Overlap
-  - `I`: Interruption
+  - `O`: Overlap (smooth switch with overlapping speech)
+  - `PI`: Pause interruption
+  - `I`: Interruption (with overlapping speech)
+  - `BI`: Butting-in (failed interruption: the interlocutor does not get the floor)
   - `BC`: Backchannel
   - `BC_O`: Overlapping backchannel
-  - `BI`: Backchannel with interruption
-  - `PI`: Pause interruption
-  - `X1/X2/X2_O/X3`: First turn, Backchannel Continuation (with and without overlap), Simultaneous speech.
+  - `X1/X2/X2_O/X3`: First turn, Backchannel Continuation (with and without overlap), Simultaneous start.
+
+  Each transition also exposes its **type without the overlap dimension**, `tt.kind` (see below).
 
 The Spanish corpus additionally organizes sessions into **batches** (batch 1 and batch 2), with predefined development/evaluation splits accessible via `corpus.dev_tasks(batch)` and `corpus.held_out_tasks(batch)`.
 
@@ -208,6 +210,48 @@ for transition in task.turn_transitions:
 for ipu in task.ipus:
     for word in ipu.words:
         print(f"{word.speaker}: {word.text} [{word.start:.2f}s - {word.end:.2f}s]")
+```
+
+### Transition kind and overlap as separate dimensions
+
+The original labels mix two things: what happened to the floor, and whether there was
+overlapping speech (`S` vs `O`, `PI` vs `I`, ...). `tt.kind` (a `TurnTransitionKind`,
+available for all three corpora) keeps only the first, named after what happens to the
+floor; the overlap is a separate attribute:
+
+| `tt.kind` | original labels | what happens to the floor |
+|---|---|---|
+| `yield` | `S`, `O` | the speaker completes their utterance and the interlocutor takes the floor |
+| `take` | `PI`, `I` | the interlocutor takes the floor before the speaker completes their utterance |
+| `failed_take` | `BI` | the interlocutor tries to take the floor; the speaker keeps it |
+| `backchannel` | `BC`, `BC_O` | brief listener signal; the speaker keeps the floor |
+| `resume` | `X2`, `X2_O` | the speaker continues after a backchannel |
+| `first_turn` / `simultaneous_start` / `ambiguous` | `X1` / `X3` / `A` | unchanged |
+
+The kind values deliberately never reuse an original code (a `take` is a `PI` *or* an
+`I`; calling it `I` would silently change what `I` means). In Gravano & Hirschberg's
+terms, turn-yielding, turn-holding and backchannel-inviting cues are the signals that
+precede these outcomes.
+
+There are two notions of overlap, and they do not always agree:
+
+- `tt.annotated_overlap`: the annotators' call, read off the label (`O`, `I`, `BI`,
+  `BC_O`, `X2_O` → `True`; `X1`, `X3`, `A` → `None`).
+- `tt.overlapped_transition`: computed from timestamps (the interlocutor's first IPU
+  starts before the speaker's last IPU ends).
+
+They agree on ~95–96% of transitions in each corpus (Spanish 95.6%, English 95.1%,
+Slovak 96.5%). Almost all disagreements are timestamp-only overlaps, typically near-
+simultaneous starts that annotators did not treat as overlap. `(kind, annotated_overlap)`
+rebuilds the original label exactly:
+
+```python
+from games_corpus import TurnTransitionKind, TurnTransitionType
+
+tt.kind                        # TurnTransitionKind.TAKE
+tt.annotated_overlap           # True  (it was an I, not a PI)
+tt.overlapped_transition       # computed from timestamps
+TurnTransitionType.from_kind(tt.kind, tt.annotated_overlap)  # TurnTransitionType.OVERLAPPED_INTERRUPTION
 ```
 
 ### Pre-extracted Acoustic Features
