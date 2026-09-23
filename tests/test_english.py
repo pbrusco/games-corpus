@@ -178,7 +178,6 @@ class TestEnglishCorpusDataQuality:
                 )
 
     @to_be_reviewed_by_human
-    @pytest.mark.xfail(reason="Known corpus data quality issue — some turns extend beyond task boundaries")
     def test_turns_are_within_task_boundaries(self, corpus):
         """Every turn should start and end within its task's time boundaries (with tolerance)."""
         tolerance = 1.0

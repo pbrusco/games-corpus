@@ -240,9 +240,18 @@ There are two notions of overlap, and they do not always agree:
 - `tt.overlapped_transition`: computed from timestamps (the interlocutor's first IPU
   starts before the speaker's last IPU ends).
 
-They agree on ~95–96% of transitions in each corpus (Spanish 95.6%, English 95.1%,
-Slovak 96.5%). Almost all disagreements are timestamp-only overlaps, typically near-
-simultaneous starts that annotators did not treat as overlap. `(kind, annotated_overlap)`
+They agree on 99.0% (Spanish), 99.8% (English) and 99.8% (Slovak) of transitions. Two
+details of how transitions are linked matter for this:
+
+- An IPU belongs to a turn when they substantially overlap in time (at least half of the IPU
+  or half of the turn), so an IPU of the speaker's next turn that starts a few ms after the
+  turn ends is not counted in it.
+- A transition comes from the interlocutor's most recent turn, except when that turn is a
+  simultaneous start (annotated `X3`) that began less than 200 ms earlier: both speakers
+  started at almost the same time, and the transition is linked to the interlocutor's
+  previous turn, as the annotators did.
+
+`(kind, annotated_overlap)`
 rebuilds the original label exactly:
 
 ```python

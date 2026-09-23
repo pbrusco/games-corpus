@@ -471,7 +471,7 @@ class TestSpanishGamesCorpus:
             "I": 283,
             "O": 767,
             "PI": 161,
-            "S": 1804,
+            "S": 1805,  # +1 since turn/IPU matching by overlap: a turn that used to get no IPU
             "X1": 176,
             "X2": 497,
             "X2_O": 104,
