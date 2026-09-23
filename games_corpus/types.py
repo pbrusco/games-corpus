@@ -235,10 +235,11 @@ class TurnTransition:
     # rebuild label_type (TurnTransitionType.from_kind). See TurnTransitionKind.
     kind: TurnTransitionKind = field(init=False)
     annotated_overlap: bool | None = field(init=False)
-    # Signed seconds between ipu_from.end and ipu_to.start: positive = silence gap
-    # before turn_to starts, negative = magnitude of speech overlap between the two
-    # turns. Use overlapped_transition (below) rather than a sign check on this value
-    # -- e.g. abs(transition_duration) for a magnitude regardless of which case it is.
+    # Signed seconds between ipu_from.end and ipu_to.start, each clipped to its own turn's
+    # bounds (an IPU can run past the turn it was annotated with): positive = silence gap
+    # before turn_to starts, negative = magnitude of speech overlap between the two turns.
+    # Use overlapped_transition (below) rather than a sign check on this value -- e.g.
+    # abs(transition_duration) for a magnitude regardless of which case it is.
     transition_duration: float = field(init=False)
     overlapped_transition: bool = field(init=False)
 
@@ -269,8 +270,17 @@ class TurnTransition:
         if not self.turn_to.ipus:
             raise ValueError(f"Target turn {self.turn_id_to} has no IPUs")
         self.ipu_to = self.turn_to.ipus[0]
-        # See the transition_duration field comment above for the sign convention.
-        self.transition_duration = self.ipu_to.start - self.ipu_from.end if self.ipu_from else 0.0
+        # See the transition_duration field comment above for the sign convention. IPU times
+        # are clipped to their turn's bounds: in a few places (mostly Spanish batch 2) an IPU
+        # runs past the end of its turn, e.g. a single IPU "está <missing> ah okay" spanning
+        # [84.89, 89.07] for a turn annotated as [84.89, 85.27]; the turn is what the
+        # transition was annotated against.
+        if self.ipu_from and self.turn_from:
+            from_end = min(self.ipu_from.end, self.turn_from.end)
+            to_start = max(self.ipu_to.start, self.turn_to.start)
+            self.transition_duration = to_start - from_end
+        else:
+            self.transition_duration = 0.0
         self.overlapped_transition = self.transition_duration < 0
 
 

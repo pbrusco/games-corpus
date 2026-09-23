@@ -119,26 +119,56 @@ def load_objects_tasks_b2(tasks_file: str | Path) -> list[dict[str, Any]]:
 # ---------------------------------------------------------------------------
 
 
-def find_turn_ipus(speaker_ipus: list[IPU], turn_start: float, turn_end: float, max_diff: float = 0.1) -> list[IPU]:
-    """Find IPUs that fall within the given turn boundaries."""
-    return [
-        ipu
-        for ipu in speaker_ipus
-        if (turn_start - max_diff) <= ipu.start <= (turn_end + max_diff)
-        or (turn_start - max_diff) <= ipu.end <= (turn_end + max_diff)
-    ]
+def find_turn_ipus(speaker_ipus: list[IPU], turn_start: float, turn_end: float) -> list[IPU]:
+    """IPUs that substantially overlap the turn: they intersect it, and the shared time covers
+    at least half of the IPU or half of the turn.
+
+    Earlier versions took any IPU whose start OR end fell within 100 ms of the turn, so an IPU
+    of the speaker's next turn starting a few ms after this turn ended was counted in both
+    turns (shifting ipu_from/ipu_to and the overlap computed from them). Requiring real
+    overlap drops those, while keeping IPUs that spill over the turn's edge and the few turns
+    that are shorter than their single IPU (a mismatch between the two files)."""
+    selected = []
+    for ipu in speaker_ipus:
+        shared = min(turn_end, ipu.end) - max(turn_start, ipu.start)
+        if shared > 0 and (shared >= 0.5 * (ipu.end - ipu.start) or shared >= 0.5 * (turn_end - turn_start)):
+            selected.append(ipu)
+    return selected
+
+
+# A turn annotated as a simultaneous start (X3) that began less than this many seconds
+# before the interlocutor's turn is not what the interlocutor is responding to: both
+# speakers started at (almost) the same time, and the annotators label the interlocutor's
+# transition against the speaker's *previous* turn. Across the three corpora such cases are
+# annotated without overlap with a median lead of ~0.05 s, while X3 turns the interlocutor
+# genuinely overlaps started ~1-2 s earlier (median). 0.25 rather than 0.2 catches a cluster
+# of cases at exactly 0.20-0.21 s; it changes nothing in the English and Slovak corpora.
+SIMULTANEOUS_START_MAX_LEAD = 0.25
 
 
 def find_interlocutor_previous_turn_id(
-    turns: list[Turn], speaker: str, starting_before: float | None = None
+    turns: list[Turn],
+    speaker: str,
+    starting_before: float | None = None,
+    simultaneous_start_ids: frozenset[str] = frozenset(),
 ) -> str | None:
-    """Find the most recent turn before the given timestamp."""
+    """The interlocutor turn a transition comes from: the most recent turn of `speaker`
+    starting at or before `starting_before`, skipping a simultaneous start (a turn in
+    `simultaneous_start_ids`, i.e. annotated X3, that began less than
+    SIMULTANEOUS_START_MAX_LEAD earlier) in favour of the turn before it."""
     if not turns or starting_before is None:
         return None
-    for turn in reversed(turns):
-        if turn.start <= starting_before and turn.speaker == speaker:
-            return turn.turn_id
-    return None
+    candidates = [turn for turn in turns if turn.start <= starting_before and turn.speaker == speaker]
+    if not candidates:
+        return None
+    last = candidates[-1]
+    if (
+        last.turn_id in simultaneous_start_ids
+        and starting_before - last.start < SIMULTANEOUS_START_MAX_LEAD
+        and len(candidates) > 1
+    ):
+        return candidates[-2].turn_id
+    return last.turn_id
 
 
 # ---------------------------------------------------------------------------
@@ -199,7 +229,7 @@ def load_turns_for_task(
                     continue
 
                 speaker_ipus = ipus_by_speaker.get(speaker, [])
-                turn_ipus = find_turn_ipus(speaker_ipus, turn_start, turn_end, max_diff=0.1)
+                turn_ipus = find_turn_ipus(speaker_ipus, turn_start, turn_end)
                 turn_id = Turn.id_builder(session_id, task_id, speaker, turn_start, turn_end)
                 if len(turn_ipus) == 0:
                     logging.warning(f"Cannot find IPUs for turn {turn_id}. Skipping turn")
@@ -246,6 +276,7 @@ def load_turn_transitions_for_task(
     task_start = task_boundaries[0]
     task_end = task_boundaries[1]
 
+    entries: list[tuple[str, str, float, float, str]] = []  # (speaker, line, start, end, label)
     for speaker, turns_file in turn_files.items():
         if not Path(turns_file).exists():
             logging.warning(f"Turn transitions file {turns_file} not found.")
@@ -264,44 +295,52 @@ def load_turn_transitions_for_task(
                     break
                 if turn_end < task_start:
                     continue
+                entries.append((speaker, line, turn_start, turn_end, label))
 
-                if speaker not in ("A", "B"):
-                    logging.warning(f"Unexpected speaker '{speaker}', skipping transition")
-                    continue
-                interlocutor = "B" if speaker == "A" else "A"
+    # Turns annotated as simultaneous starts, needed before linking either speaker's transitions
+    simultaneous_start_ids = frozenset(
+        Turn.id_builder(session_id, task_id, speaker, start, end)
+        for speaker, _, start, end, label in entries
+        if label == TurnTransitionType.SIMULTANEOUS_START.value
+    )
 
-                if label == "#":
-                    continue
-                if label in ["L", "L-SIM", "N", "N-SIM", "A", "?"]:
-                    logging.debug("Skipping undefined turn transitions")
-                    continue
+    for speaker, line, turn_start, turn_end, label in entries:
+        if speaker not in ("A", "B"):
+            logging.warning(f"Unexpected speaker '{speaker}', skipping transition")
+            continue
+        interlocutor = "B" if speaker == "A" else "A"
 
-                if label in (TurnTransitionType.SIMULTANEOUS_START.value, TurnTransitionType.FIRST_TURN.value):
-                    prev_turn_id = None
-                else:
-                    prev_turn_id = find_interlocutor_previous_turn_id(
-                        turns,
-                        speaker=interlocutor,
-                        starting_before=turn_start,
-                    )
-                    if not prev_turn_id:
-                        logging.warning(
-                            f"Could not find matching previous turn for: {line.strip()=}. Skipping Transition"
-                        )
-                        continue
+        if label == "#":
+            continue
+        if label in ["L", "L-SIM", "N", "N-SIM", "A", "?"]:
+            logging.debug("Skipping undefined turn transitions")
+            continue
 
-                turn_id = Turn.id_builder(session_id, task_id, speaker, turn_start, turn_end)
+        if label in (TurnTransitionType.SIMULTANEOUS_START.value, TurnTransitionType.FIRST_TURN.value):
+            prev_turn_id = None
+        else:
+            prev_turn_id = find_interlocutor_previous_turn_id(
+                turns,
+                speaker=interlocutor,
+                starting_before=turn_start,
+                simultaneous_start_ids=simultaneous_start_ids,
+            )
+            if not prev_turn_id:
+                logging.warning(f"Could not find matching previous turn for: {line.strip()=}. Skipping Transition")
+                continue
 
-                if turn_id not in Turn._all_turns:
-                    logging.warning(f"Turn ID {turn_id} not found in loaded turns. Skipping transition.")
-                    continue
+        turn_id = Turn.id_builder(session_id, task_id, speaker, turn_start, turn_end)
 
-                transition = TurnTransition(
-                    label=label,
-                    turn_id_from=prev_turn_id,
-                    turn_id_to=turn_id,
-                )
-                transitions.append(transition)
+        if turn_id not in Turn._all_turns:
+            logging.warning(f"Turn ID {turn_id} not found in loaded turns. Skipping transition.")
+            continue
+
+        transition = TurnTransition(
+            label=label,
+            turn_id_from=prev_turn_id,
+            turn_id_to=turn_id,
+        )
+        transitions.append(transition)
 
     return sorted(transitions, key=lambda x: x.ipu_to.start)
 
