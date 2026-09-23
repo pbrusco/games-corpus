@@ -40,6 +40,66 @@ class TurnTransitionType(Enum):
     def __str__(self) -> str:
         return "Transition " + self.value
 
+    @property
+    def kind(self) -> "TurnTransitionKind":
+        """What happened to the floor, regardless of overlap (e.g. S and O -> YIELD)."""
+        return _KIND_AND_OVERLAP[self][0]
+
+    @property
+    def annotated_overlap(self) -> bool | None:
+        """Whether the annotated label is an overlapped variant (O, I, BI, BC_O, X2_O).
+        None for labels that carry no overlap information (X1, X3, A). This is the
+        annotators' call and can disagree with the timestamp-based
+        TurnTransition.overlapped_transition (notably on near-simultaneous starts)."""
+        return _KIND_AND_OVERLAP[self][1]
+
+    @classmethod
+    def from_kind(cls, kind: "TurnTransitionKind", overlap: bool | None) -> "TurnTransitionType":
+        """Inverse of (kind, annotated_overlap): rebuilds the original annotated label."""
+        for member, pair in _KIND_AND_OVERLAP.items():
+            if pair == (kind, overlap):
+                return member
+        raise ValueError(f"No transition label for {kind} with overlap={overlap}")
+
+
+class TurnTransitionKind(Enum):
+    """Turn transition type named after what happens to the floor, with overlap left
+    out: overlap is a separate dimension (TurnTransition.annotated_overlap /
+    overlapped_transition). Values are deliberately different from the original label
+    codes, since e.g. TAKE covers both PI and I -- reusing "I" would silently change
+    its meaning. Turn-yielding / turn-holding / backchannel-inviting cues (Gravano &
+    Hirschberg 2011) are the signals that precede these outcomes."""
+
+    YIELD = "yield"  # S, O: the speaker completes their utterance and the interlocutor takes the floor
+    TAKE = "take"  # PI, I: the interlocutor takes the floor before the speaker completes their utterance
+    FAILED_TAKE = "failed_take"  # BI: the interlocutor tries to take the floor, the speaker keeps it
+    BACKCHANNEL = "backchannel"  # BC, BC_O: brief listener signal, the speaker keeps the floor
+    RESUME = "resume"  # X2, X2_O: the speaker continues after a backchannel
+    FIRST_TURN = "first_turn"  # X1
+    SIMULTANEOUS_START = "simultaneous_start"  # X3
+    AMBIGUOUS = "ambiguous"  # A
+
+    def __str__(self) -> str:
+        return self.value
+
+
+_T, _K = TurnTransitionType, TurnTransitionKind
+_KIND_AND_OVERLAP: dict[TurnTransitionType, tuple[TurnTransitionKind, bool | None]] = {
+    _T.SMOOTH_SWITCH: (_K.YIELD, False),
+    _T.OVERLAPPED_SWITCH: (_K.YIELD, True),
+    _T.PAUSED_INTERRUPTION: (_K.TAKE, False),
+    _T.OVERLAPPED_INTERRUPTION: (_K.TAKE, True),
+    _T.OVERLAPPED_BUTT_IN: (_K.FAILED_TAKE, True),
+    _T.BACKCHANNEL: (_K.BACKCHANNEL, False),
+    _T.OVERLAPPED_BACKCHANNEL: (_K.BACKCHANNEL, True),
+    _T.BACKCHANNEL_CONTINUATION: (_K.RESUME, False),
+    _T.OVERLAPPED_BACKCHANNEL_CONTINUATION: (_K.RESUME, True),
+    _T.FIRST_TURN: (_K.FIRST_TURN, None),
+    _T.SIMULTANEOUS_START: (_K.SIMULTANEOUS_START, None),
+    _T.AMBIGUOUS: (_K.AMBIGUOUS, None),
+}
+del _T, _K
+
 
 @dataclass(frozen=True)
 class Word:
@@ -171,6 +231,10 @@ class TurnTransition:
     session_id: int = field(init=False)
     task_id: int = field(init=False)
     label_type: TurnTransitionType = field(init=False)
+    # Overlap-free type (YIELD, TAKE, ...) and the annotated overlap flag: together they
+    # rebuild label_type (TurnTransitionType.from_kind). See TurnTransitionKind.
+    kind: TurnTransitionKind = field(init=False)
+    annotated_overlap: bool | None = field(init=False)
     # Signed seconds between ipu_from.end and ipu_to.start: positive = silence gap
     # before turn_to starts, negative = magnitude of speech overlap between the two
     # turns. Use overlapped_transition (below) rather than a sign check on this value
@@ -180,6 +244,8 @@ class TurnTransition:
 
     def __post_init__(self) -> None:
         self.label_type = TurnTransitionType.from_string(self.label)
+        self.kind = self.label_type.kind
+        self.annotated_overlap = self.label_type.annotated_overlap
 
         if self.turn_id_from:
             turn_from = Turn.get_turn_by_id(self.turn_id_from)
