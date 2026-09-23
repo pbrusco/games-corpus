@@ -34,6 +34,13 @@ def test_neighbour_ipu_ending_just_before_the_turn_is_excluded():
     assert find_turn_ipus([previous, own], 579.88, 581.44) == [own]
 
 
+def test_tiny_neighbour_ipu_close_to_the_edge_is_excluded():
+    # An IPU that does not intersect the turn at all must never be assigned to it, however
+    # short and close it is (a padded-overlap criterion would let [1.09, 1.10] through).
+    own, tiny = ipu(0.00, 1.00), ipu(1.09, 1.10)
+    assert find_turn_ipus([own, tiny], 0.00, 1.00) == [own]
+
+
 def test_ipu_spilling_slightly_over_the_turn_edge_is_kept():
     spill = ipu(10.00, 12.25)  # rounding mismatch between the turn and IPU files
     assert find_turn_ipus([spill], 10.05, 12.00) == [spill]
@@ -56,6 +63,11 @@ def test_simultaneous_start_is_skipped_for_the_previous_turn():
     assert find_interlocutor_previous_turn_id(TURNS, "A", 20.01, frozenset({"A2"})) == "A1"
 
 
+def test_simultaneous_start_at_the_edge_of_the_threshold_is_skipped():
+    # A cluster of real cases sits at exactly 0.20-0.21 s, hence the 0.25 s threshold.
+    assert find_interlocutor_previous_turn_id(TURNS, "A", 20.21, frozenset({"A2"})) == "A1"
+
+
 def test_x3_turn_that_started_well_before_is_kept():
     # B genuinely overlaps A2 if A had been talking for a while (1.5 s here).
     assert find_interlocutor_previous_turn_id(TURNS, "A", 21.5, frozenset({"A2"})) == "A2"
@@ -75,7 +87,7 @@ def test_first_turn_simultaneous_start_has_no_earlier_turn_to_fall_back_to():
 @pytest.mark.parametrize(
     "corpus_cls, dirname, marker, min_agreement",
     [
-        (SpanishGamesCorpus, "games-spanish", "sessions-info.csv", 0.985),  # 95.6% before the fix
+        (SpanishGamesCorpus, "games-spanish", "sessions-info.csv", 0.99),  # 95.6% before the fix
         (EnglishGamesCorpus, "games-english", "README.sessions-info", 0.995),  # 95.1% before
         (SlovakGamesCorpus, "games-slovak", "documents/sessions_info.txt", 0.995),  # 96.5% before
     ],

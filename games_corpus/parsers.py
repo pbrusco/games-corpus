@@ -119,22 +119,19 @@ def load_objects_tasks_b2(tasks_file: str | Path) -> list[dict[str, Any]]:
 # ---------------------------------------------------------------------------
 
 
-def find_turn_ipus(speaker_ipus: list[IPU], turn_start: float, turn_end: float, max_diff: float = 0.1) -> list[IPU]:
-    """IPUs that substantially overlap the turn: the shared time covers at least half of the
-    IPU or half of the turn. max_diff widens the turn to absorb rounding differences between
-    the turn and IPU files.
+def find_turn_ipus(speaker_ipus: list[IPU], turn_start: float, turn_end: float) -> list[IPU]:
+    """IPUs that substantially overlap the turn: they intersect it, and the shared time covers
+    at least half of the IPU or half of the turn.
 
-    Earlier versions took any IPU whose start OR end fell within max_diff of the turn, so an
-    IPU of the speaker's next turn starting a few ms after this turn ended was counted in
-    both turns (shifting ipu_from/ipu_to and the overlap computed from them). Requiring real
+    Earlier versions took any IPU whose start OR end fell within 100 ms of the turn, so an IPU
+    of the speaker's next turn starting a few ms after this turn ended was counted in both
+    turns (shifting ipu_from/ipu_to and the overlap computed from them). Requiring real
     overlap drops those, while keeping IPUs that spill over the turn's edge and the few turns
     that are shorter than their single IPU (a mismatch between the two files)."""
-    lo, hi = turn_start - max_diff, turn_end + max_diff
-    turn_dur = hi - lo
     selected = []
     for ipu in speaker_ipus:
-        shared = min(hi, ipu.end) - max(lo, ipu.start)
-        if shared > 0 and (shared >= 0.5 * (ipu.end - ipu.start) or shared >= 0.5 * turn_dur):
+        shared = min(turn_end, ipu.end) - max(turn_start, ipu.start)
+        if shared > 0 and (shared >= 0.5 * (ipu.end - ipu.start) or shared >= 0.5 * (turn_end - turn_start)):
             selected.append(ipu)
     return selected
 
@@ -142,10 +139,11 @@ def find_turn_ipus(speaker_ipus: list[IPU], turn_start: float, turn_end: float, 
 # A turn annotated as a simultaneous start (X3) that began less than this many seconds
 # before the interlocutor's turn is not what the interlocutor is responding to: both
 # speakers started at (almost) the same time, and the annotators label the interlocutor's
-# transition against the speaker's *previous* turn. Across the three corpora, 98% of such
-# cases are annotated without overlap, while X3 turns the interlocutor genuinely overlaps
-# started ~1-2s earlier (median).
-SIMULTANEOUS_START_MAX_LEAD = 0.2
+# transition against the speaker's *previous* turn. Across the three corpora such cases are
+# annotated without overlap with a median lead of ~0.05 s, while X3 turns the interlocutor
+# genuinely overlaps started ~1-2 s earlier (median). 0.25 rather than 0.2 catches a cluster
+# of cases at exactly 0.20-0.21 s; it changes nothing in the English and Slovak corpora.
+SIMULTANEOUS_START_MAX_LEAD = 0.25
 
 
 def find_interlocutor_previous_turn_id(
@@ -231,7 +229,7 @@ def load_turns_for_task(
                     continue
 
                 speaker_ipus = ipus_by_speaker.get(speaker, [])
-                turn_ipus = find_turn_ipus(speaker_ipus, turn_start, turn_end, max_diff=0.1)
+                turn_ipus = find_turn_ipus(speaker_ipus, turn_start, turn_end)
                 turn_id = Turn.id_builder(session_id, task_id, speaker, turn_start, turn_end)
                 if len(turn_ipus) == 0:
                     logging.warning(f"Cannot find IPUs for turn {turn_id}. Skipping turn")

@@ -240,16 +240,24 @@ There are two notions of overlap, and they do not always agree:
 - `tt.overlapped_transition`: computed from timestamps (the interlocutor's first IPU
   starts before the speaker's last IPU ends).
 
-They agree on 99.0% (Spanish), 99.8% (English) and 99.8% (Slovak) of transitions. Two
-details of how transitions are linked matter for this:
+They agree on 99.3% (Spanish; 99.9% in batch 1), 99.8% (English) and 99.8% (Slovak) of
+transitions. A few details of how transitions are linked matter for this:
 
-- An IPU belongs to a turn when they substantially overlap in time (at least half of the IPU
-  or half of the turn), so an IPU of the speaker's next turn that starts a few ms after the
-  turn ends is not counted in it.
+- An IPU belongs to a turn when they intersect and the shared time covers at least half of
+  the IPU or half of the turn, so an IPU of the speaker's next turn that starts a few ms after
+  the turn ends is not counted in it.
 - A transition comes from the interlocutor's most recent turn, except when that turn is a
-  simultaneous start (annotated `X3`) that began less than 200 ms earlier: both speakers
+  simultaneous start (annotated `X3`) that began less than 250 ms earlier: both speakers
   started at almost the same time, and the transition is linked to the interlocutor's
   previous turn, as the annotators did.
+- `transition_duration` clips the IPU times to their turn's bounds, since in a few places
+  (mostly Spanish batch 2) an IPU runs past the end of the turn it was annotated with.
+
+Most remaining disagreements are in Spanish batch 2: overlaps of 50 ms or less annotated as
+no overlap, butting-ins (`BI`) where the overlap happens after the interlocutor's onset
+(the annotated overlap covers the whole exchange; the computed one looks at the onset), and
+a handful of likely annotation slips (e.g. a backchannel said entirely inside the speaker's
+IPU, labelled `BC` rather than `BC_O`).
 
 `(kind, annotated_overlap)`
 rebuilds the original label exactly:
