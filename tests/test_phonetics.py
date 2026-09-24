@@ -56,3 +56,18 @@ def test_dictionary_covers_the_corpus_vocabulary(cls, slug):
     missing = {w for w in words if w not in d}
     assert missing <= {"?", "?-", "-?", "mm"}
     assert sum(w in missing for w in words) / len(words) < 0.01
+
+
+def test_unintelligible_marks_are_not_words():
+    for key in ("SpanishGamesCorpus", "EnglishGamesCorpus", "SlovakGamesCorpus"):
+        d = load_phonetic_dictionary(key)
+        assert not {"?", "?-", "-?"} & d.keys()
+    # a "?" attached to a word marks a doubtful transcription and keeps its phones
+    assert load_phonetic_dictionary("SpanishGamesCorpus")["bien?"] == ("b", "j", "e", "n")
+    ipu = IPU(words=[Word(0.0, 0.3, "la", "A"), Word(0.3, 0.6, "?", "A")])
+    assert SpanishGamesCorpus().num_phones(ipu) is None
+
+
+def test_english_truncation_boundary_is_not_a_phone():
+    # "o-(ne)" is transcribed "oʊ  |n iː": "|" marks where the truncated part starts
+    assert load_phonetic_dictionary("EnglishGamesCorpus")["o-(ne)"] == ("oʊ", "n", "iː")

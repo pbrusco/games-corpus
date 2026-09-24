@@ -2584,7 +2584,7 @@
 1	pregunto	p ɾ e ɣ u n t o
 1	llamás	ʝ a m a s
 1	horizontalidad	o ɾ i s o n t a l i ð a d
-1	?	?
+1	?	
 1	directo	d i ɾ e k t o
 1	alíneo	a l i n e o
 1	colas	k o l a s

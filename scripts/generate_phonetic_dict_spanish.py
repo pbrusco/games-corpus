@@ -13,11 +13,14 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-os.environ.setdefault("PHONEMIZER_ESPEAK_LIBRARY", "/opt/homebrew/lib/libespeak-ng.dylib")
+_HOMEBREW_ESPEAK = "/opt/homebrew/lib/libespeak-ng.dylib"  # phonemizer doesn't find it on its own
+if "PHONEMIZER_ESPEAK_LIBRARY" not in os.environ and os.path.exists(_HOMEBREW_ESPEAK):
+    os.environ["PHONEMIZER_ESPEAK_LIBRARY"] = _HOMEBREW_ESPEAK
 from phonemizer import phonemize  # noqa: E402
 from phonemizer.separator import Separator  # noqa: E402
 
 from games_corpus import SpanishGamesCorpus  # noqa: E402
+from games_corpus.phonetics import UNINTELLIGIBLE  # noqa: E402
 
 OUT = Path(__file__).resolve().parent.parent / "games_corpus/data/phonetic_dicts/games-spanish.txt"
 
@@ -25,7 +28,7 @@ corpus = SpanishGamesCorpus()
 corpus.load(local_path=sys.argv[1] if len(sys.argv) > 1 else None)
 assert corpus.sessions is not None
 counts = Counter(w.text for s in corpus.sessions.values() for t in s.tasks for i in t.ipus for w in i.words)
-regular = sorted(w for w in counts if len(w) > 1 and w != "uu" and not w.startswith("<"))
+regular = sorted(w for w in counts if len(w) > 1 and w != "uu" and not w.startswith("<") and w not in UNINTELLIGIBLE)
 phones = dict(
     zip(
         regular,
@@ -39,6 +42,6 @@ phones = dict(
     )
 )
 for w in counts:
-    phones.setdefault(w, w if len(w) == 1 else "")
+    phones.setdefault(w, w if len(w) == 1 and w not in UNINTELLIGIBLE else "")
 OUT.write_text("".join(f"{c}\t{w}\t{phones[w]}\n" for w, c in counts.most_common()), encoding="utf-8")
 print(f"{len(counts)} words -> {OUT}")

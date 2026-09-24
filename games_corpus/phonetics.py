@@ -13,6 +13,9 @@ Brusco et al.'s turn-taking experiments (e.g. the phones-per-second features of 
 These are automatic grapheme-to-phoneme transcriptions, not human annotation. Known quirk
 inherited from eSpeak: letter sequences it can't read as a word are spelled out, e.g. Spanish
 "mm" -> "e m e ɛ m e" (6 phones).
+
+Unintelligible-speech marks ("?", "?-", "-?") are not loaded as words, so an IPU containing one
+has no phone count (None), as in the original experiments' treatment of out-of-dictionary words.
 """
 
 from __future__ import annotations
@@ -22,6 +25,11 @@ from functools import cache
 from pathlib import Path
 
 _DATA_DIR = Path(__file__).parent / "data" / "phonetic_dicts"
+
+#: Transcription marks for unintelligible speech. Not words: an IPU containing one has no phone
+#: count. (A "?" attached to a word, e.g. "bien?", marks a doubtful transcription of that word
+#: and keeps its phones.)
+UNINTELLIGIBLE = frozenset({"?", "?-", "-?"})
 
 #: Corpus class name (`type(corpus).__name__`) -> dictionary file slug.
 _CORPUS_SLUGS: dict[str, str] = {
@@ -38,8 +46,10 @@ def load_phonetic_dictionary(corpus_key: str) -> dict[str, tuple[str, ...]]:
     entries = {}
     for line in path.read_text(encoding="utf-8").splitlines():
         fields = line.split()
-        if len(fields) >= 2:
-            entries[fields[1]] = tuple(fields[2:])
+        if len(fields) >= 2 and fields[1] not in UNINTELLIGIBLE:
+            # English marks the boundary of a truncated word's reconstructed part with "|",
+            # attached to the next phone (o-(ne) -> "oʊ |n iː"); it isn't a phone itself.
+            entries[fields[1]] = tuple(p for p in (f.lstrip("|") for f in fields[2:]) if p)
     return entries
 
 
