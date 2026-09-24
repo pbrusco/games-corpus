@@ -139,7 +139,10 @@ games-corpus/
 │   ├── features.py            # Pre-extracted features loader
 │   ├── downloader.py          # Remote file downloader (Spanish only)
 │   ├── punctuation.py         # Machine-restored punctuation, generic (NOT human annotation)
-│   └── data/punctuated_phrases/{corpus-slug}/  # Shipped pilot data, per corpus
+│   ├── phonetics.py           # Phonetic dictionaries: phones per IPU, phones/sec
+│   └── data/
+│       ├── punctuated_phrases/{corpus-slug}/  # Shipped pilot data, per corpus
+│       └── phonetic_dicts/{corpus-slug}.txt    # Word -> phones, per corpus
 ├── features/                  # Pre-extracted acoustic features (Git LFS)
 │   ├── games-english/
 │   ├── games-spanish-batch1/
@@ -349,6 +352,28 @@ task = next(t for t in corpus.dev_tasks(batch=1) if t.session_id == 2)
 for phrase in corpus.get_punctuated_phrases(task):
     print(f"{phrase.speaker} [{phrase.start:.2f}-{phrase.end:.2f}] {phrase.text}")
 ```
+
+### Phonetic Dictionaries and Speech Rate
+
+Every corpus ships a phonetic dictionary (word -> phones), for speech-rate features such as
+phones per second:
+
+```python
+from games_corpus import SpanishGamesCorpus
+
+corpus = SpanishGamesCorpus()
+corpus.load()
+ipu = next(corpus.dev_tasks(batch=1)).ipus[0]
+corpus.num_phones(ipu)          # int, or None if a word is missing (e.g. "?")
+corpus.phones_per_second(ipu)   # float, or None
+corpus.phonetic_dictionary()["izquierda"]  # ('i', 's', 'k', 'j', 'e', 'ɾ', 'ð', 'a')
+```
+
+The English and Slovak dictionaries are the ones distributed with the corpus data. The Spanish
+one (batches 1 and 2) was regenerated with the recipe of the original, lost dictionary --
+eSpeak NG via phonemizer, Latin American Spanish -- by
+`scripts/generate_phonetic_dict_spanish.py`. All three are automatic grapheme-to-phoneme
+transcriptions, not human annotation; see `games_corpus.phonetics` for details and known quirks.
 
 ## Library Features
 

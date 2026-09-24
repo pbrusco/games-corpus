@@ -6,10 +6,11 @@ from typing import TYPE_CHECKING
 
 import pandas as pd
 
+from games_corpus.phonetics import count_phones, load_phonetic_dictionary
 from games_corpus.punctuation import PunctuatedPhrase, available_sessions, load_session_punctuated_phrases
 
 if TYPE_CHECKING:
-    from games_corpus.types import Session, Task
+    from games_corpus.types import IPU, Session, Task
 
 
 class BaseGamesCorpus(ABC):
@@ -45,6 +46,20 @@ class BaseGamesCorpus(ABC):
     @abstractmethod
     def get_features(self, task: "Task") -> pd.DataFrame:
         """Get pre-extracted acoustic features for a task as a DataFrame."""
+
+    def phonetic_dictionary(self) -> dict[str, tuple[str, ...]]:
+        """Word -> phones for this corpus (automatic transcription, see `games_corpus.phonetics`)."""
+        return load_phonetic_dictionary(type(self).__name__)
+
+    def num_phones(self, ipu: "IPU") -> int | None:
+        """Number of phones in an IPU, or None if one of its words is not in the dictionary
+        (e.g. unintelligible-speech marks like "?")."""
+        return count_phones((w.text for w in ipu.words), self.phonetic_dictionary())
+
+    def phones_per_second(self, ipu: "IPU") -> float | None:
+        """Speech rate of an IPU in phones per second (None if `num_phones` is None)."""
+        n = self.num_phones(ipu)
+        return None if n is None or ipu.duration <= 0 else n / ipu.duration
 
     def available_punctuated_sessions(self) -> frozenset[int]:
         """Session ids that have machine-restored punctuation available.

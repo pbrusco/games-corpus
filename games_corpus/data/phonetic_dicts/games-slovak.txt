@@ -1,0 +1,3189 @@
+1284	je	j e
+1066	no	n o
+1041	a	a
+958	to	t o
+953	tak	t a k
+745	uh	a
+699	mhm	mhm
+572	na	n a
+549	ten	t e n
+455	toho	t o h o
+407	tam	t a m
+374	ako	a k o
+367	sa	s a
+352	hej	h e j
+337	tej	t e j
+324	tá	t aː
+321	čo	tʃ o
+307	že	ʒ e
+298	od	o t
+276	nie	ɲ i  e
+274	ale	a l e
+262	dobre	d o b r e
+259	áno	aː n o
+244	asi	a s i
+239	nad	n a t
+225	mm m
+197	takže	t a k ʒ e
+190	dva	d v a
+184	v	v
+176	má	m aː
+163	alebo	a l e b o
+162	medzi	m e dz i
+162	ešte	e ʃ tʲ e
+161	ja	j a
+157	keď	k e tʲ
+156	z	z
+145	pod	p o t
+145	jak	j a k
+143	vlastne	v l a s t ɲ e
+143	tým	t iː m
+140	sú	s uː
+136	uhhuh	a h a
+134	tie	t i  e
+130	by	b i
+127	tri	t r i
+124	presne	p r e s ɲ e
+121	teraz	t e r a s
+118	keby	k e b i
+116	aj	a j
+114	iba	i b a
+113	úplne	uː p l̩ ɲ e
+113	už	u ʃ
+113	jeden	j e d e n
+109	také	t a k eː
+107	dole	d o l e
+104	taký	t a k iː
+104	som	s o m
+104	leva	l e v a
+102	si	s i
+102	bliká	b l i k aː
+101	mesiaca	m e s i  a ts a
+100	jeho	j e h o
+99	tú	t uː
+99	milimetre	m i l i m e t r e
+98	byť	b i tʲ
+97	mi	m i
+95	s	s
+95	nohy	n o h i
+92	trošku	t r o ʃ k u
+86	mám	m aː m
+85	či	tʃ i
+85	o	o
+85	len	l e n
+83	tou	t oʊ
+83	ho	h o
+82	kde	k dʲ e
+81	teda	t e d a
+81	aha	a h a
+80	úrovni	uː r o v ɲ i
+79	do	d o
+78	mesiac	m e s i  a ts
+75	lev	l e w
+74	čiže	tʃ i ʒ e
+74	lebo	l e b o
+73	taká	t a k aː
+73	spodok	s p o d o k
+73	doľava	d o ʎ a v a
+71	hore	h o r e
+70	ďalej	dʲ a l e j
+70	potom	p o t o m
+69	on	o n
+69	nosorožca	n o s o r o ʃ ts a
+69	k	k
+66	roh	r o x
+66	možno	m o ʒ n o
+65	neviem	ɲ e v i  e m
+65	kúsok	k uː s o k
+65	koniec	k o ɲ i  e ts
+64	štyri	ʃ t i r i
+61	počkaj	p o tʃ k a j
+59	trčí	t r̩ tʃ iː
+59	jej	j e j
+58	vidno	v i d n o
+58	pixely	p i k s e l i
+57	časť	tʃ a s tʲ
+57	ti	tʲ i
+57	približne	p r i b l i ʒ ɲ e
+56	uh-	a
+56	modrého	m o d r eː h o
+55	dotýka	d o t iː k a
+55	bude	b u dʲ e
+52	máš	m aː ʃ
+52	modrej	m o d r e j
+51	vedľa	v e d ʎ a
+51	tom	t o m
+50	prekrýva	p r e k r iː v a
+49	pol	p o l
+48	sme	s m e
+48	chvost	x v o s t
+47	vľavo	v ʎ a v o
+47	dve	d v e
+47	aby	a b i
+46	viac	v i  a ts
+46	proste	p r o s tʲ e
+46	modrý	m o d r iː
+45	žltá	ʒ l̩ t aː
+45	končí	k o n tʃ iː
+45	ide	i dʲ e
+45	doprava	d o p r a v a
+45	cíp	ts iː p
+44	za	z a
+44	mu	m u
+44	mne	m ɲ e
+43	s-	s
+43	nižšie	ɲ i ʃ ʃ i  e
+43	daj	d a j
+42	raz	r a s
+41	žltý	ʒ l̩ t iː
+41	m-	m
+40	začína	z a tʃ iː n a
+40	noha	n o h a
+40	koľko	k o ʎ k o
+40	ju	j u
+39	ľavý	ʎ a v iː
+39	vyššie	v i ʃ ʃ i  e
+39	vpravo	f p r a v o
+39	t-	t
+38	žltého	ʒ l̩ t eː h o
+38	zľava	z ʎ a v a
+37	ľavá	ʎ a v aː
+37	tomu	t o m u
+37	pravá	p r a v aː
+37	naľavo	n a ʎ a v o
+36	špic	ʃ p i ts
+36	tu	t u
+36	takto	t a k t o
+36	stred	s t r e t
+36	spodná	s p o d n aː
+36	mimozemšťana	m i m o z e m ʃ tʲ a n a
+36	kornútka	k o r n uː t k a
+36	bodka	b o t k a
+35	chvosta	x v o s t a
+35	bodky	b o t k i
+34	vidím	v i dʲ iː m
+34	tými	t iː m i
+34	oblúk	o b l uː k
+34	n-	n
+33	zmrzlina	z m r̩ z l i n a
+33	viem	v i  e m
+33	pri	p r i
+33	nejaké	ɲ e j a k eː
+33	mal	m a l
+32	povedať	p o v e d a tʲ
+32	pixel	p i k s e l
+32	napravo	n a p r a v o
+32	myši	m i ʃ i
+32	levom	l e v o m
+32	druhý	d r u h iː
+31	čiara	tʃ i  a r a
+31	týka	t iː k a
+31	tých	t iː x
+31	skoro	s k o r o
+31	nosorožec	n o s o r o ʒ e ts
+31	levovi	l e v o v i
+31	dosť	d o s tʲ
+31	ani	a ɲ i
+30	žehličky	ʒ e h l i tʃ k i
+30	zrnka	z r̩ ŋ k a
+30	v-	v
+30	toto	t o t o
+30	takú	t a k uː
+30	skúsim	s k uː s i m
+30	pravej	p r a v e j
+30	kávy	k aː v i
+30	ananás	a n a n aː s
+29	vzdialenosť	v z dʲ i  a l e n o s tʲ
+29	vieš	v i  e ʃ
+29	rohu	r o h u
+29	pravé	p r a v eː
+28	žltej	ʒ l̩ t e j
+28	trošičku	t r o ʃ i tʃ k u
+28	strany	s t r a n i
+28	plutvy	p l u t v i
+28	ním	ɲ iː m
+28	niečo	ɲ i  e tʃ o
+28	myslím	m i s l iː m
+28	dáš	d aː ʃ
+28	až	a ʃ
+28	?
+27	špička	ʃ p i tʃ k a
+27	ľavej	ʎ a v e j
+27	z-	z
+27	strede	s t r e dʲ e
+27	centimeter	ts e n t i m e t e r
+26	trochu	t r o x u
+26	spodný	s p o d n iː
+26	spodného	s p o d n eː h o
+26	plutva	p l u t v a
+26	milimeter	m i l i m e t e r
+26	ktorá	k t o r aː
+25	zrna	z r̩ n a
+25	zarovno	z a r o v n o
+25	tiež	tʲ i  e ʃ
+25	priamo	p r i  a m o
+25	pred	p r e t
+25	podstate	p o t s t a tʲ e
+25	okraj	o k r a j
+25	neni	ɲ e ɲ i
+25	máme	m aː m e
+25	hlavy	h l a v i
+25	bolo	b o l o
+24	žehlička	ʒ e h l i tʃ k a
+24	zase	z a s e
+24	výšku	v iː ʃ k u
+24	výške	v iː ʃ k e
+24	vôbec	v u o b e ts
+24	vzdialený	v z dʲ i  a l e n iː
+24	päť	p e tʲ
+24	nič	ɲ i tʃ
+24	modrá	m o d r aː
+24	horný	h o r n iː
+24	dať	d a tʲ
+24	centimetra	ts e n t i m e t r a
+23	čierna	tʃ i  e r n a
+23	zrno	z r̩ n o
+23	umiestnené	u m i  e s t ɲ e n eː
+23	oko	o k o
+23	neho	n e h o
+23	milimetrov	m i l i m e t r o w
+23	mali	m a l i
+22	zo	z o
+22	um	m:
+22	ucho	u x o
+22	spodné	s p o d n eː
+22	rovnako	r o v n a k o
+22	mohlo	m o h l o
+22	kornútok	k o r n uː t o k
+22	dám	d aː m
+21	čiaru	tʃ i  a r u
+21	zmrzliny	z m r̩ z l i n i
+21	zakrýva	z a k r iː v a
+21	vidieť	v i dʲ i  e tʲ
+21	veľmi	v e ʎ m i
+21	sprava	s p r a v a
+21	smeruje	s m e r u j e
+21	panny	p a n n i
+21	nej	ɲ e j
+21	mesiacom	m e s i  a ts o m
+21	ananásu	a n a n aː s u
+21	akože	a k o ʒ e
+20	ňou	ɲ oʊ
+20	čierny	tʃ i  e r n i
+20	zadná	z a d n aː
+20	zadku	z a t k u
+20	vzdialené	v z dʲ i  a l e n eː
+20	ucha	u x a
+20	panna	p a n n a
+20	obrazu	o b r a z u
+20	nevidím	ɲ e v i dʲ iː m
+20	modrým	m o d r iː m
+20	kurzoru	k u r z o r u
+20	klauna	k l a u n a
+20	horná	h o r n aː
+20	druhá	d r u h aː
+20	chrbát	x r̩ b aː t
+20	bližšie	b l i ʃ ʃ i  e
+20	a-	a
+19	vrchný	v r̩ x n iː
+19	strane	s t r a ɲ e
+19	strana	s t r a n a
+19	p-	p
+19	nohe	n o h e
+19	môže	m u o ʒ e
+19	ich	i x
+19	hrivy	h r i v i
+19	dolný	d o l n iː
+18	ďaleko	dʲ a l e k o
+18	zadok	z a d o k
+18	zadné	z a d n eː
+18	vŕby	v r̩ː b i
+18	vidíš	v i dʲ iː ʃ
+18	pravý	p r a v iː
+18	ona	o n a
+18	nohu	n o h u
+18	nohou	n o h oʊ
+18	ne-	ɲ e
+18	morská	m o r s k aː
+18	kurzor	k u r z o r
+18	bol	b o l
+18	bod	b o t
+18	akurát	a k u r aː t
+17	uchom	u x o m
+17	ty	t i
+17	tesne	tʲ e s ɲ e
+17	ruky	r u k i
+17	mm-	m
+17	lietadlo	l i  e t a d l o
+17	kávového	k aː v o v eː h o
+17	jedna	j e d n a
+17	hm	hm
+16	žltým	ʒ l̩ t iː m
+16	zle	z l e
+16	vrch	v r̩ x
+16	takej	t a k e j
+16	super	s u p e r
+16	smerom	s m e r o m
+16	rovno	r o v n o
+16	podľa	p o d ʎ a
+16	pixelov	p i k s e l o w
+16	nôh	n u o x
+16	nosorožcovi	n o s o r o ʃ ts o v i
+16	musím	m u s iː m
+16	jáj	j aː j
+16	hrot	h r o t
+16	hlavou	h l a v oʊ
+15	čiary	tʃ i  a r i
+15	vytŕča	v i t r̩ː tʃ a
+15	tretieho	t r e tʲ i  e h o
+15	stredu	s t r e d u
+15	spoza	s p o z a
+15	skúsime	s k uː s i m e
+15	skús	s k uː s
+15	rovnakej	r o v n a k e j
+15	poviem	p o v i  e m
+15	po	p o
+15	oni	o ɲ i
+15	obraz	o b r a s
+15	nedotýka	ɲ e d o t iː k a
+15	málo	m aː l o
+15	ktorý	k t o r iː
+15	hlavu	h l a v u
+15	druhej	d r u h e j
+15	b-	b
+15	ananásom	a n a n aː s o m
+15	ak	a k
+14	š-	ʃ
+14	zhruba	z h r u b a
+14	všetko	f ʃ e t k o
+14	vy	v i
+14	umiestnená	u m i  e s t ɲ e n aː
+14	ste	s tʲ e
+14	spodu	s p o d u
+14	spodnej	s p o d n e j
+14	predné	p r e d n eː
+14	pravítko	p r a v iː t k o
+14	posunúť	p o s u n uː tʲ
+14	palec	p a l e ts
+14	môžem	m u o ʒ e m
+14	máte	m aː tʲ e
+14	malo	m a l o
+14	kávou	k aː v oʊ
+14	ku	k u
+14	kraj	k r a j
+14	konci	k o n ts i
+14	klaun	k l a u n
+14	k-	k
+14	idem	i dʲ e m
+14	hriva	h r i v a
+14	dá	d aː
+14	cez	ts e s
+14	bola	b o l a
+13	šírku	ʃ iː r k u
+13	šípky	ʃ iː p k i
+13	ľavé	ʎ a v eː
+13	úroveň	uː r o v e ɲ
+13	znamená	z n a m e n aː
+13	zadnej	z a d n e j
+13	výška	v iː ʃ k a
+13	vám	v aː m
+13	vyzerá	v i z e r aː
+13	trojuholník	t r o j u h o l ɲ iː k
+13	skúste	s k uː s tʲ e
+13	seba	s e b a
+13	pravú	p r a v uː
+13	povedzme	p o v e dz m e
+13	piaty	p i  a t i
+13	ono	o n o
+13	obrázok	o b r aː z o k
+13	nos	n o s
+13	mimozemšťan	m i m o z e m ʃ tʲ a n
+13	menej	m e ɲ e j
+13	medzera	m e dz e r a
+13	laby	l a b i
+13	kávu	k aː v u
+13	klobúka	k l o b uː k a
+13	klobúk	k l o b uː k
+13	horné	h o r n eː
+13	gule	ɡ u l e
+13	druhým	d r u h iː m
+13	chrbte	x r̩ p tʲ e
+13	chrbta	x r̩ p t a
+12	žltú	ʒ l̩ t uː
+12	štvorček	ʃ t v o r tʃ e k
+12	zrkadlo	z r̩ k a d l o
+12	výšky	v iː ʃ k i
+12	vo	v o
+12	vidíte	v i dʲ iː tʲ e
+12	te-	tʲ e
+12	spodku	s p o t k u
+12	o-	o
+12	neprekrýva	ɲ e p r e k r iː v a
+12	musí	m u s iː
+12	kávové	k aː v o v eː
+12	jedno	j e d n o
+12	jako	j a k o
+12	jablká	j a b l̩ k aː
+12	jablka	j a b l̩ k a
+12	fakt	f a k t
+12	druhé	d r u h eː
+12	cípu	ts iː p u
+12	biele	b i  e l e
+11	žltom	ʒ l̩ t o m
+11	ťažké	tʲ a ʃ k eː
+11	časti	tʃ a s tʲ i
+11	zápästie	z aː p e s tʲ i  e
+11	zrná	z r̩ n aː
+11	zrnko	z r̩ ŋ k o
+11	za-	z a
+11	vŕbou	v r̩ː b oʊ
+11	výškovo	v iː ʃ k o v o
+11	vysoko	v i s o k o
+11	to-	t o
+11	sto	s t o
+11	ruka	r u k a
+11	posuň	p o s u ɲ
+11	nohami	n o h a m i
+11	niekde	ɲ i  e k dʲ e
+11	nejako	ɲ e j a k o
+11	nech	ɲ e x
+11	nebliká	ɲ e b l i k aː
+11	nachádza	n a x aː dz a
+11	môžme	m u o ʒ m e
+11	myslíš	m i s l iː ʃ
+11	levova	l e v o v a
+11	ideme	i dʲ e m e
+11	hrana	h r a n a
+11	hneď	h ɲ e tʲ
+11	h-	h
+11	druhého	d r u h eː h o
+11	d-	d
+10	žltou	ʒ l̩ t oʊ
+10	šírky	ʃ iː r k i
+10	štvrtý	ʃ t v r̩ t iː
+10	čiaročka	tʃ i  a r o tʃ k a
+10	čiarka	tʃ i  a r k a
+10	ó	d l̩ h eː oː
+10	zrkadla	z r̩ k a d l a
+10	veľký	v e ʎ k iː
+10	takých	t a k iː x
+10	spodným	s p o d n iː m
+10	ruke	r u k e
+10	posúvať	p o s uː v a tʲ
+10	posunuté	p o s u n u t eː
+10	posunutá	p o s u n u t aː
+10	pohľadu	p o h ʎ a d u
+10	plutvou	p l u t v oʊ
+10	opice	o p i ts e
+10	nimi	ɲ i m i
+10	napríklad	n a p r iː k l a t
+10	modrému	m o d r eː m u
+10	mimozemšťanom	m i m o z e m ʃ tʲ a n o m
+10	mesiaci	m e s i  a ts i
+10	ktorej	k t o r e j
+10	koncom	k o n ts o m
+10	jednu	j e d n u
+10	hlava	h l a v a
+10	fúha	f uː h a
+10	dáme	d aː m e
+10	celý	ts e l iː
+10	celú	ts e l uː
+10	body	b o d i
+10	bodkou	b o t k oʊ
+10	blízko	b l iː s k o
+10	biela	b i  e l a
+9	žiarovku	ʒ i  a r o w k u
+9	šnúra	ʃ n uː r a
+9	ľavú	ʎ a v uː
+9	ľa-	ʎ a
+9	čierne	tʃ i  e r ɲ e
+9	čiarou	tʃ i  a r oʊ
+9	časťou	tʃ a s tʲ oʊ
+9	ísť	iː s tʲ
+9	zápästím	z aː p e s tʲ iː m
+9	zostane	z o s t a ɲ e
+9	však	f ʃ a k
+9	umiestnený	u m i  e s t ɲ e n iː
+9	takmer	t a k m e r
+9	stredom	s t r e d o m
+9	so	s o
+9	sedem	s e dʲ e m
+9	plutvu	p l u t v u
+9	okraja	o k r a j a
+9	obrázku	o b r aː s k u
+9	nevidno	ɲ e v i d n o
+9	nejak	ɲ e j a k
+9	na-	n a
+9	myš	m i ʃ
+9	modrou	m o d r oʊ
+9	menší	m e n ʃ iː
+9	kurzora	k u r z o r a
+9	ktoré	k t o r eː
+9	konca	k o n ts a
+9	je-	j e
+9	j-	j
+9	ideš	i dʲ e ʃ
+9	i-	i
+9	hovorím	h o v o r iː m
+9	ch-	x
+8	žlté	ʒ l̩ t eː
+8	žiarovky	ʒ i  a r o w k i
+8	žiarovkou	ʒ i  a r o w k oʊ
+8	ňu	ɲ u
+8	čiernu	tʃ i  e r n u
+8	č-	tʃ
+8	ústa	uː s t a
+8	zmrzlinu	z m r̩ z l i n u
+8	zasahuje	z a s a h u j e
+8	zas	z a s
+8	zadkom	z a t k o m
+8	väčšia	v e tʃ ʃ i  a
+8	vzdialená	v z dʲ i  a l e n aː
+8	u-	u
+8	tretie	t r e tʲ i  e
+8	treba	t r e b a
+8	tisíc	tʲ i s iː ts
+8	ta-	t a
+8	spodnú	s p o d n uː
+8	sebe	s e b e
+8	rozdiel	r o z dʲ i  e l
+8	prvý	p r̩ v iː
+8	prst	p r̩ s t
+8	prostriedku	p r o s t r i  e t k u
+8	prekrývajú	p r e k r iː v a j uː
+8	prednej	p r e d n e j
+8	pravítka	p r a v iː t k a
+8	povedala	p o v e d a l a
+8	polovica	p o l o v i ts a
+8	pazúry	p a z uː r i
+8	pannu	p a n n u
+8	oukej	oʊ k e j
+8	obrázky	o b r aː s k i
+8	oblúka	o b l uː k a
+8	nosorožcovej	n o s o r o ʃ ts o v e j
+8	nosa	n o s a
+8	nejaký	ɲ e j a k iː
+8	môžeme	m u o ʒ e m e
+8	míma	m iː m a
+8	myšou	m i ʃ oʊ
+8	milimetrík	m i l i m e t r iː k
+8	milimetra	m i l i m e t r a
+8	miesto	m i  e s t o
+8	mať	m a tʲ
+8	list	l i s t
+8	levovej	l e v o v e j
+8	káve	k aː v e
+8	ktorú	k t o r uː
+8	kosatky	k o s a t k i
+8	jednej	j e d n e j
+8	išla	i ʃ l a
+8	istej	i s t e j
+8	hlave	h l a v e
+8	druhú	d r u h uː
+8	dotýkať	d o t iː k a tʲ
+8	dolného	d o l n eː h o
+8	dolné	d o l n eː
+8	deväťdesiatosem	dʲ e v e dʲ dʲ e s i  a t o s e m
+8	dajme	d a j m e
+8	chápeš	x aː p e ʃ
+8	chcem	x ts e m
+8	centimetrov	ts e n t i m e t r o w
+8	centimetre	ts e n t i m e t r e
+8	budeme	b u dʲ e m e
+8	budem	b u dʲ e m
+8	bodov	b o d o w
+8	ananása	a n a n aː s a
+7	žl-	ʒ l
+7	žiarovka	ʒ i  a r o w k a
+7	žehličkou	ʒ e h l i tʃ k oʊ
+7	špičky	ʃ p i tʃ k i
+7	šikmo	ʃ i k m o
+7	čiernym	tʃ i  e r n i m
+7	čiernej	tʃ i  e r ɲ e j
+7	čiarku	tʃ i  a r k u
+7	čiare	tʃ i  a r e
+7	zrniečka	z r̩ ɲ i  e tʃ k a
+7	zdá	z d aː
+7	zadnú	z a d n uː
+7	vykúka	v i k uː k a
+7	veď	v e tʲ
+7	vašej	v a ʃ e j
+7	umiestniť	u m i  e s t ɲ i tʲ
+7	ukazuje	u k a z u j e
+7	trčia	t r̩ tʃ i  a
+7	tristo	t r i s t o
+7	tretím	t r e tʲ iː m
+7	stále	s t aː l e
+7	spodnou	s p o d n oʊ
+7	sebou	s e b oʊ
+7	ruku	r u k u
+7	rozumiem	r o z u m i  e m
+7	pravého	p r a v eː h o
+7	počkajte	p o tʃ k a j tʲ e
+7	pozíciu	p o z iː ts i  u
+7	popisujem	p o p i s u j e m
+7	plutve	p l u t v e
+7	plus	p l u s
+7	palička	p a l i tʃ k a
+7	osem	o s e m
+7	odspodu	o t s p o d u
+7	obrázka	o b r aː s k a
+7	mňa	m ɲ a
+7	moc	m o ts
+7	mm-mm	m m
+7	mimozemšťanovi	m i m o z e m ʃ tʲ a n o v i
+7	mieste	m i  e s tʲ e
+7	malé	m a l eː
+7	mala	m a l a
+7	ma	m a
+7	lícuje	l iː ts u j e
+7	lietadla	l i  e t a d l a
+7	kúsoček	k uː s o tʃ e k
+7	kurzorom	k u r z o r o m
+7	kruhu	k r u h u
+7	kosatka	k o s a t k a
+7	kornútku	k o r n uː t k u
+7	hovoríme	h o v o r iː m e
+7	hornej	h o r ɲ e j
+7	horizontálne	h o r i z o n t aː l ɲ e
+7	deväťdesiatdeväť	dʲ e v e dʲ dʲ e s i  a d dʲ e v e tʲ
+7	desať	dʲ e s a tʲ
+7	chápem	x aː p e m
+7	chvostom	x v o s t o m
+7	boli	b o l i
+7	bok	b o k
+7	bodku	b o t k u
+7	biely	b i  e l i
+7	bez	b e s
+7	aký	a k iː
+6	ťažko	tʲ a ʃ k o
+6	ťa	tʲ a
+6	štvorčeky	ʃ t v o r tʃ e k i
+6	špicom	ʃ p i ts o m
+6	úst	uː s t
+6	zrnom	z r̩ n o m
+6	zrnkom	z r̩ ŋ k o m
+6	začiatok	z a tʃ i  a t o k
+6	vŕbe	v r̩ː b e
+6	vrchom	v r̩ x o m
+6	vrchol	v r̩ x o l
+6	vrchného	v r̩ x n eː h o
+6	vrchná	v r̩ x n aː
+6	vertikálnej	v e r t i k aː l n e j
+6	vajcom	v a j ts o m
+6	umiestni	u m i  e s t ɲ i
+6	ukazovák	u k a z o v aː k
+6	uchu	u x u
+6	trčať	t r̩ tʃ a tʲ
+6	trolinku	t r o l i ŋ k u
+6	tenká	tʲ e ŋ k aː
+6	stredný	s t r e d n iː
+6	stopka	s t o p k a
+6	spodkom	s p o t k o m
+6	spo-	s p o
+6	skôr	s k u o r
+6	sedí	s e dʲ iː
+6	rohom	r o h o m
+6	robí	r o b iː
+6	riadok	r i  a d o k
+6	pár	p aː r
+6	prvá	p r̩ v aː
+6	prsty	p r̩ s t i
+6	predných	p r e d n iː x
+6	predná	p r e d n aː
+6	pravítkom	p r a v iː t k o m
+6	povedz	p o v e ts
+6	povedal	p o v e d a l
+6	posúvam	p o s uː v a m
+6	posunutý	p o s u n u t iː
+6	posledného	p o s l e d n eː h o
+6	položený	p o l o ʒ e n iː
+6	poloha	p o l o h a
+6	pohode	p o h o dʲ e
+6	pekne	p e k ɲ e
+6	pannou	p a n n oʊ
+6	panne	p a n ɲ e
+6	paličku	p a l i tʃ k u
+6	opicou	o p i ts oʊ
+6	od-	o t
+6	nášho	n aː ʃ h o
+6	nosorožcom	n o s o r o ʃ ts o m
+6	nerozumiem	ɲ e r o z u m i  e m
+6	nemá	ɲ e m aː
+6	nedotýkajú	ɲ e d o t iː k a j uː
+6	myšky	m i ʃ k i
+6	musíš	m u s iː ʃ
+6	musíme	m u s iː m e
+6	morskej	m o r s k e j
+6	modrú	m o d r uː
+6	modré	m o d r eː
+6	malý	m a l iː
+6	le-	l e
+6	kábel	k aː b e l
+6	kraji	k r a j i
+6	kocky	k o ts k i
+6	kocka	k o ts k a
+6	ježiš	j e ʒ i ʃ
+6	jasné	j a s n eː
+6	isté	i s t eː
+6	fajn	f a j n
+6	deväťdesiatšesť	dʲ e v e dʲ dʲ e s i  a t ʃ e s tʲ
+6	dajte	d a j tʲ e
+6	celé	ts e l eː
+6	celkom	ts e l k o m
+6	bože	b o ʒ e
+5	špičku	ʃ p i tʃ k u
+5	špice	ʃ p i ts e
+5	špica	ʃ p i ts a
+5	škvrna	ʃ k v r̩ n a
+5	šesť	ʃ e s tʲ
+5	ľavým	ʎ a v iː m
+5	ľavou	ʎ a v oʊ
+5	čoho	tʃ o h o
+5	ách	aː x
+5	zrnami	z r̩ n a m i
+5	zhora	z h o r a
+5	vŕba	v r̩ː b a
+5	výklenok	v iː k l e n o k
+5	výborne	v iː b o r ɲ e
+5	vyšší	v i ʃ ʃ iː
+5	vy-	v i
+5	vrchu	v r̩ x u
+5	vlasy	v l a s i
+5	vlasov	v l a s o w
+5	veľa	v e ʎ a
+5	vertikálne	v e r t i k aː l ɲ e
+5	vaša	v a ʃ a
+5	uvidíme	u v i dʲ iː m e
+5	umiestňujem	u m i  e s t ɲ u j e m
+5	umiestniš	u m i  e s t ɲ i ʃ
+5	umiestnim	u m i  e s t ɲ i m
+5	u	u
+5	trojuholníček	t r o j u h o l ɲ iː tʃ e k
+5	tretí	t r e tʲ iː
+5	sp-	s p
+5	rámu	r aː m u
+5	rovnú	r o v n uː
+5	rovine	r o v i ɲ e
+5	robím	r o b iː m
+5	prosím	p r o s iː m
+5	prepáč	p r e p aː tʃ
+5	predtým	p r e t t iː m
+5	pravítku	p r a v iː t k u
+5	poďme	p o dʲ m e
+5	povedzte	p o v e ts tʲ e
+5	posuniem	p o s u ɲ i  e m
+5	posledné	p o s l e d n eː
+5	popísať	p o p iː s a tʲ
+5	polovice	p o l o v i ts e
+5	pohyby	p o h i b i
+5	pazúr	p a z uː r
+5	paličky	p a l i tʃ k i
+5	ozdoba	o z d o b a
+5	oddelené	o d dʲ e l e n eː
+5	obrys	o b r i s
+5	obrazom	o b r a z o m
+5	oblúčik	o b l uː tʃ i k
+5	oblúku	o b l uː k u
+5	nosorožcova	n o s o r o ʃ ts o v a
+5	nosom	n o s o m
+5	ničím	ɲ i tʃ iː m
+5	ni-	ɲ i
+5	nemôžem	ɲ e m u o ʒ e m
+5	nemám	ɲ e m aː m
+5	nemu	ɲ e m u
+5	nejde	ɲ e j dʲ e
+5	nechápem	ɲ e x aː p e m
+5	najvyšší	n a j v i ʃ ʃ iː
+5	najviac	n a j v i  a ts
+5	naj-	n a j
+5	mŕtvola	m r̩ː t v o l a
+5	myslel	m i s l e l
+5	mierne	m i  e r ɲ e
+5	listy	l i s t i
+5	levov	l e v o w
+5	levia	l e v i  a
+5	lepšie	l e p ʃ i  e
+5	laba	l a b a
+5	ktorého	k t o r eː h o
+5	krídlo	k r iː d l o
+5	konára	k o n aː r a
+5	klobúkom	k l o b uː k o m
+5	kelu	k e l u
+5	jemu	j e m u
+5	ináč	i n aː tʃ
+5	hrotu	h r o t u
+5	hornou	h o r n oʊ
+5	horizontálna	h o r i z o n t aː l n a
+5	ho-	h o
+5	furt	f u r t
+5	fliačik	f l i  a tʃ i k
+5	dúfam	d uː f a m
+5	dáte	d aː tʲ e
+5	dotkne	d o t k ɲ e
+5	dostanem	d o s t a ɲ e m
+5	cípom	ts iː p o m
+5	chvostík	x v o s tʲ iː k
+5	chvoste	x v o s tʲ e
+5	celej	ts e l e j
+5	c-	ts
+5	bruchom	b r u x o m
+5	boku	b o k u
+5	akoby	a k o b i
+5	ach	a x
+5	-bre	b r e
+4	žehličku	ʒ e h l i tʃ k u
+4	žehliaca	ʒ e h l i  a ts a
+4	ž-	ʒ
+4	šípku	ʃ iː p k u
+4	štvorec	ʃ t v o r e ts
+4	štvorca	ʃ t v o r ts a
+4	špičkou	ʃ p i tʃ k oʊ
+4	špicu	ʃ p i ts u
+4	špicou	ʃ p i ts oʊ
+4	špici	ʃ p i ts i
+4	šnúrou	ʃ n uː r oʊ
+4	čiarkou	tʃ i  a r k oʊ
+4	čas	tʃ a s
+4	úplný	uː p l̩ n iː
+4	zŕn	z r̩ː n
+4	zárez	z aː r e s
+4	zrnkami	z r̩ ŋ k a m i
+4	zrniečko	z r̩ ɲ i  e tʃ k o
+4	zospodu	z o s p o d u
+4	zmrzlinou	z m r̩ z l i n oʊ
+4	zapichnutá	z a p i x n u t aː
+4	zakryť	z a k r i tʲ
+4	zakrytý	z a k r i t iː
+4	zakryté	z a k r i t eː
+4	wow	v a w
+4	výbežok	v iː b e ʒ o k
+4	víla	v iː l a
+4	vychádzal	v i x aː dz a l
+4	vrchnej	v r̩ x n e j
+4	vonkajší	v o ŋ k a j ʃ iː
+4	vodorovná	v o d o r o v n aː
+4	viete	v i  e tʲ e
+4	vezmeš	v e z m e ʃ
+4	vertikálna	v e r t i k aː l n a
+4	vchádza	f x aː dz a
+4	vajíčko	v a j iː tʃ k o
+4	ušami	u ʃ a m i
+4	uprostred	u p r o s t r e t
+4	umiestnite	u m i  e s t ɲ i tʲ e
+4	uh-uh	a a
+4	tváre	t v aː r e
+4	tvojej	t v o j e j
+4	tebe	tʲ e b e
+4	supiš	s u p i ʃ
+4	stojí	s t o j iː
+4	spustenej	s p u s tʲ e ɲ e j
+4	správnosti	s p r aː v n o s tʲ i
+4	spravíš	s p r a v iː ʃ
+4	skúška	s k uː ʃ k a
+4	sakra	s a k r a
+4	rovná	r o v n aː
+4	rovnaká	r o v n a k aː
+4	rohy	r o h i
+4	robil	r o b i l
+4	rekord	r e k o r t
+4	radšej	r a t ʃ e j
+4	prstami	p r̩ s t a m i
+4	prostriedok	p r o s t r i  e d o k
+4	prostriedka	p r o s t r i  e t k a
+4	priložíš	p r i l o ʒ iː ʃ
+4	priehlbiny	p r i  e h l̩ b i n i
+4	priamke	p r i  a m k e
+4	presahuje	p r e s a h u j e
+4	prekrývať	p r e k r iː v a tʲ
+4	predstavíš	p r e t s t a v iː ʃ
+4	prednú	p r e d n uː
+4	pre	p r e
+4	pravým	p r a v iː m
+4	pr-	p r̩
+4	počítať	p o tʃ iː t a tʲ
+4	povedali	p o v e d a l i
+4	posunieš	p o s u ɲ i  e ʃ
+4	polož	p o l o ʃ
+4	polovicu	p o l o v i ts u
+4	plocha	p l o x a
+4	plachta	p l a x t a
+4	pixelíky	p i k s e l iː k i
+4	pfú	p f uː
+4	pera	p e r a
+4	pazúra	p a z uː r a
+4	patrí	p a t r iː
+4	pahýľ	p a h iː ʎ
+4	ozaj	o z a j
+4	ostatných	o s t a t n iː x
+4	ostatné	o s t a t n eː
+4	ostane	o s t a ɲ e
+4	opačne	o p a tʃ ɲ e
+4	oné	o n eː
+4	okienkom	o k i  e ŋ k o m
+4	odtiaľ	o t tʲ i  a ʎ
+4	och	o x
+4	ob-	o p
+4	nízko	ɲ iː s k o
+4	nose	n o s e
+4	ničoho	ɲ i tʃ o h o
+4	nevidíš	ɲ e v i dʲ iː ʃ
+4	nevadí	ɲ e v a dʲ iː
+4	netrčí	ɲ e t r̩ tʃ iː
+4	nemáte	ɲ e m aː tʲ e
+4	nedá	ɲ e d aː
+4	nechcem	ɲ e x ts e m
+4	nebude	ɲ e b u dʲ e
+4	nebolo	ɲ e b o l o
+4	naparovanie	n a p a r o v a ɲ i  e
+4	najľavejšia	n a j ʎ a v e j ʃ i  a
+4	najvyšším	n a j v i ʃ ʃ iː m
+4	najprv	n a j p r̩ w
+4	mím	m iː m
+4	myslíte	m i s l iː tʲ e
+4	myslela	m i s l e l a
+4	my	m i
+4	mojej	m o j e j
+4	mohli	m o h l i
+4	mimo	m i m o
+4	mesiacu	m e s i  a ts u
+4	menšieho	m e n ʃ i  e h o
+4	marťana	m a r tʲ a n a
+4	malinký	m a l i ŋ k iː
+4	línii	l iː n i  i
+4	levovým	l e v o v iː m
+4	levovou	l e v o v oʊ
+4	kurzory	k u r z o r i
+4	ktorým	k t o r iː m
+4	kopček	k o p tʃ e k
+4	končia	k o n tʃ i  a
+4	kliknem	k l i k ɲ e m
+4	kebyže	k e b i ʒ e
+4	kam	k a m
+4	jedným	j e d n iː m
+4	jablko	j a b l̩ k o
+4	jablkami	j a b l̩ k a m i
+4	ja-	j a
+4	išli	i ʃ l i
+4	isto	i s t o
+4	iné	i n eː
+4	inak	i n a k
+4	hry	h r i
+4	hrivu	h r i v u
+4	hrivou	h r i v oʊ
+4	hrb	h r̩ p
+4	hrany	h r a n i
+4	hranu	h r a n u
+4	hnedej	h ɲ e dʲ e j
+4	hlavne	h l a v ɲ e
+4	dvoch	d v o x
+4	druhou	d r u h oʊ
+4	dotyku	d o t i k u
+4	dopredu	d o p r e d u
+4	dokonca	d o k o n ts a
+4	do-	d o
+4	deväťdesiatsedem	dʲ e v e dʲ dʲ e s i  a t s e dʲ e m
+4	dal	d a l
+4	chcel	x ts e l
+4	centi	ts e n t i
+4	budeš	b u dʲ e ʃ
+4	budete	b u dʲ e tʲ e
+4	bodom	b o d o m
+4	blíži	b l iː ʒ i
+4	blikne	b l i k ɲ e
+4	bieleho	b i  e l e h o
+4	aké	a k eː
+4	ak-	a k
+3	žĺtko	ʒ l̩ː t k o
+3	žiarovke	ʒ i  a r o w k e
+3	šípka	ʃ iː p k a
+3	štvrtému	ʃ t v r̩ t eː m u
+3	špičke	ʃ p i tʃ k e
+3	škvrny	ʃ k v r̩ n i
+3	škulinka	ʃ k u l i ŋ k a
+3	šiestym	ʃ i  e s t i m
+3	šaša	ʃ a ʃ a
+3	ľavého	ʎ a v eː h o
+3	ľava	ʎ a v a
+3	čudný	tʃ u d n iː
+3	čože	tʃ o ʒ e
+3	čosi	tʃ o s i
+3	čokoládová	tʃ o k o l aː d o v aː
+3	čiastočne	tʃ i  a s t o tʃ ɲ e
+3	červeného	tʃ e r v e n eː h o
+3	á	aː
+3	zápästia	z aː p e s tʲ i  a
+3	záhyb	z aː h i p
+3	zvislá	z v i s l aː
+3	zvislicu	z v i s l i ts u
+3	zrnká	z r̩ ŋ k aː
+3	zrkadlom	z r̩ k a d l o m
+3	zrkadle	z r̩ k a d l e
+3	zmrzline	z m r̩ z l i ɲ e
+3	zhoduje	z h o d u j e
+3	zboku	z b o k u
+3	začiatku	z a tʃ i  a t k u
+3	zakrývať	z a k r iː v a tʲ
+3	zakrývala	z a k r iː v a l a
+3	zakryjete	z a k r i j e tʲ e
+3	zadnými	z a d n iː m i
+3	všetky	f ʃ e t k i
+3	vľa-	v ʎ a
+3	väčší	v e tʃ ʃ iː
+3	väčšie	v e tʃ ʃ i  e
+3	vás	v aː s
+3	vzhľadom	f s h ʎ a d o m
+3	vzdialenosti	v z dʲ i  a l e n o s tʲ i
+3	vzadu	v z a d u
+3	vyčnieva	v i tʃ ɲ i  e v a
+3	vytŕčajú	v i t r̩ː tʃ a j uː
+3	vytvára	v i t v aː r a
+3	vysvetlím	v i s v e t l iː m
+3	vysvetliť	v i s v e t l i tʲ
+3	vychádza	v i x aː dz a
+3	von	v o n
+3	vodorovne	v o d o r o v ɲ e
+3	vlásky	v l aː s k i
+3	vlas	v l a s
+3	vie	v i  e
+3	viacej	v i  a ts e j
+3	vi-	v i
+3	veľryba	v e ʎ r i b a
+3	veľká	v e ʎ k aː
+3	verti-	v e r t i
+3	vajce	v a j ts e
+3	určite	u r tʃ i tʲ e
+3	urobili	u r o b i l i
+3	umiestňujeme	u m i  e s t ɲ u j e m e
+3	ukazováka	u k a z o v aː k a
+3	týmto	t iː m t o
+3	táto	t aː t o
+3	tvár	t v aː r
+3	tuším	t u ʃ iː m
+3	troch	t r o x
+3	treťou	t r e tʲ oʊ
+3	tretej	t r e t e j
+3	trafiť	t r a f i tʲ
+3	toľko	t o ʎ k o
+3	tomuto	t o m u t o
+3	tmavá	t m a v aː
+3	tejto	t e j t o
+3	stranou	s t r a n oʊ
+3	stopky	s t o p k i
+3	stonka	s t o ŋ k a
+3	stlačiť	s t l a tʃ i tʲ
+3	sorry	s o r i
+3	snáď	s n aː tʲ
+3	smutnej	s m u t n e j
+3	smerovať	s m e r o v a tʲ
+3	skóre	s k oː r e
+3	samozrejme	s a m o z r e j m e
+3	samostatné	s a m o s t a t n eː
+3	rátam	r aː t a m
+3	rovné	r o v n eː
+3	ramena	r a m e n a
+3	r-	r
+3	prvým	p r̩ v iː m
+3	prvé	p r̩ v eː
+3	prstu	p r̩ s t u
+3	problém	p r o b l eː m
+3	priestor	p r i  e s t o r
+3	presnejšie	p r e s ɲ e j ʃ i  e
+3	prekrytá	p r e k r i t aː
+3	prekryjú	p r e k r i j uː
+3	prekryje	p r e k r i j e
+3	predposledným	p r e t p o s l e d n iː m
+3	prednými	p r e d n iː m i
+3	pre-	p r e
+3	pravom	p r a v o m
+3	prava	p r a v a
+3	poď	p o tʲ
+3	pozeráme	p o z e r aː m e
+3	potiahneš	p o tʲ i  a h ɲ e ʃ
+3	posunul	p o s u n u l
+3	posunie	p o s u ɲ i  e
+3	poriadne	p o r i  a d n e
+3	popíšte	p o p iː ʃ tʲ e
+3	popisovať	p o p i s o v a tʲ
+3	políčkom	p o l iː tʃ k o m
+3	políčka	p o l iː tʃ k a
+3	položíš	p o l o ʒ iː ʃ
+3	položiť	p o l o ʒ i tʲ
+3	polovici	p o l o v i ts i
+3	poloblúk	p o l o b l uː k
+3	po-	p o
+3	plutiev	p l u tʲ i  e w
+3	ploche	p l o x e
+3	piatym	p i  a t i m
+3	percent	p e r ts e n t
+3	pasuje	p a s u j e
+3	pardon	p a r d o n
+3	palcom	p a l ts o m
+3	pa-	p a
+3	očami	o tʃ a m i
+3	ou	oʊ
+3	osemdesiatsedem	o s e m dʲ e s i  a t s e dʲ e m
+3	osemdesiat	o s e m dʲ e s i  a t
+3	oproti	o p r o tʲ i
+3	ohýba	o h iː b a
+3	ofinky	o f i ŋ k i
+3	obrázkov	o b r aː s k o w
+3	obrysu	o b r i s u
+3	objaví	o b j a v iː
+3	náhodou	n aː h o d oʊ
+3	nový	n o v iː
+3	nosorožcov	n o s o r o ʃ ts o w
+3	nevychádza	ɲ e v i x aː dz a
+3	nevidieť	ɲ e v i dʲ i  e tʲ
+3	nevedel	ɲ e v e dʲ e l
+3	nesedí	ɲ e s e dʲ iː
+3	nepovedal	ɲ e p o v e d a l
+3	nejakých	ɲ e j a k iː x
+3	nejakú	ɲ e j a k uː
+3	nedotkne	ɲ e d o t k ɲ e
+3	necelý	ɲ e ts e l iː
+3	našej	n a ʃ e j
+3	naviguj	n a v i ɡ u j
+3	navigovať	n a v i ɡ o v a tʲ
+3	najspodnejšieho	n a j s p o d ɲ e j ʃ i  e h o
+3	najspodnejšej	n a j s p o d ɲ e j ʃ e j
+3	najbližšie	n a j b l i ʃ ʃ i  e
+3	nad-	n a t
+3	môžeš	m u o ʒ e ʃ
+3	môjho	m u o j h o
+3	myškou	m i ʃ k oʊ
+3	myške	m i ʃ k e
+3	myška	m i ʃ k a
+3	musíte	m u s iː tʲ e
+3	moja	m o j a
+3	modrom	m o d r o m
+3	minimálne	m i n i m aː l ɲ e
+3	mimozemšťanovej	m i m o z e m ʃ tʲ a n o v e j
+3	milimetríky	m i l i m e t r iː k i
+3	menšia	m e n ʃ i  a
+3	malinké	m a l i ŋ k eː
+3	majú	m a j uː
+3	linku	l i ŋ k u
+3	levou	l e v oʊ
+3	lenže	l e n ʒ e
+3	labu	l a b u
+3	káble	k aː b l e
+3	kábla	k aː b l a
+3	kurzorov	k u r z o r o w
+3	kto	k t o
+3	kruh	k r u x
+3	kosatkou	k o s a t k oʊ
+3	konček	k o n tʃ e k
+3	konár	k o n aː r
+3	kolmá	k o l m aː
+3	ko-	k o
+3	klobúku	k l o b uː k u
+3	kliknúť	k l i k n uː tʲ
+3	klaunom	k l a u n o m
+3	jéj	j eː j
+3	joj	j o j
+3	jahodou	j a h o d oʊ
+3	išiel	i ʃ i  e l
+3	istý	i s t iː
+3	hráča	h r aː tʃ a
+3	hrozne	h r o z ɲ e
+3	hrotom	h r o t o m
+3	hovoriť	h o v o r i tʲ
+3	hovorili	h o v o r i l i
+3	hovor	h o v o r
+3	horného	h o r n eː h o
+3	horizontálnej	h o r i z o n t aː l n e j
+3	hora	h o r a
+3	hnedé	h ɲ e d eː
+3	guľu	ɡ u ʎ u
+3	gulička	ɡ u l i tʃ k a
+3	fú	f uː
+3	filip	f i l i p
+3	dĺžku	d l̩ː ʃ k u
+3	dvoma	d v o m a
+3	dvakrát	d v a k r aː t
+3	dvadsaťdva	d v a t s a dʲ d v a
+3	druhom	d r u h o m
+3	drobné	d r o b n eː
+3	dozadu	d o z a d u
+3	dovnútra	d o v n uː t r a
+3	dotýkal	d o t iː k a l
+3	dotýkajú	d o t iː k a j uː
+3	dotkneš	d o t k ɲ e ʃ
+3	dolnom	d o l n o m
+3	dola	d o l a
+3	dohora	d o h o r a
+3	dobrý	d o b r iː
+3	dobré	d o b r eː
+3	deväťdesiatpäť	dʲ e v e dʲ dʲ e s i  a t p e tʲ
+3	deväťdesiat	dʲ e v e dʲ dʲ e s i  a t
+3	dalo	d a l o
+3	dali	d a l i
+3	cípy	ts iː p i
+3	chvosty	x v o s t i
+3	chvostami	x v o s t a m i
+3	chodidlá	x o dʲ i d l aː
+3	bútľavej	b uː t ʎ a v e j
+3	blikať	b l i k a tʲ
+3	blikajúceho	b l i k a j uː ts e h o
+3	autom	a u t o m
+3	?-
+2	žĺtkom	ʒ l̩ː t k o m
+2	žĺtka	ʒ l̩ː t k a
+2	žlt-	ʒ l t
+2	život	ʒ i v o t
+2	žiadne	ʒ i  a d n e
+2	žia-	ʒ i  a
+2	žehličke	ʒ e h l i tʃ k e
+2	ťahám	tʲ a h aː m
+2	ťahala	tʲ a h a l a
+2	šípke	ʃ iː p k e
+2	štyroma	ʃ t i r o m a
+2	štyrmi	ʃ t i r m i
+2	štvorčekoch	ʃ t v o r tʃ e k o x
+2	štvorcom	ʃ t v o r ts o m
+2	štvorci	ʃ t v o r ts i
+2	štrukturovaný	ʃ t r u k t u r o v a n iː
+2	štetky	ʃ tʲ e t k i
+2	štetka	ʃ tʲ e t k a
+2	št-	ʃ t
+2	špicík	ʃ p i ts iː k
+2	špi-	ʃ p i
+2	šnúry	ʃ n uː r i
+2	škvrnka	ʃ k v r̩ ŋ k a
+2	škoda	ʃ k o d a
+2	široké	ʃ i r o k eː
+2	ňom	ɲ o m
+2	ľahké	ʎ a x k eː
+2	ľ-	ʎ
+2	ďalšiu	dʲ a l ʃ i  u
+2	čítať	tʃ iː t a tʲ
+2	čím	tʃ iː m
+2	čokoládový	tʃ o k o l aː d o v iː
+2	čokoláda	tʃ o k o l aː d a
+2	čiernou	tʃ i  e r n oʊ
+2	čierno-biele	tʃ i  e r n o b i  e l e
+2	čierneho	tʃ i  e r n e h o
+2	čiarky	tʃ i  a r k i
+2	časťami	tʃ a s tʲ a m i
+2	čakám	tʃ a k aː m
+2	úzka	uː s k a
+2	ústam	uː s t a m
+2	úsečku	uː s e tʃ k u
+2	úro-	uː r o
+2	úp-	uː p
+2	ú	uː
+2	získaných	z iː s k a n iː x
+2	zároveň	z aː r o v e ɲ
+2	zárezy	z aː r e z i
+2	zvrchu	z v r̩ x u
+2	zvonenie	z v o ɲ e ɲ i  e
+2	zvislú	z v i s l uː
+2	zvisle	z v i s l e
+2	zviera	z v i  e r a
+2	zrnku	z r̩ ŋ k u
+2	zrniečok	z r̩ ɲ i  e tʃ o k
+2	zrniečkom	z r̩ ɲ i  e tʃ k o m
+2	zrniečkami	z r̩ ɲ i  e tʃ k a m i
+2	zrniek	z r̩ ɲ i  e k
+2	zrne	z r̩ ɲ e
+2	zrenička	z r e ɲ i tʃ k a
+2	zr-	z r̩
+2	zoberte	z o b e r tʲ e
+2	zoberieš	z o b e r i  e ʃ
+2	znova	z n o v a
+2	zelený	z e l e n iː
+2	zelenom	z e l e n o m
+2	začínať	z a tʃ iː n a tʲ
+2	začiatkom	z a tʃ i  a t k o m
+2	zatáčať	z a t aː tʃ a tʲ
+2	zatiaľ	z a tʲ i  a ʎ
+2	zastavte	z a s t a w tʲ e
+2	zabudla	z a b u d l a
+2	vždy	v ʒ d i
+2	všetkých	f ʃ e t k iː x
+2	vŕbu	v r̩ː b u
+2	výšk-	v iː ʃ k
+2	výstupok	v iː s t u p o k
+2	výseku	v iː s e k u
+2	výbežky	v iː b e ʃ k i
+2	víly	v iː l i
+2	vílou	v iː l oʊ
+2	véčko	v eː tʃ k o
+2	väčšinu	v e tʃ ʃ i n u
+2	vytŕčala	v i t r̩ː tʃ a l a
+2	vypnúť	v i p n uː tʲ
+2	vylepšili	v i l e p ʃ i l i
+2	vykukne	v i k u k ɲ e
+2	vyjde	v i j dʲ e
+2	vychádzajú	v i x aː dz a j uː
+2	vrchnú	v r̩ x n uː
+2	vrch-	v r̩ x
+2	vpredu	f p r e d u
+2	voľné	v o ʎ n eː
+2	vonkajšej	v o ŋ k a j ʃ e j
+2	volá	v o l aː
+2	vodorovnú	v o d o r o v n uː
+2	vnútri	v n uː t r i
+2	vnútornej	v n uː t o r ɲ e j
+2	vložený	v l o ʒ e n iː
+2	visieť	v i s i  e tʲ
+2	vidí	v i dʲ iː
+2	veľké	v e ʎ k eː
+2	vedieť	v e dʲ i  e tʲ
+2	vedel	v e dʲ e l
+2	vaše	v a ʃ e
+2	vajíčkom	v a j iː tʃ k o m
+2	vajíčka	v a j iː tʃ k a
+2	vajco	v a j ts o
+2	vajca	v a j ts a
+2	uši	u ʃ i
+2	uvidíš	u v i dʲ iː ʃ
+2	uvidím	u v i dʲ iː m
+2	uvažuješ	u v a ʒ u j e ʃ
+2	umiestňovať	u m i  e s t ɲ o v a tʲ
+2	umiestnime	u m i  e s t ɲ i m e
+2	ufónom	u f oː n o m
+2	týchto	t iː x t o
+2	túto	t uː t o
+2	tyčka	t i tʃ k a
+2	tvári	t v aː r i
+2	tvorí	t v o r iː
+2	tuto	t u t o
+2	trčalo	t r̩ tʃ a l o
+2	trojuholníka	t r o j u h o l ɲ iː k a
+2	tretiu	t r e tʲ i  u
+2	tretia	t r e tʲ i  a
+2	točí	t o tʃ iː
+2	torzo	t o r z o
+2	tomto	t o m t o
+2	tohto	t o h t o
+2	tmavý	t m a v iː
+2	tlapy	t l a p i
+2	tlapa	t l a p a
+2	tieto	t i  e t o
+2	tes-	t e s
+2	teoreticky	t e o r e t i ts k i
+2	telo	tʲ e l o
+2	tele	tʲ e l e
+2	tela	tʲ e l a
+2	takého	t a k eː h o
+2	tak-	t a k
+2	súvislá	s uː v i s l aː
+2	síce	s iː ts e
+2	svoje	s v o j e
+2	stĺpcom	s t l̩ː p ts o m
+2	strieška	s t r i  e ʃ k a
+2	stredných	s t r e d n iː x
+2	stredného	s t r e d n eː h o
+2	strednou	s t r e d n oʊ
+2	stre-	s t r e
+2	strašne	s t r a ʃ ɲ e
+2	stratiť	s t r a tʲ i tʲ
+2	stratili	s t r a tʲ i l i
+2	stranu	s t r a n u
+2	stovku	s t o w k u
+2	spravíte	s p r a v iː tʲ e
+2	spravila	s p r a v i l a
+2	spolu	s p o l u
+2	spoločne	s p o l o tʃ ɲ e
+2	spolovice	s p o l o v i ts e
+2	spoj	s p o j
+2	spodnom	s p o d n o m
+2	snažiť	s n a ʒ i tʲ
+2	sme-	s m e
+2	skúšku	s k uː ʃ k u
+2	skúsme	s k uː s m e
+2	skúsiť	s k uː s i tʲ
+2	skušam	s k u ʃ a m
+2	sivá	s i v aː
+2	sedela	s e dʲ e l a
+2	schovaná	s x o v a n aː
+2	schodík	s x o dʲ iː k
+2	rímsu	r iː m s u
+2	rátaš	r aː t a ʃ
+2	rukou	r u k oʊ
+2	rožteka	r o ʃ tʲ e k a
+2	rozprávať	r o s p r aː v a tʲ
+2	rozlíšenie	r o z l iː ʃ e ɲ i  e
+2	rozdelené	r o z dʲ e l e n eː
+2	rozbitá	r o z b i t aː
+2	rovnaký	r o v n a k iː
+2	rovina	r o v i n a
+2	robiť	r o b i tʲ
+2	robila	r o b i l a
+2	ro-	r o
+2	riti	r i tʲ i
+2	riadku	r i  a t k u
+2	rez	r e s
+2	rad	r a t
+2	ra-	r a
+2	pása	p aː s a
+2	pán	p aː n
+2	prípadne	p r iː p a d ɲ e
+2	prídem	p r iː dʲ e m
+2	prázdnych	p r aː z d n i x
+2	práve	p r aː v e
+2	prvú	p r̩ v uː
+2	prvého	p r̩ v eː h o
+2	prvom	p r̩ v o m
+2	prvej	p r̩ v e j
+2	prsta	p r̩ s t a
+2	prostredný	p r o s t r e d n iː
+2	prostrednú	p r o s t r e d n uː
+2	priesečník	p r i  e s e tʃ ɲ iː k
+2	priehlbinu	p r i  e h l̩ b i n u
+2	priehlbina	p r i  e h l̩ b i n a
+2	priamky	p r i  a m k i
+2	priamku	p r i  a m k u
+2	prečo	p r e tʃ o
+2	prečnieva	p r e tʃ ɲ i  e v a
+2	pretŕčať	p r e t r̩ː tʃ a tʲ
+2	pretína	p r e tʲ iː n a
+2	presvitá	p r e s v i t aː
+2	prerušovaná	p r e r u ʃ o v a n aː
+2	prerušená	p r e r u ʃ e n aː
+2	prepáčte	p r e p aː tʃ tʲ e
+2	preniesť	p r e ɲ i  e s tʲ
+2	prekryješ	p r e k r i j e ʃ
+2	predstavme	p r e t s t a w m e
+2	predpokladám	p r e t p o k l a d aː m
+2	prednou	p r e d n oʊ
+2	pravou	p r a v oʊ
+2	prav-	p r a w
+2	prakticky	p r a k t i ts k i
+2	pra-	p r a
+2	počkať	p o tʃ k a tʲ
+2	pozície	p o z iː ts i  e
+2	pozrieš	p o z r i  e ʃ
+2	pozerám	p o z e r aː m
+2	povedat	p o v e d a t
+2	použiť	p oʊ ʒ i tʲ
+2	posuňte	p o s u ɲ tʲ e
+2	posledným	p o s l e d n iː m
+2	posledný	p o s l e d n iː
+2	pos-	p o s
+2	pome	p o m e
+2	pomaly	p o m a l i
+2	políčko	p o l iː tʃ k o
+2	položte	p o l o ʃ tʲ e
+2	položená	p o l o ʒ e n aː
+2	polovičku	p o l o v i tʃ k u
+2	polohy	p o l o h i
+2	polohe	p o l o h e
+2	polkruh	p o l k r u x
+2	pohybov	p o h i b o w
+2	pohnutia	p o h n u tʲ i  a
+2	pochopila	p o x o p i l a
+2	plutvami	p l u t v a m i
+2	plochu	p l o x u
+2	plece	p l e ts e
+2	pixle	p i k s l e
+2	pixelu	p i k s e l u
+2	pixelový	p i k s e l o v iː
+2	pixeli	p i k s e l i
+2	palca	p a l ts a
+2	pahýľu	p a h iː ʎ u
+2	padli	p a d l i
+2	ovoňať	o v o ɲ a tʲ
+2	otvorené	o t v o r e n eː
+2	otočené	o t o tʃ e n eː
+2	osemdesiatdva	o s e m dʲ e s i  a d d v a
+2	orezané	o r e z a n eː
+2	opýtam	o p iː t a m
+2	opicu	o p i ts u
+2	opici	o p i ts i
+2	opačný	o p a tʃ n iː
+2	okraji	o k r a j i
+2	okolo	o k o l o
+2	oka	o k a
+2	ofinu	o f i n u
+2	ofinou	o f i n oʊ
+2	odkliknúť	o t k l i k n uː tʲ
+2	odkliknem	o t k l i k ɲ e m
+2	obvode	o b v o dʲ e
+2	obrázkami	o b r aː s k a m i
+2	obrysuje	o b r i s u j e
+2	obrube	o b r u b e
+2	obrazovku	o b r a z o w k u
+2	obraze	o b r a z e
+2	obočie	o b o tʃ i  e
+2	oblúkom	o b l uː k o m
+2	oblé	o b l eː
+2	nám	n aː m
+2	nosorožej	n o s o r o ʒ e j
+2	nosorožcovu	n o s o r o ʃ ts o v u
+2	nosorožcovou	n o s o r o ʃ ts o v oʊ
+2	nosorožcovho	n o s o r o ʃ ts o w h o
+2	nosorož-	n o s o r o ʃ
+2	nos-	n o s
+2	normálne	n o r m aː l ɲ e
+2	nokiu	n o k i  u
+2	nižšiu	ɲ i ʃ ʃ i  u
+2	nižšej	ɲ i ʃ ʃ e j
+2	nich	ɲ i x
+2	nezasahuje	ɲ e z a s a h u j e
+2	nevytŕča	ɲ e v i t r̩ː tʃ a
+2	nevieš	ɲ e v i  e ʃ
+2	netuším	ɲ e t u ʃ iː m
+2	netrafili	ɲ e t r a f i l i
+2	neprečnieva	ɲ e p r e tʃ ɲ i  e v a
+2	nepoviem	ɲ e p o v i  e m
+2	nepovedala	ɲ e p o v e d a l a
+2	nemáš	ɲ e m aː ʃ
+2	nemyslím	ɲ e m i s l iː m
+2	nejakého	ɲ e j a k eː h o
+2	nejaká	ɲ e j a k aː
+2	neistý	ɲ e i s t iː
+2	nedala	ɲ e d a l a
+2	necháme	ɲ e x aː m e
+2	nebudem	ɲ e b u dʲ e m
+2	ne	ɲ e
+2	naňho	n a ɲ h o
+2	naspäť	n a s p e tʲ
+2	narovnako	n a r o v n a k o
+2	najvrchnejší	n a j v r̩ x ɲ e j ʃ iː
+2	najnižší	n a j ɲ i ʃ ʃ iː
+2	nadväzuje	n a d v e z u j e
+2	málinko	m aː l i ŋ k o
+2	má-	m aː
+2	myšku	m i ʃ k u
+2	musieť	m u s i  e tʲ
+2	možné	m o ʒ n eː
+2	monitor	m o n i t o r
+2	moje	m o j e
+2	mimozemšťanova	m i m o z e m ʃ tʲ a n o v a
+2	mili-	m i l i
+2	mierky	m i  e r k i
+2	mes-	m e s
+2	me-	m e
+2	martin	m a r t i n
+2	malého	m a l eː h o
+2	malá	m a l aː
+2	maličký	m a l i tʃ k iː
+2	malinká	m a l i ŋ k aː
+2	levie	l e v i  e
+2	levami	l e v a m i
+2	l-	l
+2	kúsky	k uː s k i
+2	kávovými	k aː v o v iː m i
+2	kávovým	k aː v o v iː m
+2	kávových	k aː v o v iː x
+2	kvázi	k v aː z i
+2	kus	k u s
+2	krát	k r aː t
+2	kraja	k r a j a
+2	koňa	k o ɲ a
+2	kotníky	k o t ɲ iː k i
+2	kotníkmi	k o t ɲ iː k m i
+2	kosatku	k o s a t k u
+2	kosatkina	k o s a t k i n a
+2	kosatke	k o s a t k e
+2	kopíruje	k o p iː r u j e
+2	konárom	k o n aː r o m
+2	koho	k o h o
+2	kockou	k o ts k oʊ
+2	kliknite	k l i k ɲ i tʲ e
+2	klenba	k l e n b a
+2	ked	k e t
+2	jo	j o
+2	jemnučká	j e m n u tʃ k aː
+2	jemne	j e m ɲ e
+2	jednoducho	j e d n o d u x o
+2	jaký	j a k iː
+2	jaj	j a j
+2	jahoda	j a h o d a
+2	išlo	i ʃ l o
+2	istotu	i s t o t u
+2	iný	i n iː
+2	idú	i d uː
+2	idete	i dʲ e tʲ e
+2	hrubé	h r u b eː
+2	hrocha	h r o x a
+2	hroch	h r o x
+2	hranou	h r a n oʊ
+2	hranicu	h r a ɲ i ts u
+2	hranicou	h r a ɲ i ts oʊ
+2	hranica	h r a ɲ i ts a
+2	hr-	h r̩
+2	hovoríš	h o v o r iː ʃ
+2	hotovo	h o t o v o
+2	horných	h o r n iː x
+2	hornú	h o r n uː
+2	horizontálneho	h o r i z o n t aː l n e h o
+2	hor-	h o r
+2	hopala	h o p a l a
+2	hop	h o p
+2	hnedá	h ɲ e d aː
+2	hlboko	h l̩ b o k o
+2	halúzky	h a l uː s k i
+2	gulí	ɡ u l iː
+2	f-	f
+2	este	e s tʲ e
+2	dúfajme	d uː f a j m e
+2	dáva	d aː v a
+2	dzindzíka	dz i n dz iː k a
+2	dzindzík	dz i n dz iː k
+2	dvomi	d v o m i
+2	dvesto	d v e s t o
+2	dvadsaťtri	d v a t s a tʲ t r i
+2	drží	d r̩ ʒ iː
+2	doľ-	d o ʎ
+2	dotyčnicu	d o t i tʃ ɲ i ts u
+2	dotyk	d o t i k
+2	dotkni	d o t k ɲ i
+2	dot-	d o t
+2	dostaneme	d o s t a ɲ e m e
+2	dolu	d o l u
+2	dolná	d o l n aː
+2	dokopy	d o k o p i
+2	dohromady	d o h r o m a d i
+2	dohodnúť	d o h o d n uː tʲ
+2	dobrá	d o b r aː
+2	diery	dʲ i  e r i
+2	diera	dʲ i  e r a
+2	deväťdesiatštyri	dʲ e v e dʲ dʲ e s i  a t ʃ t i r i
+2	deväťdesiattri	dʲ e v e dʲ dʲ e s i  a t t r i
+2	deväť	dʲ e v e tʲ
+2	deviatom	dʲ e v i  a t o m
+2	delfín	dʲ e l f iː n
+2	chvíľu	x v iː ʎ u
+2	chvostu	x v o s t u
+2	chrbáte	x r̩ b aː tʲ e
+2	chrbáta	x r̩ b aː t a
+2	chrbtom	x r̩ p t o m
+2	chceš	x ts e ʃ
+2	celou	ts e l oʊ
+2	byt	b i t
+2	buď	b u tʲ
+2	brmbolec	b r̩ m b o l e ts
+2	boky	b o k i
+2	bodu	b o d u
+2	bo-	b o
+2	blikalo	b l i k a l o
+2	blikajú	b l i k a j uː
+2	bielych	b i  e l i x
+2	bielu	b i  e l u
+2	auto	a u t o
+2	aspoň	a s p o ɲ
+2	akú	a k uː
+1	žĺtok	ʒ l̩ː t o k
+1	žĺtku	ʒ l̩ː t k u
+1	živočích	ʒ i v o tʃ iː x
+1	žehličkovým	ʒ e h l i tʃ k o v iː m
+1	žehliacej	ʒ e h l i  a ts e j
+1	žehl-	ʒ e h l̩
+1	žeby	ʒ e b i
+1	žartujem	ʒ a r t u j e m
+1	ťažký	tʲ a ʃ k iː
+1	ťažiskom	tʲ a ʒ i s k o m
+1	ťaháme	tʲ a h aː m e
+1	ťa-	tʲ a
+1	šírka	ʃ iː r k a
+1	ší-	ʃ iː
+1	šéfe	ʃ eː f e
+1	šuchnem	ʃ u x ɲ e m
+1	štyrí	ʃ t i r iː
+1	štyrma	ʃ t i r m a
+1	štyridsaťšesť	ʃ t i r i t s a tʲ ʃ e s tʲ
+1	štyridsa-	ʃ t i r i t s a
+1	štyria	ʃ t i r i  a
+1	štyri-	ʃ t i r i
+1	šty-	ʃ t i
+1	štvrť	ʃ t v r̩ tʲ
+1	štvrtým	ʃ t v r̩ t iː m
+1	štvrtého	ʃ t v r̩ t eː h o
+1	štvrtom	ʃ t v r̩ t o m
+1	štvrtej	ʃ t v r̩ t e j
+1	štvročekom	ʃ t v r o tʃ e k o m
+1	štvorčekom	ʃ t v o r tʃ e k o m
+1	štvorčeka	ʃ t v o r tʃ e k a
+1	štvorč-	ʃ t v o r tʃ
+1	štvorn-	ʃ t v o r n
+1	štvorma-	ʃ t v o r m a
+1	štvoricu	ʃ t v o r i ts u
+1	štvorcu	ʃ t v o r ts u
+1	štvorcovom	ʃ t v o r ts o v o m
+1	štvorce	ʃ t v o r ts e
+1	štiepila	ʃ tʲ i  e p i l a
+1	štiepi	ʃ tʲ i  e p i
+1	štetku	ʃ tʲ e t k u
+1	štetkou	ʃ tʲ e t k oʊ
+1	štepu	ʃ tʲ e p u
+1	špo-	ʃ p o
+1	špicatej	ʃ p i ts a t e j
+1	šla	ʃ l a
+1	škvrnu	ʃ k v r̩ n u
+1	škvrnku	ʃ k v r̩ ŋ k u
+1	škvrne	ʃ k v r̩ ɲ e
+1	škrupiny	ʃ k r u p i n i
+1	škrupina	ʃ k r u p i n a
+1	široká	ʃ i r o k aː
+1	šipky	ʃ i p k i
+1	šikovný	ʃ i k o v n iː
+1	šikmú	ʃ i k m uː
+1	šik-	ʃ i k
+1	ši-	ʃ i
+1	šesťdesiatpäť	ʃ e z dʲ dʲ e s i  a t p e tʲ
+1	šes-	ʃ e s
+1	šašo	ʃ a ʃ o
+1	šancu	ʃ a n ts u
+1	ňíha	ɲ iː h a
+1	ňufáku	ɲ u f aː k u
+1	ľuboš	ʎ u b o ʃ
+1	ľavejšia	ʎ a v e j ʃ i  a
+1	ľave-	ʎ a v e
+1	ľahká	ʎ a h k aː
+1	ďaľší	dʲ a ʎ ʃ iː
+1	ďaľšiu	dʲ a ʎ ʃ i  u
+1	ďaľšie	dʲ a ʎ ʃ i  e
+1	ďalšímí	dʲ a l ʃ iː m iː
+1	ďalší	dʲ a l ʃ iː
+1	ďalšie	dʲ a l ʃ i  e
+1	ďalšia	dʲ a l ʃ i  a
+1	ďaleho	dʲ a l e h o
+1	ďalalej	dʲ a l a l e j
+1	ďakujeme	dʲ a k u j e m e
+1	čom	tʃ o m
+1	čokoládového	tʃ o k o l aː d o v eː h o
+1	čokoládovej	tʃ o k o l aː d o v e j
+1	čokoládky	tʃ o k o l aː t k i
+1	čokoláde	tʃ o k o l aː dʲ e
+1	čisté	tʃ i s t eː
+1	čiernymi	tʃ i  e r n i m i
+1	čiernobiely	tʃ i  e r n o b i  e l i
+1	čiej	tʃ i  e j
+1	čiarkami	tʃ i  a r k a m i
+1	čiarami	tʃ i  a r a m i
+1	červená	tʃ e r v e n aː
+1	čer-	tʃ e r
+1	čen-	tʃ e n
+1	čelo	tʃ e l o
+1	če-	tʃ e
+1	časovo	tʃ a s o v o
+1	čas-	tʃ a s
+1	čaká	tʃ a k aː
+1	úzkymi	uː s k i m i
+1	úzkej	uː s k e j
+1	ústi	uː s tʲ i
+1	úsečky	uː s e tʃ k i
+1	úsečka	uː s e tʃ k a
+1	úrovňou	uː r o v ɲ oʊ
+1	úroh-	uː r o x
+1	úps	uː p s
+1	úplní	uː p l̩ ɲ iː
+1	úplná	uː p l̩ n aː
+1	úha	uː h a
+1	ôsmom	u o s m o m
+1	ósemdesiatsedem	oː s e m dʲ e s i  a t s e dʲ e m
+1	ítímu	iː tʲ iː m u
+1	ítího	iː tʲ iː h o
+1	á-	aː
+1	zľavaa	z ʎ a v a a
+1	zľav-	z ʎ a w
+1	zľa-	z ʎ a
+1	získali	z iː s k a l i
+1	zídeš	z iː dʲ e ʃ
+1	závislosti	z aː v i s l o s tʲ i
+1	zásek	z aː s e k
+1	zápästí	z aː p e s tʲ iː
+1	zápä-	z aː p e
+1	záchytné	z aː x i t n eː
+1	zábava	z aː b a v a
+1	zväčšovať	z v e tʃ ʃ o v a tʲ
+1	zvykne	z v i k ɲ e
+1	zvukovo	z v u k o v o
+1	zvr-	z v r̩
+1	zvlášť	z v l aː ʃ tʲ
+1	zvislo	z v i s l o
+1	zvislice	z v i s l i ts e
+1	zvislej	z v i s l e j
+1	zvera	z v e r a
+1	zvedavý	z v e d a v iː
+1	zužuje	z u ʒ u j e
+1	zrobený	z r o b e n iː
+1	zrnkách	z r̩ ŋ k aː x
+1	zrn-	z r̩ n
+1	zrkladlo	z r̩ k l a d l o
+1	zrkadlu	z r̩ k a d l u
+1	zoz-	z o s
+1	zosúladiť	z o s uː l a dʲ i tʲ
+1	zostávame	z o s t aː v a m e
+1	zostáva	z o s t aː v a
+1	zostanú	z o s t a n uː
+1	zostali	z o s t a l i
+1	zostala	z o s t a l a
+1	zopár	z o p aː r
+1	zopakujme	z o p a k u j m e
+1	zopakujem	z o p a k u j e m
+1	zopakuj	z o p a k u j
+1	zoom	z o o m
+1	zohnutého	z o h n u t eː h o
+1	zodpovednosť	z o t p o v e d n o s tʲ
+1	zodpovedajúca	z o t p o v e d a j uː ts a
+1	zobrať	z o b r a tʲ
+1	zobrazí	z o b r a z iː
+1	zoberiem	z o b e r i  e m
+1	zoberem	z o b e r e m
+1	zo-	z o
+1	znovu	z n o v u
+1	znervózniť	z ɲ e r v oː z ɲ i tʲ
+1	značku	z n a tʃ k u
+1	zmrz-	z m r̩ s
+1	zmestí	z m e s tʲ iː
+1	zmestiť	z m e s tʲ i tʲ
+1	zmestilo	z m e s tʲ i l o
+1	zmerám	z m e r aː m
+1	zmenšovala	z m e n ʃ o v a l a
+1	zmenu	z m e n u
+1	zm-	z m
+1	zlé	z l eː
+1	zlož-	z l o ʃ
+1	zistil-	z i s tʲ i l
+1	zhrubší	s h r u p ʃ iː
+1	zhrubšenú	s h r u p ʃ e n uː
+1	zhrub-	z h r u p
+1	zhru-	z h r u
+1	zelené	z e l e n eː
+1	ze-	z e
+1	ze	z e
+1	zdalo	z d a l o
+1	zbytky	z b i t k i
+1	zbrklý	z b r̩ k l iː
+1	zblízka	z b l iː s k a
+1	zači-	z a tʃ i
+1	zač	z a tʃ
+1	zatáča	z a t aː tʃ a
+1	zato	z a t o
+1	zatajiť	z a t a j i tʲ
+1	zat-	z a t
+1	zasahujú	z a s a h u j uː
+1	zas-	z a s
+1	zarovnanie	z a r o v n a ɲ i  e
+1	zarov-	z a r o w
+1	zaracha	z a r a x a
+1	zapichnuté	z a p i x n u t eː
+1	zapadá	z a p a d aː
+1	zanedbateľný	z a ɲ e d b a tʲ e ʎ n iː
+1	zamerajme	z a m e r a j m e
+1	založte	z a l o ʃ tʲ e
+1	zakrytá	z a k r i t aː
+1	zakryješ	z a k r i j e ʃ
+1	zakrivený	z a k r i v e n iː
+1	zak-	z a k
+1	zahrali	z a h r a l i
+1	zahnutie	z a h n u tʲ i  e
+1	zadným	z a d n iː m
+1	zadný	z a d n iː
+1	zadnou	z a d n oʊ
+1	zacingal	z a ts i ŋ ɡ a l
+1	ypsilonová	i p s i l o n o v aː
+1	windowse	v i n d o w s e
+1	všetkého	f ʃ e t k eː h o
+1	všet-	f ʃ e t
+1	všelijaké	f ʃ e l i j a k eː
+1	výškovej	v iː ʃ k o v e j
+1	výš-	v iː ʃ
+1	výčnelok	v iː tʃ ɲ e l o k
+1	výstupku	v iː s t u p k u
+1	výska	v iː s k a
+1	výrazný	v iː r a z n iː
+1	výrazne	v iː r a z ɲ e
+1	výklenky	v iː k l e ŋ k i
+1	výklenku	v iː k l e ŋ k u
+1	výklenkom	v iː k l e ŋ k o m
+1	výk-	v iː k
+1	vôľa	v u o ʎ a
+1	vítame	v iː t a m e
+1	véčka	v eː tʃ k a
+1	vzory	v z o r i
+1	vznikol	v z ɲ i k o l
+1	vznikne	v z ɲ i k ɲ e
+1	vzduchu	v z d u x u
+1	vzdialeno-	v z dʲ i  a l e n o
+1	vzadšie	v z a t ʃ i  e
+1	vz-	v z
+1	vyššiu	v i ʃ ʃ i  u
+1	vyššia	v i ʃ ʃ i  a
+1	vyškerená	v i ʃ k e r e n aː
+1	vyš-	v i ʃ
+1	vyčnievajúcim	v i tʃ ɲ i  e v a j uː ts i m
+1	vyčnievajúci	v i tʃ ɲ i  e v a j uː ts i
+1	vyčnievajúceho	v i tʃ ɲ i  e v a j uː ts e h o
+1	vyčnievajúce	v i tʃ ɲ i  e v a j uː ts e
+1	vyčnievajúca	v i tʃ ɲ i  e v a j uː ts a
+1	vyčnievajú	v i tʃ ɲ i  e v a j uː
+1	vyzerať	v i z e r a tʲ
+1	vyzdvihne	v i z d v i h ɲ e
+1	vytŕčajúce	v i t r̩ː tʃ a j uː ts e
+1	vytŕčajúca	v i t r̩ː tʃ a j uː ts a
+1	vytvorí	v i t v o r iː
+1	vyt-	v i t
+1	vysvetľujem	v i s v e t ʎ u j e m
+1	vysvetľovali	v i s v e t ʎ o v a l i
+1	vysvetľoval	v i s v e t ʎ o v a l
+1	vysvetli	v i s v e t l i
+1	vystupujú	v i s t u p u j uː
+1	vystupuje	v i s t u p u j e
+1	vystretá	v i s t r e t aː
+1	vysoká	v i s o k aː
+1	vyskúšame	v i s k uː ʃ a m e
+1	vyrátať	v i r aː t a tʲ
+1	vyráta-	v i r aː t a
+1	vypínač	v i p iː n a tʃ
+1	vypínanie	v i p iː n a ɲ i  e
+1	vypuklé	v i p u k l eː
+1	vynechané	v i ɲ e x a n eː
+1	vymerané	v i m e r a n eː
+1	vyliezlo	v i l i  e z l o
+1	vylezie	v i l e z i  e
+1	vykúkal	v i k uː k a l
+1	vykúkajú	v i k uː k a j uː
+1	vykvi	v i k v i
+1	vyk-	v i k
+1	vyjsť	v i j s tʲ
+1	vyberáva	v i b e r aː v a
+1	vtedy	f t e d i
+1	vráť	v r aː tʲ
+1	vrátim	v r aː tʲ i m
+1	vrcholkom	v r̩ x o l k o m
+1	vrchole	v r̩ x o l e
+1	vrcholca	v r̩ x o l ts a
+1	vrcho-	v r̩ x o
+1	vrchné	v r̩ x n eː
+1	vrchnejšej	v r̩ x ɲ e j ʃ e j
+1	vrcha	v r̩ x a
+1	vravíš	v r a v iː ʃ
+1	vravíte	v r a v iː tʲ e
+1	vraveli	v r a v e l i
+1	vravela	v r a v e l a
+1	vravel	v r a v e l
+1	vracia	v r a ts i  a
+1	vpra-	f p r a
+1	voľný	v o ʎ n iː
+1	voči	v o tʃ i
+1	vonku	v o ŋ k u
+1	vonkajšom	v o ŋ k a j ʃ o m
+1	vonkajšieho	v o ŋ k a j ʃ i  e h o
+1	voláš	v o l aː ʃ
+1	vole	v o l e
+1	volať	v o l a tʲ
+1	volaš	v o l a ʃ
+1	vodorovného	v o d o r o v n eː h o
+1	vo-	v o
+1	vnútorný	v n uː t o r n iː
+1	vnútornú	v n uː t o r n uː
+1	vnútorná	v n uː t o r n aː
+1	vn-	v n
+1	vlákna	v l aː k n a
+1	vložte	v l o ʃ tʲ e
+1	vložiť	v l o ʒ i tʲ
+1	vložená	v l o ʒ e n aː
+1	vlastných	v l a s t n iː x
+1	vlasmi	v l a s m i
+1	vlak	v l a k
+1	vla-	v l a
+1	vla	v l a
+1	visačky	v i s a tʃ k i
+1	visačku	v i s a tʃ k u
+1	vieme	v i  e m e
+1	viedla	v i  e d l a
+1	vidíme	v i dʲ iː m e
+1	vidit-	v i dʲ i t
+1	videniu	v i d e ɲ i  u
+1	videl	v i dʲ e l
+1	vid-	v i t
+1	veľryby	v e ʎ r i b i
+1	veľrybu	v e ʎ r i b u
+1	veľrybou	v e ʎ r i b oʊ
+1	veľkého	v e ʎ k eː h o
+1	veľkom	v e ʎ k o m
+1	vezmem	v e z m e m
+1	vez-	v e s
+1	vetvy	v e t v i
+1	verili	v e r i l i
+1	vecami	v e ts a m i
+1	vec	v e ts
+1	ve-	v e
+1	vanilkovej	v a ɲ i l k o v e j
+1	vajíčkoma	v a j iː tʃ k o m a
+1	vaječné	v a j e tʃ n eː
+1	vajcia	v a j ts i  a
+1	vadný	v a d n iː
+1	ušká	u ʃ k aː
+1	uško	u ʃ k o
+1	uškami	u ʃ k a m i
+1	uvedomujem	u v e d o m u j e m
+1	určitom	u r tʃ i t o m
+1	urobíte	u r o b iː tʲ e
+1	urobíme	u r o b iː m e
+1	urobím	u r o b iː m
+1	urobený	u r o b e n iː
+1	upresníme	u p r e s ɲ iː m e
+1	upresni	u p r e s ɲ i
+1	upozorni	u p o z o r ɲ i
+1	uponáhľal	u p o n aː h ʎ a l
+1	upnuté	u p n u t eː
+1	umistnite	u m i s t ɲ i tʲ e
+1	umiestňuješ	u m i  e s t ɲ u j e ʃ
+1	umiestňujete	u m i  e s t ɲ u j e tʲ e
+1	umiestnila	u m i  e s t ɲ i l a
+1	umiestnenú	u m i  e s t ɲ e n uː
+1	umiestneného	u m i  e s t ɲ e n eː h o
+1	umiestnenie	u m i  e s t ɲ e ɲ i  e
+1	uložený	u l o ʒ e n iː
+1	uložené	u l o ʒ e n eː
+1	ukázalo	u k aː z a l o
+1	ukazováku	u k a z o v aː k u
+1	ukazovákom	u k a z o v aː k o m
+1	ukazovateľa	u k a z o v a tʲ e ʎ a
+1	ukazovateli	u k a z o v a tʲ e l i
+1	uh-ah-ah-ah-ah-ah	u h a h a h a h a h a x
+1	ufónovi	u f oː n o v i
+1	ufom	u f o m
+1	ubi-	u b i
+1	tú-	t uː
+1	tí	t iː
+1	ty-	t i
+1	tvoriť	t v o r i tʲ
+1	tvojho	t v o j h o
+1	tvarovaný	t v a r o v a n iː
+1	tvar	t v a r
+1	tuná	t u n aː
+1	tuleň	t u l e ɲ
+1	tu:	t u
+1	tu-	t u
+1	ts	t eː e s
+1	trčala	t r̩ tʃ a l a
+1	trč-	t r̩ tʃ
+1	trvať	t r̩ v a tʲ
+1	trošičk-	t r o ʃ i tʃ k
+1	trošinku	t r o ʃ i ŋ k u
+1	trošilinku	t r o ʃ i l i ŋ k u
+1	trošilililinku	t r o ʃ i l i l i l i ŋ k u
+1	tromi	t r o m i
+1	troma	t r o m a
+1	trojuholníčkový	t r o j u h o l ɲ iː tʃ k o v iː
+1	trojuholníku	t r o j u h o l ɲ iː k u
+1	troju-	t r o j u
+1	trojpixelová	t r o j p i k s e l o v aː
+1	tro-	t r o
+1	trištvrte	t r i ʃ t v r̩ tʲ e
+1	trinásť	t r i n aː s tʲ
+1	tridsať	t r i t s a tʲ
+1	tretinu	t r e tʲ i n u
+1	tretiemu	t r e tʲ i  e m u
+1	traky	t r a k i
+1	trakov	t r a k o w
+1	trakom	t r a k o m
+1	trakami	t r a k a m i
+1	tr-	t r̩
+1	torze	t o r z e
+1	toh-	t o x
+1	tmavšie	t m a w ʃ i  e
+1	tmavé	t m a v eː
+1	tmavomodrá	t m a v o m o d r aː
+1	tmavej	t m a v e j
+1	tlape	t l a p e
+1	tieň	tʲ i  e ɲ
+1	tie-	t i  e
+1	tichý	tʲ i x iː
+1	teším	tʲ e ʃ iː m
+1	testujú	t e s t u j uː
+1	test	t e s t
+1	tera-	t e r a
+1	teploty	tʲ e p l o t i
+1	tento	t e n t o
+1	tenkou	tʲ e ŋ k oʊ
+1	ten-	t e n
+1	temene	tʲ e m e ɲ e
+1	telu	tʲ e l u
+1	teba	tʲ e b a
+1	takými	t a k iː m i
+1	takým	t a k iː m
+1	taký-	t a k iː
+1	takéto	t a k eː t o
+1	takou	t a k oʊ
+1	takom	t a k o m
+1	tako-	t a k o
+1	taj	t a j
+1	ta/	t a
+1	ta	t a
+1	t	t eː
+1	sčo	s tʃ o
+1	súčasťou	s uː tʃ a s tʲ oʊ
+1	súčasť	s uː tʃ a s tʲ
+1	sústreď	s uː s t r e tʲ
+1	súradnicový	s uː r a d ɲ i ts o v iː
+1	súbežné	s uː b e ʒ n eː
+1	súbežná	s uː b e ʒ n aː
+1	súbežne	s uː b e ʒ ɲ e
+1	síc-	s iː ts
+1	systém	s i s t eː m
+1	svojej	s v o j e j
+1	svetlých	s v e t l iː x
+1	svetlý	s v e t l iː
+1	svetlú	s v e t l uː
+1	svetlé	s v e t l eː
+1	svetlohnedou	s v e t l o h ɲ e d oʊ
+1	svetlejšie	s v e t l e j ʃ i  e
+1	suh	s u x
+1	stĺpec	s t l̩ː p e ts
+1	stál	s t aː l
+1	strom	s t r o m
+1	striedať	s t r i  e d a tʲ
+1	stretávajú	s t r e t aː v a j uː
+1	stretnú	s t r e t n uː
+1	stredy	s t r e d i
+1	stredná	s t r e d n aː
+1	strednom	s t r e d n o m
+1	strednej	s t r e d n e j
+1	stračatela	s t r a tʃ a tʲ e l a
+1	stratí	s t r a tʲ iː
+1	stratilo	s t r a tʲ i l o
+1	stratených	s t r a tʲ e n iː x
+1	stranách	s t r a n aː x
+1	stovka	s t o w k a
+1	stopku	s t o p k u
+1	stonku	s t o ŋ k u
+1	stonkou	s t o ŋ k oʊ
+1	stoji	s t o j i
+1	stlačíme	s t l a tʃ iː m e
+1	stlačte	s t l a tʃ tʲ e
+1	stihli	s tʲ i h l i
+1	stenou	s tʲ e n oʊ
+1	stena	s tʲ e n a
+1	stehne	s tʲ e h ɲ e
+1	stane	s t a ɲ e
+1	stade	s t a d e
+1	srsť	s r̩ s tʲ
+1	spýtala	s p iː t a l a
+1	spájajú	s p aː j a j uː
+1	spája	s p aː j a
+1	spustím	s p u s tʲ iː m
+1	správne	s p r aː v n e
+1	spra-	s p r a
+1	spočívať	s p o tʃ iː v a tʲ
+1	spočítaj	s p o tʃ iː t a j
+1	spora-	s p o r a
+1	spomínal	s p o m iː n a l
+1	spolupracovať	s p o l u p r a ts o v a tʲ
+1	spodna	s p o d n a
+1	spod-	s p o t
+1	spod	s p o t
+1	spadnúť	s p a d n uː tʲ
+1	spadli	s p a d l i
+1	sp	e s p eː
+1	sory	s o r i
+1	snažím	s n a ʒ iː m
+1	smutná	s m u t n aː
+1	smerujú	s m e r u j uː
+1	sm-	s m
+1	slová	s l o v aː
+1	slon	s l o n
+1	sladkosť	s l a t k o s tʲ
+1	slabý	s l a b iː
+1	slabého	s l a b eː h o
+1	slabé	s l a b eː
+1	slabo	s l a b o
+1	sl-	s l
+1	skúšam	s k uː ʃ a m
+1	skrčené	s k r̩ tʃ e n eː
+1	skočiť	s k o tʃ i tʲ
+1	skosená	s k o s e n aː
+1	skončíte	s k o n tʃ iː tʲ e
+1	skončí	s k o n tʃ iː
+1	skontrolujte	s k o n t r o l u j tʲ e
+1	skontrolujem	s k o n t r o l u j e m
+1	skontrolovať	s k o n t r o l o v a tʲ
+1	skladá	s k l a d aː
+1	serus	s e r u s
+1	sem	s e m
+1	sedia	s e dʲ i  a
+1	sedemdesiatpäť	s e dʲ e m dʲ e s i  a t p e tʲ
+1	sedemdesiatosem	s e dʲ e m dʲ e s i  a t o s e m
+1	sedemdesiat	s e dʲ e m dʲ e s i  a t
+1	se-	s e
+1	schováva	s x o v aː v a
+1	schovám	s x o v aː m
+1	schová	s x o v aː
+1	schovaný	s x o v a n iː
+1	schované	s x o v a n eː
+1	schodíku	s x o dʲ iː k u
+1	sch-	s x
+1	sch	e s ts eː h aː
+1	samý	s a m iː
+1	samé	s a m eː
+1	samotná	s a m o t n aː
+1	sako	s a k o
+1	sadlo	s a d l o
+1	rúčke	r uː tʃ k e
+1	rúčka	r uː tʃ k a
+1	rúk	r uː k
+1	ráta	r aː t a
+1	rásť	r aː s tʲ
+1	ráme	r aː m e
+1	rámci	r aː m ts i
+1	rám	r aː m
+1	ryhu	r i h u
+1	ružica	r u ʒ i ts a
+1	rušičku	r u ʃ i tʃ k u
+1	ruke,	r u k e
+1	rožtekom	r o ʃ tʲ e k o m
+1	rožtek	r o ʃ tʲ e k
+1	rozštiepuje	r o s ʃ tʲ i  e p u j e
+1	rozštiepená	r o s ʃ tʲ i  e p e n aː
+1	rozvážnejšie	r o z v aː ʒ ɲ e j ʃ i  e
+1	rozumieš	r o z u m i  e ʃ
+1	rozmýšľam	r o z m iː ʃ ʎ a m
+1	rozmýšlam	r o z m iː ʃ l a m
+1	rozmiestnené	r o z m i  e s t ɲ e n eː
+1	rozkrok	r o s k r o k
+1	rozhranie	r o s h r a ɲ i  e
+1	rozhodilo	r o s h o dʲ i l o
+1	rozdvojujú	r o z d v o j u j uː
+1	rozdvojenosť	r o z d v o j e n o s tʲ
+1	rozdeľuje	r o z dʲ e ʎ u j e
+1	rozdelenie	r o z dʲ e l e ɲ i  e
+1	roz-	r o s
+1	rovnobežný	r o v n o b e ʒ n iː
+1	rovnobežku	r o v n o b e ʃ k u
+1	rovnejší	r o v ɲ e j ʃ iː
+1	rovnej	r o v n e j
+1	rovnaké	r o v n a k eː
+1	rovnakkej	r o v n a k k e j
+1	rovna-	r o v n a
+1	rovn-	r o v n
+1	roviny	r o v i n i
+1	rosorožca	r o s o r o ʃ ts a
+1	rohoch	r o h o x
+1	roho-	r o h o
+1	robíte	r o b iː tʲ e
+1	robia	r o b i  a
+1	riešiť	r i  e ʃ i tʲ
+1	riadi	r i  a dʲ i
+1	rezného	r e z n eː h o
+1	relatívne	r e l a t iː v ɲ e
+1	rekordu	r e k o r d u
+1	ramenom	r a m e n o m
+1	radom	r a d o m
+1	radi	r a dʲ i
+1	rade	r a d e
+1	pôvodne	p u o v o d ɲ e
+1	pôjdeš	p u o j dʲ e ʃ
+1	pôjdem	p u o j dʲ e m
+1	pôjde	p u o j dʲ e
+1	pô-	p u o
+1	päťdesiat	p e dʲ dʲ e s i  a t
+1	pä-	p e
+1	pásu	p aː s u
+1	pásiky	p aː s i k i
+1	pásik	p aː s i k
+1	páse	p aː s e
+1	pás	p aː s
+1	pádom	p aː d o m
+1	pustil	p u s tʲ i l
+1	puse	p u s e
+1	ps-	p s
+1	prčic	p r̩ tʃ i ts
+1	prútu	p r uː t u
+1	príklady	p r iː k l a d i
+1	prázdnu	p r aː z d n u
+1	prázdna	p r aː z d n a
+1	práva	p r aː v a
+1	prvému	p r̩ v eː m u
+1	prstom	p r̩ s t o m
+1	prstoch	p r̩ s t o x
+1	prostried-	p r o s t r i  e t
+1	prostredného	p r o s t r e d n eː h o
+1	pros-	p r o s
+1	programu	p r o ɡ r a m u
+1	profil	p r o f i l
+1	pritisnutá	p r i tʲ i s n u t aː
+1	pripev-	p r i p e w
+1	prilo-	p r i l o
+1	prierez	p r i  e r e s
+1	priehlbinou	p r i  e h l̩ b i n oʊ
+1	priehlbinku	p r i  e h l̩ b i ŋ k u
+1	priehlbinka	p r i  e h l̩ b i ŋ k a
+1	priehlavku	p r i  e h l a w k u
+1	priehl-	p r i  e h l̩
+1	priebl-	p r i  e b l̩
+1	priblížiš	p r i b l iː ʒ i ʃ
+1	približné	p r i b l i ʒ n eː
+1	pri-	p r i
+1	prečnievajúci	p r e tʃ ɲ i  e v a j uː ts i
+1	prevej	p r e v e j
+1	pretŕčali	p r e t r̩ː tʃ a l i
+1	pretŕča	p r e t r̩ː tʃ a
+1	pretínajú	p r e tʲ iː n a j uː
+1	preto	p r e t o
+1	pretne	p r e t ɲ e
+1	presúvať	p r e s uː v a tʲ
+1	presuňte	p r e s u ɲ tʲ e
+1	presunúť	p r e s u n uː tʲ
+1	presunul	p r e s u n u l
+1	prestaň	p r e s t a ɲ
+1	prestane	p r e s t a ɲ e
+1	presná	p r e s n aː
+1	presn-	p r e s n
+1	pres-	p r e s
+1	prerušované	p r e r u ʃ o v a n eː
+1	prerušila	p r e r u ʃ i l a
+1	prerušený	p r e r u ʃ e n iː
+1	prerezávať	p r e r e z aː v a tʲ
+1	preniesli	p r e ɲ i  e s l i
+1	prekrývaš	p r e k r iː v a ʃ
+1	prekrývala	p r e k r iː v a l a
+1	prekryté	p r e k r i t eː
+1	prekrylo	p r e k r i l o
+1	prekryli	p r e k r i l i
+1	prekryla	p r e k r i l a
+1	prekryjete	p r e k r i j e tʲ e
+1	prekryjem	p r e k r i j e m
+1	prekročí	p r e k r o tʃ iː
+1	prekonali	p r e k o n a l i
+1	preklikuje	p r e k l i k u j e
+1	prehýnajúcej	p r e h iː n a j uː ts e j
+1	prehne	p r e h ɲ e
+1	predšie	p r e t ʃ i  e
+1	predĺžim	p r e d l̩ː ʒ i m
+1	predĺžili	p r e d l̩ː ʒ i l i
+1	predstavte	p r e t s t a w tʲ e
+1	predstaviť	p r e t s t a v i tʲ
+1	predpredposledným	p r e t p r e t p o s l e d n iː m
+1	predposlednou	p r e t p o s l e d n oʊ
+1	predným	p r e d n iː m
+1	predný	p r e d n iː
+1	predel	p r e dʲ e l
+1	predchádzajúca	p r e t x aː dz a j uː ts a
+1	prechádzaš	p r e x aː dz a ʃ
+1	prechádzal	p r e x aː dz a l
+1	preblikuje	p r e b l i k u j e
+1	preblikne	p r e b l i k ɲ e
+1	pravých	p r a v iː x
+1	pravému	p r a v eː m u
+1	pravo	p r a v o
+1	prave-	p r a v e
+1	pravdu	p r a w d u
+1	poľa	p o ʎ a
+1	počúvajte	p o tʃ uː v a j tʲ e
+1	počítate	p o tʃ iː t a tʲ e
+1	počít-	p o tʃ iː t
+1	počuť	p o tʃ u tʲ
+1	počuješ	p o tʃ u j e ʃ
+1	počujete	p o tʃ u j e tʲ e
+1	počkajt-	p o tʃ k a j t
+1	poč-	p o tʃ
+1	pozriete	p o z r i  e tʲ e
+1	pozrieme	p o z r i  e m e
+1	pozriem	p o z r i  e m
+1	pozrem	p o z r e m
+1	pozor	p o z o r
+1	pozadím	p o z a dʲ iː m
+1	pozadí	p o z a dʲ iː
+1	pozadie	p o z a dʲ i  e
+1	poza	p o z a
+1	povie	p o v i  e
+1	pove-	p o v e
+1	použijem	p oʊ ʒ i j e m
+1	potrebovali	p o t r e b o v a l i
+1	potrebné	p o t r e b n eː
+1	potiahnutú	p o tʲ i  a h n u t uː
+1	potiahnete	p o tʲ i  a h ɲ e tʲ e
+1	potiahli	p o tʲ i  a h l i
+1	pot-	p o t
+1	posúvate	p o s uː v a tʲ e
+1	posúdiť	p o s uː dʲ i tʲ
+1	posuť-	p o s u tʲ
+1	posunú-	p o s u n uː
+1	posunuli	p o s u n u l i
+1	posunula	p o s u n u l a
+1	posuniete	p o s u ɲ i  e tʲ e
+1	posun	p o s u n
+1	postavil	p o s t a v i l
+1	postavený	p o s t a v e n iː
+1	postava	p o s t a v a
+1	poslednú	p o s l e d n uː
+1	poslednom	p o s l e d n o m
+1	poslednej	p o s l e d n e j
+1	poskočila	p o s k o tʃ i l a
+1	porátať	p o r aː t a tʲ
+1	porovnáš	p o r o v n aː ʃ
+1	porovnanie	p o r o v n a ɲ i  e
+1	porovnaj	p o r o v n a j
+1	poriadnu	p o r i  a d n u
+1	pora-	p o r a
+1	popíšem	p o p iː ʃ e m
+1	popísal	p o p iː s a l
+1	popredí	p o p r e dʲ iː
+1	poplietol	p o p l i  e t o l
+1	popisujete	p o p i s u j e tʲ e
+1	pop-	p o p
+1	poniže	p o ɲ i ʒ e
+1	pomýli	p o m iː l i
+1	pomôcť	p o m u o ts tʲ
+1	pomohlo	p o m o h l o
+1	pomocou	p o m o ts oʊ
+1	pomaličky	p o m a l i tʃ k i
+1	políčku	p o l iː tʃ k u
+1	položíte	p o l o ʒ iː tʲ e
+1	polovičky	p o l o v i tʃ k i
+1	polovi-	p o l o v i
+1	polo-	p o l o
+1	polky	p o l k i
+1	polku	p o l k u
+1	polkruhu	p o l k r u h u
+1	poli	p o l i
+1	pokračovanie	p o k r a tʃ o v a ɲ i  e
+1	pokračovala	p o k r a tʃ o v a l a
+1	pokiaľ	p o k i  a ʎ
+1	pohľad	p o h ʎ a t
+1	pohybujem	p o h i b u j e m
+1	pohrať	p o h r a tʲ
+1	pohnutí	p o h n u tʲ iː
+1	podržať	p o d r̩ ʒ a tʲ
+1	podobné	p o d o b n eː
+1	podarilo	p o d a r i l o
+1	pod-	p o t
+1	pobabrať	p o b a b r a tʲ
+1	pobabrala	p o b a b r a l a
+1	plochy	p l o x i
+1	plná	p l̩ n aː
+1	pletiem	p l e tʲ i  e m
+1	plecom	p l e ts o m
+1	pleca	p l e ts a
+1	pl-	p l
+1	pixlov	p i k s l o w
+1	pixelíkom	p i k s e l iː k o m
+1	pixelík	p i k s e l iː k
+1	pixelová	p i k s e l o v aː
+1	pixelom	p i k s e l o m
+1	pixeloch	p i k s e l o x
+1	pixelmi	p i k s e l m i
+1	pixele	p i k s e l e
+1	pixelami	p i k s e l a m i
+1	pix-	p i k s
+1	piksel	p i k s e l
+1	piatej	p i  a t e j
+1	piata	p i  a t a
+1	piat-	p i  a t
+1	pex-	p e k s
+1	pevedzme	p e v e dz m e
+1	perspektívy	p e r s p e k t iː v i
+1	percentá	p e r ts e n t aː
+1	peme-	p e m e
+1	pekry-	p e k r i
+1	pe-	p e
+1	pazúrov	p a z uː r o w
+1	pazúrmi	p a z uː r m i
+1	pazúre	p a z uː r e
+1	patria	p a t r i  a
+1	parac-	p a r a ts
+1	papuľu	p a p u ʎ u
+1	papier	p a p i  e r
+1	pane	p a ɲ e
+1	pan-	p a n
+1	paličkou	p a l i tʃ k oʊ
+1	pahýľa	p a h iː ʎ a
+1	padnú	p a d n uː
+1	padne	p a d ɲ e
+1	padlo	p a d l o
+1	označím	o z n a tʃ iː m
+1	ozdoby	o z d o b i
+1	oveľa	o v e ʎ a
+1	overenie	o v e r e ɲ i  e
+1	otázku	o t aː s k u
+1	otočiť	o t o tʃ i tʲ
+1	ostrý	o s t r iː
+1	ostala	o s t a l a
+1	ostal	o s t a l
+1	osi	o s i
+1	osemdesiatštyri	o s e m dʲ e s i  a t ʃ t i r i
+1	osemdesiattri	o s e m dʲ e s i  a t t r i
+1	osemdesiatjedna	o s e m dʲ e s i  a t j e d n a
+1	os	o s
+1	opíšem	o p iː ʃ e m
+1	opäť	o p e tʲ
+1	oprieme	o p r i  e m e
+1	opraviť	o p r a v i tʲ
+1	oplatilo	o p l a tʲ i l o
+1	opičej	o p i tʃ e j
+1	opisuje	o p i s u j e
+1	opica	o p i ts a
+1	opasok	o p a s o k
+1	opasku	o p a s k u
+1	op-	o p
+1	oný	o n iː
+1	oná	o n aː
+1	okrúhle	o k r uː h l e
+1	okrajom	o k r a j o m
+1	okom	o k o m
+1	okienkami	o k i  e ŋ k a m i
+1	oj	o j
+1	ohyb	o h i p
+1	ohraničuje	o h r a ɲ i tʃ u j e
+1	ofiny	o f i n i
+1	of	o f
+1	odzadu	o dz a d u
+1	odtieň	o t tʲ i  e ɲ
+1	odtiaľto	o t tʲ i  a ʎ t o
+1	odrež	o d r e ʃ
+1	odpočinúť	o t p o tʃ i n uː tʲ
+1	odniesť	o d ɲ i  e s tʲ
+1	odnavigovať	o d n a v i ɡ o v a tʲ
+1	odmerať	o d m e r a tʲ
+1	odkryje	o t k r i j e
+1	odklikol	o t k l i k o l
+1	odkiaľ	o t k i  a ʎ
+1	odkade	o t k a d e
+1	odhora	o t h o r a
+1	odhadom	o t h a d o m
+1	odhadnúť	o t h a d n uː tʲ
+1	odhadla	o t h a d l a
+1	odha-	o t h a
+1	oddelí	o d dʲ e l iː
+1	odborne	o d b o r ɲ e
+1	obvodovej	o b v o d o v e j
+1	obsah	o p s a x
+1	obrátená	o b r aː tʲ e n aː
+1	obrysy	o b r i s i
+1	obrysová	o b r i s o v aː
+1	obrysom	o b r i s o m
+1	obryse	o b r i s e
+1	obrus	o b r u s
+1	obruby	o b r u b i
+1	obrubu	o b r u b u
+1	obrazy	o b r a z i
+1	obrazovky	o b r a z o w k i
+1	obmedzení	o b m e dz e ɲ iː
+1	oblúčiky	o b l uː tʃ i k i
+1	obkreslenú	o p k r e s l e n uː
+1	objem	o b j e m
+1	objavuje	o b j a v u j e
+1	objavia	o b j a v i  a
+1	obidvoch	o b i d v o x
+1	obidve	o b i d v e
+1	obidva	o b i d v a
+1	obdĺžničky	o b d l̩ː ʒ ɲ i tʃ k i
+1	obdĺžniček	o b d l̩ː ʒ ɲ i tʃ e k
+1	obdĺžnik	o b d l̩ː ʒ ɲ i k
+1	náročné	n aː r o tʃ n eː
+1	nápisom	n aː p i s o m
+1	nápad	n aː p a t
+1	nájdi	n aː j dʲ i
+1	nájdete	n aː j dʲ e tʲ e
+1	nula	n u l a
+1	nožičky	n o ʒ i tʃ k i
+1	nožička	n o ʒ i tʃ k a
+1	nová	n o v aː
+1	nosu	n o s u
+1	nosorožom	n o s o r o ʒ o m
+1	nosorožia	n o s o r o ʒ i  a
+1	nosorožcovými	n o s o r o ʃ ts o v iː m i
+1	nosorožcovým	n o s o r o ʃ ts o v iː m
+1	nosorožcových	n o s o r o ʃ ts o v iː x
+1	nosorožcového	n o s o r o ʃ ts o v eː h o
+1	nosorožcovom	n o s o r o ʃ ts o v o m
+1	nosorožcove	n o s o r o ʃ ts o v e
+1	nosorožco-	n o s o r o ʃ ts o
+1	nosoroh	n o s o r o x
+1	nosoro-	n o s o r o
+1	noso-	n o s o
+1	nohám	n o h aː m
+1	nohách	n o h aː x
+1	no-	n o
+1	nižk-	ɲ i ʃ k
+1	ničomu	ɲ i tʃ o m u
+1	nikto	ɲ i k t o
+1	nikdy	ɲ i k d i
+1	nik	ɲ i k
+1	niečím	ɲ i  e tʃ iː m
+1	niečoho	ɲ i  e tʃ o h o
+1	niekedy	ɲ i  e k e d i
+1	nhn	e n h aː e n
+1	nešťastný	ɲ e ʃ tʲ a s t n iː
+1	nezreteľné	ɲ e z r e tʲ e ʎ n eː
+1	nezdá	ɲ e z d aː
+1	nevšímaj	ɲ e w ʃ iː m a j
+1	nevyšlo	ɲ e v i ʃ l o
+1	nevyzerá	ɲ e v i z e r aː
+1	nevyhráš	ɲ e v i h r aː ʃ
+1	nevojde	ɲ e v o j dʲ e
+1	nevie-	ɲ e v i  e
+1	nevid-	ɲ e v i t
+1	nev-	ɲ e w
+1	netreba	ɲ e t r e b a
+1	netrafíme	ɲ e t r a f iː m e
+1	nesmeruje	ɲ e s m e r u j e
+1	neskoro	ɲ e s k o r o
+1	neráta	ɲ e r aː t a
+1	nerozumiete	ɲ e r o z u m i  e tʲ e
+1	nerobím	ɲ e r o b iː m
+1	neriešim	ɲ e r i  e ʃ i m
+1	nepribližuje	ɲ e p r i b l i ʒ u j e
+1	neprekr-	ɲ e p r e k r̩
+1	neprekonali	ɲ e p r e k o n a l i
+1	nepočítam	ɲ e p o tʃ iː t a m
+1	nepočíta	ɲ e p o tʃ iː t a
+1	nepoznáš	ɲ e p o z n aː ʃ
+1	neposuňte	ɲ e p o s u ɲ tʲ e
+1	neposunul	ɲ e p o s u n u l
+1	nepohlo	ɲ e p o h l o
+1	nepochopili	ɲ e p o x o p i l i
+1	nepochopila	ɲ e p o x o p i l a
+1	nepatrne	ɲ e p a t r̩ ɲ e
+1	nena-	ɲ e n a
+1	nemôže	ɲ e m u o ʒ e
+1	nemáme	ɲ e m aː m e
+1	nemusíme	ɲ e m u s iː m e
+1	nemusím	ɲ e m u s iː m
+1	nemusí	ɲ e m u s iː
+1	nemerala	ɲ e m e r a l a
+1	nemali	ɲ e m a l i
+1	nemala	ɲ e m a l a
+1	nemajú	ɲ e m a j uː
+1	nem-	ɲ e m
+1	nelimitovaný	ɲ e l i m i t o v a n iː
+1	nekliknúť	ɲ e k l i k n uː tʲ
+1	nehýb	ɲ e h iː p
+1	neháme	ɲ e h aː m e
+1	nehovorím	ɲ e h o v o r iː m
+1	nehovorte	ɲ e h o v o r tʲ e
+1	nefunguje	ɲ e f u ŋ ɡ u j e
+1	nedával	ɲ e d aː v a l
+1	nedávaj	ɲ e d aː v a j
+1	nedáme	ɲ e d aː m e
+1	nedotýkal	ɲ e d o t iː k a l
+1	nedosahuje	ɲ e d o s a h u j e
+1	nedobehneme	ɲ e d o b e h ɲ e m e
+1	nedo-	ɲ e d o
+1	nedalo	ɲ e d a l o
+1	nechám	ɲ e x aː m
+1	nechce	ɲ e x ts e
+1	nechajme	ɲ e x a j m e
+1	necelého	ɲ e ts e l eː h o
+1	necelé	ɲ e ts e l eː
+1	nebol	ɲ e b o l
+1	neblikajú	ɲ e b l i k a j uː
+1	nebaví	ɲ e b a v iː
+1	neb-	ɲ e p
+1	nead-	ɲ e a t
+1	našeho	n a ʃ e h o
+1	naše-	n a ʃ e
+1	naň	n a ɲ
+1	nazvať	n a z v a tʲ
+1	navyšší	n a v i ʃ ʃ iː
+1	navrch	n a v r̩ x
+1	navigácie	n a v i ɡ aː ts i  e
+1	naviguješ	n a v i ɡ u j e ʃ
+1	navigujete	n a v i ɡ u j e tʲ e
+1	nav-	n a w
+1	naučili	n a u tʃ i l i
+1	natvrdlá	n a t v r̩ d l aː
+1	natrápime	n a t r aː p i m e
+1	nastavovanie	n a s t a v o v a ɲ i  e
+1	naspodu	n a s p o d u
+1	naskočilo	n a s k o tʃ i l o
+1	naprostriedku	n a p r o s t r i  e t k u
+1	naparovania	n a p a r o v a ɲ i  a
+1	naparovací	n a p a r o v a ts iː
+1	nap-	n a p
+1	naozaj	n a o z a j
+1	naostro	n a o s t r o
+1	nami	n a m i
+1	namerať	n a m e r a tʲ
+1	nakreslenú	n a k r e s l e n uː
+1	nakreslená	n a k r e s l e n aː
+1	nakope	n a k o p e
+1	najšpicatejšou	n a j ʃ p i ts a tʲ e j ʃ oʊ
+1	najľavejší	n a j ʎ a v e j ʃ iː
+1	najľavejšieho	n a j ʎ a v e j ʃ i  e h o
+1	najľahšie	n a j ʎ a h ʃ i  e
+1	najďalej	n a j dʲ a l e j
+1	najzadnejšej	n a j z a d ɲ e j ʃ e j
+1	najväčší	n a j v e tʃ ʃ iː
+1	najväčšom	n a j v e tʃ ʃ o m
+1	najvä-	n a j v e
+1	najvyššou	n a j v i ʃ ʃ oʊ
+1	najvyššom	n a j v i ʃ ʃ o m
+1	najvyššiu	n a j v i ʃ ʃ i  u
+1	najvyššie	n a j v i ʃ ʃ i  e
+1	najvy-	n a j v i
+1	najvrchnejšiu	n a j v r̩ x ɲ e j ʃ i  u
+1	najvia-	n a j v i  a
+1	najv-	n a j v
+1	najtmavšie	n a j t m a w ʃ i  e
+1	najspodnejšiu	n a j s p o d ɲ e j ʃ i  u
+1	najspodnejšie	n a j s p o d ɲ e j ʃ i  e
+1	najspodnejšia	n a j s p o d ɲ e j ʃ i  a
+1	najsampravejší	n a j s a m p r a v e j ʃ iː
+1	najpredšie	n a j p r e t ʃ i  e
+1	najprednejšiu	n a j p r e d ɲ e j ʃ i  u
+1	najprednejšej	n a j p r e d ɲ e j ʃ e j
+1	najpravejšia	n a j p r a v e j ʃ i  a
+1	najpo-	n a j p o
+1	najnižšou	n a j ɲ i ʃ ʃ oʊ
+1	najnižšiu	n a j ɲ i ʃ ʃ i  u
+1	najnižšieho	n a j ɲ i ʃ ʃ i  e h o
+1	najnepresnejšie	n a j ɲ e p r e s ɲ e j ʃ i  e
+1	najmenej	n a j m e ɲ e j
+1	najlepšie	n a j l e p ʃ i  e
+1	najhoršie	n a j h o r ʃ i  e
+1	najhlbšie	n a j h l̩ p ʃ i  e
+1	najdlhšie	n a j d l̩ h ʃ i  e
+1	nahrávka	n a h r aː w k a
+1	nahrubo	n a h r u b o
+1	nahrať	n a h r a tʲ
+1	nahnutý	n a h n u t iː
+1	nahlas	n a h l a s
+1	naha	n a h a
+1	nah-	n a x
+1	nadpájala	n a t p aː j a l a
+1	nabudúce	n a b u d uː ts e
+1	n	e n
+1	mŕtvoly	m r̩ː t v o l i
+1	mŕtvolou	m r̩ː t v o l oʊ
+1	môžu	m u o ʒ u
+1	môžete	m u o ʒ e tʲ e
+1	môj	m u o j
+1	mínus	m iː n u s
+1	mímovi	m iː m o v i
+1	mímom	m iː m o m
+1	málokedy	m aː l o k e d i
+1	máličko	m aː l i tʃ k o
+1	málilinko	m aː l i l i ŋ k o
+1	myslí	m i s l iː
+1	mysleli	m i s l e l i
+1	morskú	m o r s k uː
+1	morské	m o r s k eː
+1	morskou	m o r s k oʊ
+1	mor-	m o r
+1	momente	m o m e n tʲ e
+1	mojimi	m o j i m i
+1	mohol	m o h o l
+1	moho	m o h o
+1	modrých	m o d r iː x
+1	modr-	m o d r̩
+1	mod-	m o t
+1	mobil	m o b i l
+1	mo-	m o
+1	mn-	m n
+1	mm/	m
+1	ml-	m l
+1	minipriestorček	m i n i p r i  e s t o r tʃ e k
+1	mini	m i n i
+1	mimožemšťanom	m i m o ʒ e m ʃ tʲ a n o m
+1	mimozemšťanu	m i m o z e m ʃ tʲ a n u
+1	mimozemšťanovým	m i m o z e m ʃ tʲ a n o v iː m
+1	mimozemšťanovu	m i m o z e m ʃ tʲ a n o v u
+1	mimo-	m i m o
+1	milimtere	m i l i m tʲ e r e
+1	milimetrová	m i l i m e t r o v aː
+1	mikrofónu	m i k r o f oː n u
+1	mihalnica	m i h a l ɲ i ts a
+1	miery	m i  e r i
+1	mi-	m i
+1	mh-	m h
+1	metódu	m e t oː d u
+1	metóda	m e t oː d a
+1	mesia-	m e s i  a
+1	mesi-	m e s i
+1	meráš	m e r aː ʃ
+1	mersiacom	m e r s i  a ts o m
+1	merali	m e r a l i
+1	menšie	m e n ʃ i  e
+1	menili	m e ɲ i l i
+1	medzierka	m e dz i  e r k a
+1	medzery	m e dz e r i
+1	medzeru	m e dz e r u
+1	mbre	m b r e
+1	maximálne	m a k s i m aː l ɲ e
+1	mat	m a t
+1	marťanovi	m a r tʲ a n o v i
+1	marťan	m a r tʲ a n
+1	mama	m a m a
+1	malým	m a l iː m
+1	malú	m a l uː
+1	malilinké	m a l i l i ŋ k eː
+1	malilinko	m a l i l i ŋ k o
+1	maku	m a k u
+1	mad-	m a t
+1	machuľkou	m a x u ʎ k oʊ
+1	machuľa	m a x u ʎ a
+1	ma-	m a
+1	línia	l iː n i  a
+1	lícujú	l iː ts u j uː
+1	lovo-	l o v o
+1	loptičky	l o p t i tʃ k i
+1	listami	l i s t a m i
+1	linky	l i ŋ k i
+1	levy	l e v i
+1	levovými	l e v o v iː m i
+1	levovu	l e v o v u
+1	levovom	l e v o v o m
+1	levovho	l e v o w h o
+1	levove	l e v o v e
+1	leviu	l e v i  u
+1	leviou	l e v i  oʊ
+1	levieho	l e v i  e h o
+1	levej	l e v e j
+1	lev-	l e w
+1	lemuje	l e m u j e
+1	labou	l a b oʊ
+1	labke	l a p k e
+1	labe	l a b e
+1	labami	l a b a m i
+1	la-	l a
+1	kľudne	k ʎ u d ɲ e
+1	kúšo-	k uː ʃ o
+1	kôň	k u o ɲ
+1	kôpky	k u o p k i
+1	kôpka	k u o p k a
+1	kávovom	k aː v o v o m
+1	kávovej	k aː v o v e j
+1	káva	k aː v a
+1	káv	k aː w
+1	káblom	k aː b l o m
+1	ká-	k aː
+1	kurzorové	k u r z o r o v eː
+1	kurzori	k u r z o r i
+1	kurz-	k u r s
+1	kur-	k u r
+1	kulilinček	k u l i l i n tʃ e k
+1	kuknúť	k u k n uː tʲ
+1	ku-	k u
+1	ktorými	k t o r iː m i
+1	ktorou	k t o r oʊ
+1	krídla	k r iː d l a
+1	krátky	k r aː t k i
+1	krátku	k r aː t k u
+1	kryť	k r i tʲ
+1	krunu	k r u n u
+1	kruhom	k r u h o m
+1	krk	k r̩ k
+1	krivý	k r i v iː
+1	krajčírka	k r a j tʃ iː r k a
+1	krajom	k r a j o m
+1	krajný	k r a j n iː
+1	krajného	k r a j n eː h o
+1	kraje	k r a j e
+1	koľkú	k o ʎ k uː
+1	koľ-	k o ʎ
+1	kotníkom	k o t ɲ iː k o m
+1	kotník	k o t ɲ iː k
+1	kostry	k o s t r i
+1	kosoštvorce	k o s o ʃ t v o r ts e
+1	kos	k o s
+1	koruny	k o r u n i
+1	koronútka	k o r o n uː t k a
+1	kornútu	k o r n uː t u
+1	kornútkom	k o r n uː t k o m
+1	koreň	k o r e ɲ
+1	koreni	k o r e ɲ i
+1	kopčeka	k o p tʃ e k a
+1	koordinácia	k o o r d i n aː ts i  a
+1	končiť	k o n tʃ i tʲ
+1	konči-	k o n tʃ i
+1	končeky	k o n tʃ e k i
+1	končeka	k o n tʃ e k a
+1	konč-	k o n tʃ
+1	konárov	k o n aː r o w
+1	konárik	k o n aː r i k
+1	kontrolu	k o n t r o l u
+1	kontrolovať	k o n t r o l o v a tʲ
+1	konkrétne	k o ŋ k r eː t n e
+1	konečné	k o ɲ e tʃ n eː
+1	konečne	k o ɲ e tʃ ɲ e
+1	koncová	k o n ts o v aː
+1	koncovky	k o n ts o w k i
+1	kon-	k o n
+1	kolíske	k o l iː s k e
+1	koláže	k o l aː ʒ e
+1	kolegovi	k o l e ɡ o v i
+1	kokos	k o k o s
+1	kocečka	k o ts e tʃ k a
+1	klávesa	k l aː v e s a
+1	klobú-	k l o b uː
+1	klikám	k l i k aː m
+1	klikneš	k l i k ɲ e ʃ
+1	klikla	k l i k l a
+1	klikatá	k l i k a t aː
+1	klaunova	k l a u n o v a
+1	klaune	k l a u ɲ e
+1	kl-	k l
+1	ki-	k i
+1	keďže	k e dʲ ʒ e
+1	kedy	k e d i
+1	keb-	k e p
+1	kde-	k dʲ e
+1	každý	k a ʒ d iː
+1	každého	k a ʒ d eː h o
+1	katastrofa	k a t a s t r o f a
+1	kar-	k a r
+1	kancelárie	k a n ts e l aː r i  e
+1	kampak	k a m p a k
+1	kakaový	k a k a o v iː
+1	kakaová	k a k a o v aː
+1	kah-	k a x
+1	jesť	j e s tʲ
+1	jednoro-	j e d n o r o
+1	jednopixelová	j e d n o p i k s e l o v aː
+1	jednoduché	j e d n o d u x eː
+1	jedn-	j e d n
+1	jediný	j e dʲ i n iː
+1	jediná	j e dʲ i n aː
+1	jedine	j e dʲ i ɲ e
+1	jede-	j e dʲ e
+1	jamky	j a m k i
+1	jamkou	j a m k oʊ
+1	jamka	j a m k a
+1	jak-	j a k
+1	jahody	j a h o d i
+1	jahodu	j a h o d u
+1	jabĺčkami	j a b l̩ː tʃ k a m i
+1	jabĺk	j a b l̩ː k
+1	jablkách	j a b l̩ k aː x
+1	jablku	j a b l̩ k u
+1	itemy	i tʲ e m i
+1	istou	i s t oʊ
+1	is-	i s
+1	iného	i n eː h o
+1	inventáru	i n v e n t aː r u
+1	inventára	i n v e n t aː r a
+1	inventá-	i n v e n t aː
+1	inom	i n o m
+1	iksovej	i k s o v e j
+1	iaci	i  a ts i
+1	hýbať	h iː b a tʲ
+1	hýbali	h iː b a l i
+1	hádam	h aː d a m
+1	huňu	h u ɲ u
+1	huh	h u x
+1	hubu	h u b u
+1	hrúbku	h r uː p k u
+1	hrúbka	h r uː p k a
+1	hráte	h r aː tʲ e
+1	hryz	h r i s
+1	hru-	h r u
+1	hrote	h r o tʲ e
+1	hrota	h r o t a
+1	hrochovi	h r o x o v i
+1	hro-	h r o
+1	hrive	h r i v e
+1	hrbček	h r̩ p tʃ e k
+1	hrbolček	h r̩ b o l tʃ e k
+1	hrbolku	h r̩ b o l k u
+1	hranici	h r a ɲ i ts i
+1	hrali	h r a l i
+1	hovoríte	h o v o r iː tʲ e
+1	hovorte	h o v o r tʲ e
+1	hovorme	h o v o r m e
+1	hovorila	h o v o r i l a
+1	hovoril	h o v o r i l
+1	hornom	h o r n o m
+1	horizotálne	h o r i z o t aː l ɲ e
+1	hops	h o p s
+1	hodín	h o dʲ iː n
+1	hodinu	h o dʲ i n u
+1	hnedý	h ɲ e d iː
+1	hnedú	h ɲ e d uː
+1	hnedom	h ɲ e d o m
+1	hm-	h m
+1	hlasivkami	h l a s i w k a m i
+1	hladní	h l a d ɲ iː
+1	hla-	h l a
+1	hl-	h l
+1	hi	h i
+1	hentak	h e n t a k
+1	he-	h e
+1	he	h e
+1	halúzku	h a l uː s k u
+1	halúzka	h a l uː s k a
+1	ha-ha	h a h a
+1	ha-	h a
+1	ha	h a
+1	guľe	ɡ u ʎ e
+1	guľatá	ɡ u ʎ a t aː
+1	guľatejší	ɡ u ʎ a tʲ e j ʃ iː
+1	guľa	ɡ u ʎ a
+1	guličky	ɡ u l i tʃ k i
+1	guličk-	ɡ u l i tʃ k
+1	gu-	ɡ u
+1	gombíky	ɡ o m b iː k i
+1	gombička	ɡ o m b i tʃ k a
+1	fľak	f ʎ a k
+1	fúj	f uː j
+1	fúh	f uː x
+1	fúga	f uː ɡ a
+1	fáze	f aː z e
+1	fotky	f o t k i
+1	fliačikom	f l i  a tʃ i k o m
+1	fis-	f i s
+1	finiš	f i ɲ i ʃ
+1	farebné	f a r e b n eː
+1	farby	f a r b i
+1	farbu	f a r b u
+1	farboslepý	f a r b o s l e p iː
+1	fak-	f a k
+1	f	f
+1	ešt-	e ʃ t
+1	experti	e k s p e r tʲ i
+1	es-	e s
+1	en-	e n
+1	em	e m
+1	ej	e j
+1	dĺžky	d l̩ː ʃ k i
+1	dĺžkou	d l̩ː ʃ k oʊ
+1	dĺžka	d l̩ː ʃ k a
+1	déčku	d eː tʃ k u
+1	dávať	d aː v a tʲ
+1	dával	d aː v a l
+1	dáke	d aː k e
+1	dvojrozmerný	d v o j r o z m e r n iː
+1	dvoch;	d v o x
+1	dvo-	d v o
+1	dvihli	d v i h l i
+1	dvak-	d v a k
+1	držať	d r̩ ʒ a tʲ
+1	dru-	d r u
+1	drgne	d r̩ ɡ ɲ e
+1	dovrchu	d o v r̩ x u
+1	dotĺka	d o t l̩ː k a
+1	dotýkaš	d o t iː k a ʃ
+1	dotýkala	d o t iː k a l a
+1	dotý-	d o t iː
+1	dotyčnica	d o t i tʃ ɲ i ts a
+1	dotui-	d o t u i
+1	dotknúť	d o t k n uː tʲ
+1	dosu-	d o s u
+1	dostaneš	d o s t a ɲ e ʃ
+1	dostal	d o s t a l
+1	dorn-	d o r n
+1	doprav-	d o p r a w
+1	dolnej	d o l n e j
+1	dok-	d o k
+1	doh-	d o x
+1	dodatočne	d o d a t o tʃ ɲ e
+1	dobrú	d o b r uː
+1	dobrí	d o b r iː
+1	dobrej	d o b r e j
+1	dobehneme	d o b e h ɲ e m e
+1	dlhé	d l̩ h eː
+1	dlaby	d l a b i
+1	disis-	d i s i s
+1	dierou	dʲ i  e r oʊ
+1	dierky	dʲ i  e r k i
+1	diaľky	d i  a ʎ k i
+1	diagonálne	d i  a ɡ o n aː l ɲ e
+1	diagonále	d i  a ɡ o n aː l e
+1	deň	dʲ e ɲ
+1	deväťdesiatjedna	dʲ e v e dʲ dʲ e s i  a t j e d n a
+1	deväťdesiatdva	dʲ e v e dʲ dʲ e s i  a d d v a
+1	deväťdesiat-	dʲ e v e dʲ dʲ e s i  a t
+1	detailne	d e t a i l ɲ e
+1	detailista	d e t a i l i s t a
+1	deliacej	dʲ e l i  a ts e j
+1	debilne	dʲ e b i l ɲ e
+1	daš	d a ʃ
+1	daleko	d a l e k o
+1	dala	d a l a
+1	daj-	d a j
+1	da-	d a
+1	cípov	ts iː p o w
+1	cípe	ts iː p e
+1	cípa	ts iː p a
+1	chýbali	x iː b a l i
+1	chýbajú	x iː b a j uː
+1	chyba	x i b a
+1	chvíľočku	x v iː ʎ o tʃ k u
+1	chvostíkom	x v o s tʲ iː k o m
+1	chvosta-	x v o s t a
+1	chuch	x u x
+1	chrbtová	x r̩ p t o v aː
+1	chrbtovej	x r̩ p t o v e j
+1	chrbt-	x r̩ p t
+1	chodidlo	x o dʲ i d l o
+1	chlp	x l p
+1	chceli	x ts e l i
+1	chce	x ts e
+1	cečka	ts e tʃ k a
+1	centimetrík	ts e n t i m e t r iː k
+1	centimetrová	ts e n t i m e t r o v aː
+1	cent-	ts e n t
+1	celého	ts e l eː h o
+1	celá	ts e l aː
+1	celku	ts e l k u
+1	celk-	ts e l k
+1	ceduľky	ts e d u ʎ k i
+1	cca	ts ts a
+1	c	ts eː
+1	búcham	b uː x a m
+1	bymal	b i m a l
+1	budú	b u d uː
+1	bud-	b u t
+1	bruchu	b r u x u
+1	brucha	b r u x a
+1	bru-	b r u
+1	brmbolca	b r̩ m b o l ts a
+1	bradu	b r a d u
+1	brade	b r a d e
+1	brada	b r a d a
+1	bočné	b o tʃ n eː
+1	boto-	b o t o
+1	bonusovú	b o n u s o v uː
+1	bohužiaľ	b o h u ʒ i  a ʎ
+1	bodík	b o dʲ iː k
+1	bodový	b o d o v iː
+1	bodoch	b o d o x
+1	bodkovaná	b o t k o v a n aː
+1	bodke	b o t k e
+1	bodečky	b o dʲ e tʃ k i
+1	bode	b o dʲ e
+1	bodaj	b o d a j
+1	bod-	b o t
+1	blíz-	b l iː s
+1	blikáš	b l i k aː ʃ
+1	blikajúcim	b l i k a j uː ts i m
+1	blikajúci	b l i k a j uː ts i
+1	blikajúce	b l i k a j uː ts e
+1	blika-	b l i k a
+1	blik-	b l i k
+1	bl-	b l
+1	bit-	b i t
+1	bielymi	b i  e l i m i
+1	bielym	b i  e l i m
+1	bielej	b i  e l e j
+1	biele-	b i  e l e
+1	biel-	b i  e l
+1	beriem	b e r i  e m
+1	behá	b e h aː
+1	baviť	b a v i tʲ
+1	ba-	b a
+1	ba	b a
+1	autorské	a u t o r s k eː
+1	aut-	a u t
+1	as-	a s
+1	ap-	a p
+1	ap	a p
+1	ano	a n o
+1	ananáse	a n a n aː s e
+1	an-	a n
+1	aleb-	a l e p
+1	al-	a l
+1	akého	a k eː h o
+1	akurátne	a k u r aː t ɲ e
+1	aktívny	a k t iː v n i
+1	akej	a k e j
+1	ah	a x
+1	absolut-	a p s o l u t
+1	abi	a b i
+1	@	a
+1	-ší	ʃ iː
+1	-čim	tʃ i m
+1	-čas	tʃ a s
+1	-vni	v ɲ i
+1	-viac	v i  a ts
+1	-mbre	m b r e
+1	-ej	e j
+1	-?ičke	i tʃ k e
