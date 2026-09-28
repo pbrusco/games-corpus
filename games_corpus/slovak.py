@@ -128,7 +128,8 @@ class SlovakGamesCorpus(BaseGamesCorpus):
         yield from self._tasks_in_split(self.sessions, BatchConfig.create_slovak_config(), held_out=False)
 
     def held_out_tasks(self) -> Iterator[Task]:
-        """Control (held-out) tasks: tasks 13 and 14 of every session plus three whole sessions."""
+        """Control (held-out) tasks: sessions 7, 8 and 9 whole, plus tasks 13 and 14 of the other sessions
+        (session 4 has no tasks 13 and 14: tasks 6 and 9 instead)."""
         assert self.sessions is not None, "call load() first"
         yield from self._tasks_in_split(self.sessions, BatchConfig.create_slovak_config(), held_out=True)
 

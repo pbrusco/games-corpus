@@ -411,8 +411,9 @@ class Session:
 class BatchConfig:
     """Development / control (held-out) split of a corpus or of one of its batches.
 
-    The control data are two tasks per session plus three whole sessions (Brusco, 2021, cap. 4;
-    Brusco & Gravano, 2023, sec. 3.2).
+    The exact rule is corpus- and batch-specific: see the factory methods below. It follows Brusco (2021,
+    cap. 4) and Brusco & Gravano (2023, sec. 3.2): two tasks per session (usually 13 and 14) plus whole
+    sessions (three in batch 1, English and Slovak; two in batch 2, whose session 28 is not annotated).
     """
 
     batch_num: int

@@ -124,7 +124,7 @@ class EnglishGamesCorpus(BaseGamesCorpus):
         yield from self._tasks_in_split(self.sessions, BatchConfig.create_english_config(), held_out=False)
 
     def held_out_tasks(self) -> Iterator[Task]:
-        """Control (held-out) tasks: tasks 13 and 14 of every session plus three whole sessions."""
+        """Control (held-out) tasks: sessions 7, 9 and 11 whole, plus tasks 13 and 14 of the other sessions."""
         assert self.sessions is not None, "call load() first"
         yield from self._tasks_in_split(self.sessions, BatchConfig.create_english_config(), held_out=True)
 
