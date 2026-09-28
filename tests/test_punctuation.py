@@ -168,3 +168,39 @@ class TestBaseGamesCorpusIntegration:
         # any Task will do -- it should fail on the "not loaded" check first
         with pytest.raises(ValueError, match="not loaded"):
             fresh.get_punctuated_phrases(None)  # type: ignore[arg-type]
+
+
+def test_task_level_files(tmp_path, monkeypatch):
+    import games_corpus.punctuation as punct
+
+    monkeypatch.setattr(punct, "_DATA_DIR", tmp_path)
+    d = tmp_path / "games-english"
+    d.mkdir()
+    (d / "s07.objects.13.A.autopunct.phrases").write_text("1.0\t2.0\tOkay, so.\n3.0\t3.5\t#\n")
+    assert punct.available_tasks("EnglishGamesCorpus") == frozenset()  # B missing: not available
+    (d / "s07.objects.13.B.autopunct.phrases").write_text("2.5\t3.0\tYeah?\n")
+    assert punct.available_tasks("EnglishGamesCorpus") == {(7, 13)}
+    phrases = punct.load_task_punctuated_phrases("EnglishGamesCorpus", 7, 13, "A")
+    assert [(p.start, p.text) for p in phrases] == [(1.0, "Okay, so.")]
+    with pytest.raises(FileNotFoundError):
+        punct.load_task_punctuated_phrases("EnglishGamesCorpus", 7, 14, "A")
+
+
+@pytest.mark.parametrize(
+    "corpus_key, config, n_tasks",
+    [
+        ("EnglishGamesCorpus", "create_english_config", 60),
+        ("SlovakGamesCorpus", "create_slovak_config", 54),
+        ("SpanishGamesCorpus", "create_batch2_config", 51),
+    ],
+)
+def test_shipped_task_files_are_exactly_the_control_tasks(corpus_key, config, n_tasks):
+    from games_corpus.punctuation import available_tasks
+    from games_corpus.types import BatchConfig
+
+    cfg = getattr(BatchConfig, config)()
+    tasks = available_tasks(corpus_key)
+    if corpus_key == "SpanishGamesCorpus":
+        tasks = {(s, t) for s, t in tasks if s >= 21}  # batch 2 (batch 1 is covered by whole sessions)
+    assert len(tasks) == n_tasks
+    assert all(cfg.is_heldout_session(s) or cfg.is_heldout_task(s, t) for s, t in tasks)

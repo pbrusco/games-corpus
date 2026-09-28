@@ -8,7 +8,13 @@ from typing import TYPE_CHECKING
 import pandas as pd
 
 from games_corpus.phonetics import count_phones, load_phonetic_dictionary
-from games_corpus.punctuation import PunctuatedPhrase, available_sessions, load_session_punctuated_phrases
+from games_corpus.punctuation import (
+    PunctuatedPhrase,
+    available_sessions,
+    available_tasks,
+    load_session_punctuated_phrases,
+    load_task_punctuated_phrases,
+)
 
 if TYPE_CHECKING:
     from games_corpus.types import IPU, BatchConfig, Session, Task
@@ -79,6 +85,10 @@ class BaseGamesCorpus(ABC):
         """
         return available_sessions(type(self).__name__)
 
+    def available_punctuated_tasks(self) -> frozenset[tuple[int, int]]:
+        """(session_id, task_id) pairs processed task by task (e.g. control tasks); NOT human annotation."""
+        return available_tasks(type(self).__name__)
+
     def get_punctuated_phrases(self, task: "Task") -> list[PunctuatedPhrase]:
         """Get machine-restored punctuation/capitalization for a task, if available.
 
@@ -102,6 +112,13 @@ class BaseGamesCorpus(ABC):
         if self.sessions is None:
             raise ValueError("Corpus not loaded. Call load() first.")
         corpus_key = type(self).__name__
+        if (task.session_id, task.task_id) in available_tasks(corpus_key):
+            phrases = [
+                p
+                for speaker in ("A", "B")
+                for p in load_task_punctuated_phrases(corpus_key, task.session_id, task.task_id, speaker)
+            ]
+            return sorted(phrases, key=lambda p: p.start)
         task_end = task.start + task.duration
         phrases = [
             p
