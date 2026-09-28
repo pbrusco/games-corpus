@@ -22,6 +22,11 @@ mostly-matching phrase (e.g. "está es hacia" -> "hacia"). Two sessions that
 originally hit ~20% from this were re-generated with a stricter threshold;
 the remaining baseline is accepted as documented noise, not silently hidden.
 
+Control tasks of batch 2, English and Slovak (task-level files): the fidelity check rejected (and kept
+the original text of) ~2% of the phrases in batch 2, ~1% in Slovak and ~9% in English, whose transcripts
+mark many cut-off words ("o-", "ther-") that the model tends to clean up. The check compares letters of
+any alphabet (Slovak diacritics included).
+
 Generic across all three corpora (Spanish, English, Slovak). Coverage comes in
 two granularities: whole sessions (batch 1 of the Spanish corpus, `_COVERAGE`)
 and single tasks (the control tasks of batch 2, English and Slovak, processed

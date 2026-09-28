@@ -184,3 +184,23 @@ def test_task_level_files(tmp_path, monkeypatch):
     assert [(p.start, p.text) for p in phrases] == [(1.0, "Okay, so.")]
     with pytest.raises(FileNotFoundError):
         punct.load_task_punctuated_phrases("EnglishGamesCorpus", 7, 14, "A")
+
+
+@pytest.mark.parametrize(
+    "corpus_key, config, n_tasks",
+    [
+        ("EnglishGamesCorpus", "create_english_config", 60),
+        ("SlovakGamesCorpus", "create_slovak_config", 54),
+        ("SpanishGamesCorpus", "create_batch2_config", 51),
+    ],
+)
+def test_shipped_task_files_are_exactly_the_control_tasks(corpus_key, config, n_tasks):
+    from games_corpus.punctuation import available_tasks
+    from games_corpus.types import BatchConfig
+
+    cfg = getattr(BatchConfig, config)()
+    tasks = available_tasks(corpus_key)
+    if corpus_key == "SpanishGamesCorpus":
+        tasks = {(s, t) for s, t in tasks if s >= 21}  # batch 2 (batch 1 is covered by whole sessions)
+    assert len(tasks) == n_tasks
+    assert all(cfg.is_heldout_session(s) or cfg.is_heldout_task(s, t) for s, t in tasks)
