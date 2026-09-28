@@ -409,7 +409,12 @@ class Session:
 
 @dataclass
 class BatchConfig:
-    """Configuration for a specific batch of the corpus (used by UBA Spanish Games Corpus)."""
+    """Development / control (held-out) split of a corpus or of one of its batches.
+
+    The exact rule is corpus- and batch-specific: see the factory methods below. It follows Brusco (2021,
+    cap. 4) and Brusco & Gravano (2023, sec. 3.2): two tasks per session (usually 13 and 14) plus whole
+    sessions (three in batch 1, English and Slovak; two in batch 2, whose session 28 is not annotated).
+    """
 
     batch_num: int
     heldout_tasks: set[tuple[int, int]]
@@ -425,10 +430,28 @@ class BatchConfig:
 
     @classmethod
     def create_batch2_config(cls) -> "BatchConfig":
+        # batch 2 is sessions 21-30; session 28 is not annotated (see CorpusConfig.BANNED_SESSIONS)
         return cls(
             batch_num=2,
-            heldout_tasks=set((i, j) for i in range(15, 29) for j in (13, 14)),
-            heldout_sessions={21, 22, 28},
+            heldout_tasks=set((i, j) for i in range(21, 31) if i != 28 for j in (13, 14)),
+            heldout_sessions={21, 22},
+        )
+
+    @classmethod
+    def create_english_config(cls) -> "BatchConfig":
+        return cls(
+            batch_num=1,
+            heldout_tasks=set((i, j) for i in range(1, 13) for j in (13, 14)),
+            heldout_sessions={7, 9, 11},
+        )
+
+    @classmethod
+    def create_slovak_config(cls) -> "BatchConfig":
+        # session 4 has no tasks 13 and 14: its control tasks are 6 and 9
+        return cls(
+            batch_num=1,
+            heldout_tasks=set((i, j) for i in range(1, 10) if i != 4 for j in (13, 14)) | {(4, 6), (4, 9)},
+            heldout_sessions={7, 8, 9},
         )
 
     def is_heldout_task(self, session_id: int, task_id: int) -> bool:

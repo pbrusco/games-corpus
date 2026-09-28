@@ -55,6 +55,8 @@ class CorpusConfig:
     CORPUS_INFO: CorpusInfo = CorpusInfo()
     CORPUS_FILES: CorpusFiles = CorpusFiles()
     DEFAULT_URL: str = "https://ri.conicet.gov.ar/bitstream/handle/11336/191235/{filename}?sequence=29&isAllowed=y"
+    # Session 28 (batch 2) has audio but was never transcribed nor annotated: no phrases, turns or
+    # transition labels in the release (only an automatic VAD in the annotation working files).
     BANNED_SESSIONS: set[int] = {28}
 
 
@@ -185,27 +187,10 @@ class SpanishGamesCorpus(BaseGamesCorpus):
         return {sid: session for sid, session in self.sessions.items() if session.batch == batch}
 
     def dev_tasks(self, batch: int) -> Iterator[Task]:
-        batch_sessions = self.get_sessions_by_batch(batch)
-        config = self.get_batch_config(batch)
-        for sess_id, sess in batch_sessions.items():
-            if config.is_heldout_session(sess_id):
-                continue
-            for task in sess.tasks:
-                if config.is_heldout_task(task.session_id, task.task_id):
-                    continue
-                yield task
+        yield from self._tasks_in_split(self.get_sessions_by_batch(batch), self.get_batch_config(batch), held_out=False)
 
     def held_out_tasks(self, batch: int) -> Iterator[Task]:
-        batch_sessions = self.get_sessions_by_batch(batch)
-        config = self.get_batch_config(batch)
-        for sess_id, sess in batch_sessions.items():
-            if config.is_heldout_session(sess_id):
-                for task in sess.tasks:
-                    yield task
-            else:
-                for task in sess.tasks:
-                    if config.is_heldout_task(sess_id, task.task_id):
-                        yield task
+        yield from self._tasks_in_split(self.get_sessions_by_batch(batch), self.get_batch_config(batch), held_out=True)
 
     # ----- File path resolution -----
 

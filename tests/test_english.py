@@ -198,3 +198,9 @@ class TestEnglishCorpusDataQuality:
         """Each English session should have exactly 14 object tasks."""
         for session_id, session in corpus.sessions.items():
             assert len(session.tasks) == 14, f"Session {session_id} has {len(session.tasks)} tasks, expected 14"
+
+    def test_control_split(self, corpus):
+        dev = {(t.session_id, t.task_id) for t in corpus.dev_tasks()}
+        control = {(t.session_id, t.task_id) for t in corpus.held_out_tasks()}
+        assert (len(dev), len(control)) == (108, 60)  # Brusco (2021), Tabla 4.1
+        assert not dev & control
