@@ -409,7 +409,11 @@ class Session:
 
 @dataclass
 class BatchConfig:
-    """Configuration for a specific batch of the corpus (used by UBA Spanish Games Corpus)."""
+    """Development / control (held-out) split of a corpus or of one of its batches.
+
+    The control data are two tasks per session plus three whole sessions (Brusco, 2021, cap. 4;
+    Brusco & Gravano, 2023, sec. 3.2).
+    """
 
     batch_num: int
     heldout_tasks: set[tuple[int, int]]
@@ -429,6 +433,23 @@ class BatchConfig:
             batch_num=2,
             heldout_tasks=set((i, j) for i in range(15, 29) for j in (13, 14)),
             heldout_sessions={21, 22, 28},
+        )
+
+    @classmethod
+    def create_english_config(cls) -> "BatchConfig":
+        return cls(
+            batch_num=1,
+            heldout_tasks=set((i, j) for i in range(1, 13) for j in (13, 14)),
+            heldout_sessions={7, 9, 11},
+        )
+
+    @classmethod
+    def create_slovak_config(cls) -> "BatchConfig":
+        # session 4 has no tasks 13 and 14: its control tasks are 6 and 9
+        return cls(
+            batch_num=1,
+            heldout_tasks=set((i, j) for i in range(1, 10) if i != 4 for j in (13, 14)) | {(4, 6), (4, 9)},
+            heldout_sessions={7, 8, 9},
         )
 
     def is_heldout_task(self, session_id: int, task_id: int) -> bool:

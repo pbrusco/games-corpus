@@ -1,6 +1,7 @@
 """Abstract base class for dialogue game corpora."""
 
 from abc import ABC, abstractmethod
+from collections.abc import Iterator
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -10,7 +11,7 @@ from games_corpus.phonetics import count_phones, load_phonetic_dictionary
 from games_corpus.punctuation import PunctuatedPhrase, available_sessions, load_session_punctuated_phrases
 
 if TYPE_CHECKING:
-    from games_corpus.types import IPU, Session, Task
+    from games_corpus.types import IPU, BatchConfig, Session, Task
 
 
 class BaseGamesCorpus(ABC):
@@ -46,6 +47,15 @@ class BaseGamesCorpus(ABC):
     @abstractmethod
     def get_features(self, task: "Task") -> pd.DataFrame:
         """Get pre-extracted acoustic features for a task as a DataFrame."""
+
+    @staticmethod
+    def _tasks_in_split(sessions: dict[int, "Session"], config: "BatchConfig", held_out: bool) -> Iterator["Task"]:
+        """Tasks of `sessions` in the control (held-out) split of `config`, or in the development split."""
+        for session_id, session in sessions.items():
+            for task in session.tasks:
+                in_control = config.is_heldout_session(session_id) or config.is_heldout_task(session_id, task.task_id)
+                if in_control == held_out:
+                    yield task
 
     def phonetic_dictionary(self) -> dict[str, tuple[str, ...]]:
         """Word -> phones for this corpus (automatic transcription, see `games_corpus.phonetics`)."""

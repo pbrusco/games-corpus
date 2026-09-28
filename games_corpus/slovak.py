@@ -1,6 +1,7 @@
 """Slovak Games Corpus loader."""
 
 import logging
+from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
 
@@ -9,7 +10,7 @@ import pandas as pd
 from games_corpus import parsers
 from games_corpus.base import BaseGamesCorpus
 from games_corpus.features import download_features, load_task_features
-from games_corpus.types import Session, Task
+from games_corpus.types import BatchConfig, Session, Task
 
 
 class SlovakGamesCorpus(BaseGamesCorpus):
@@ -120,6 +121,16 @@ class SlovakGamesCorpus(BaseGamesCorpus):
                 tasks=tasks,
             )
             self.sessions[session_id] = session_obj
+
+    def dev_tasks(self) -> Iterator[Task]:
+        """Development tasks: everything but the control split (`held_out_tasks`)."""
+        assert self.sessions is not None, "call load() first"
+        yield from self._tasks_in_split(self.sessions, BatchConfig.create_slovak_config(), held_out=False)
+
+    def held_out_tasks(self) -> Iterator[Task]:
+        """Control (held-out) tasks: tasks 13 and 14 of every session plus three whole sessions."""
+        assert self.sessions is not None, "call load() first"
+        yield from self._tasks_in_split(self.sessions, BatchConfig.create_slovak_config(), held_out=True)
 
     # ----- File path resolution -----
 
