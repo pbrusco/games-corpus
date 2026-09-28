@@ -168,3 +168,19 @@ class TestBaseGamesCorpusIntegration:
         # any Task will do -- it should fail on the "not loaded" check first
         with pytest.raises(ValueError, match="not loaded"):
             fresh.get_punctuated_phrases(None)  # type: ignore[arg-type]
+
+
+def test_task_level_files(tmp_path, monkeypatch):
+    import games_corpus.punctuation as punct
+
+    monkeypatch.setattr(punct, "_DATA_DIR", tmp_path)
+    d = tmp_path / "games-english"
+    d.mkdir()
+    (d / "s07.objects.13.A.autopunct.phrases").write_text("1.0\t2.0\tOkay, so.\n3.0\t3.5\t#\n")
+    assert punct.available_tasks("EnglishGamesCorpus") == frozenset()  # B missing: not available
+    (d / "s07.objects.13.B.autopunct.phrases").write_text("2.5\t3.0\tYeah?\n")
+    assert punct.available_tasks("EnglishGamesCorpus") == {(7, 13)}
+    phrases = punct.load_task_punctuated_phrases("EnglishGamesCorpus", 7, 13, "A")
+    assert [(p.start, p.text) for p in phrases] == [(1.0, "Okay, so.")]
+    with pytest.raises(FileNotFoundError):
+        punct.load_task_punctuated_phrases("EnglishGamesCorpus", 7, 14, "A")
