@@ -429,10 +429,11 @@ class BatchConfig:
 
     @classmethod
     def create_batch2_config(cls) -> "BatchConfig":
+        # batch 2 is sessions 21-30; session 28 is not annotated (see CorpusConfig.BANNED_SESSIONS)
         return cls(
             batch_num=2,
-            heldout_tasks=set((i, j) for i in range(15, 29) for j in (13, 14)),
-            heldout_sessions={21, 22, 28},
+            heldout_tasks=set((i, j) for i in range(21, 31) if i != 28 for j in (13, 14)),
+            heldout_sessions={21, 22},
         )
 
     @classmethod

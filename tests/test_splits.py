@@ -28,3 +28,9 @@ def test_slovak_session_4_uses_tasks_6_and_9():
     config = BatchConfig.create_slovak_config()
     assert config.is_heldout_task(4, 6) and config.is_heldout_task(4, 9)
     assert not config.is_heldout_task(4, 13)
+
+
+def test_batch2_control_covers_every_annotated_session():
+    config = BatchConfig.create_batch2_config()
+    assert config.heldout_sessions == {21, 22}
+    assert {s for s, _ in config.heldout_tasks} == {21, 22, 23, 24, 25, 26, 27, 29, 30}

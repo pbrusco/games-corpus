@@ -55,6 +55,8 @@ class CorpusConfig:
     CORPUS_INFO: CorpusInfo = CorpusInfo()
     CORPUS_FILES: CorpusFiles = CorpusFiles()
     DEFAULT_URL: str = "https://ri.conicet.gov.ar/bitstream/handle/11336/191235/{filename}?sequence=29&isAllowed=y"
+    # Session 28 (batch 2) has audio but was never transcribed nor annotated: no phrases, turns or
+    # transition labels in the release (only an automatic VAD in the annotation working files).
     BANNED_SESSIONS: set[int] = {28}
 
 

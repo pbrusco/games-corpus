@@ -422,8 +422,8 @@ class TestSpanishGamesCorpus:
         dev_tasks = list(corpus.dev_tasks(batch=2))
         held_out_tasks = list(corpus.held_out_tasks(batch=2))
 
-        assert len(dev_tasks) == 172, "Batch 2 dev tasks count mismatch"
-        assert len(held_out_tasks) == 47, "Batch 2 eval tasks count mismatch"
+        assert len(dev_tasks) == 168, "Batch 2 dev tasks count mismatch"
+        assert len(held_out_tasks) == 51, "Batch 2 eval tasks count mismatch"
 
     @requires_spanish_corpus
     def test_batch1_transition_label_distribution(self):
@@ -464,31 +464,32 @@ class TestSpanishGamesCorpus:
         corpus = SpanishGamesCorpus()
         corpus.load(load_audio=False)
 
+        # control split since the batch-2 fix: sessions 21, 22 + tasks 13-14 of 23-27, 29, 30
         dev_labels = {
-            "BC": 555,
-            "BC_O": 243,
-            "BI": 118,
-            "I": 283,
-            "O": 767,
-            "PI": 161,
-            "S": 1805,  # +1 since turn/IPU matching by overlap: a turn that used to get no IPU
-            "X1": 176,
-            "X2": 497,
-            "X2_O": 104,
-            "X3": 324,
+            "BC": 535,
+            "BC_O": 238,
+            "BI": 115,
+            "I": 278,
+            "O": 741,
+            "PI": 158,
+            "S": 1757,
+            "X1": 172,
+            "X2": 478,
+            "X2_O": 102,
+            "X3": 316,
         }
         eval_labels = {
-            "BC": 157,
-            "BC_O": 46,
-            "BI": 43,
-            "I": 79,
-            "O": 193,
-            "PI": 34,
-            "S": 650,
-            "X1": 48,
-            "X2": 109,
-            "X2_O": 31,
-            "X3": 93,
+            "BC": 177,
+            "BC_O": 51,
+            "BI": 46,
+            "I": 84,
+            "O": 219,
+            "PI": 37,
+            "S": 698,
+            "X1": 52,
+            "X2": 128,
+            "X2_O": 33,
+            "X3": 101,
         }
 
         self._verify_label_distribution(corpus, 2, dev_labels, eval_labels)
